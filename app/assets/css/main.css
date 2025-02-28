@@ -10,7 +10,7 @@
  
 
 @theme static {
-  --font-sans: 'Public Sans', sans-serif;
+  --font-sans: 'Rubik', sans-serif;
 
   --breakpoint-3xl: 1920px;
 
@@ -52,5 +52,5 @@
 }
 
 body {
-  @apply bg-slate-50 dark:bg-night-950
+  @apply bg-white dark:bg-night-950
 }

@@ -2,6 +2,16 @@
 export default defineNuxtConfig({
   modules: ['@nuxt/ui', '@nuxt/eslint', '@nuxt/content'],
   css: ['~/assets/css/main.css'],
+  colorMode: {
+    preference: 'system', // default value of $colorMode.preference
+    fallback: 'light', // fallback value if not system preference found
+    
+   
+   
+     
+    storage: 'localStorage', // or 'sessionStorage' or 'cookie'
+
+  },
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   future: {

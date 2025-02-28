@@ -3,8 +3,8 @@
 </script>
 
 <template>
-  <UContainer class="flex flex-col lg:flex-row gap-4">
-    <div class="flex-1">
+  <UContainer>
+    <div>
       <UCard variant="soft" class="h-full bg-red-500 dark:bg-night-800 text-white   rounded-4xl  ">
         <div>
           <div>
@@ -22,10 +22,9 @@
         </div>
       </UCard>
     </div>
-    <div class="flex-2">
-      <div variant="soft" class="var rounded-4xl h-[320px] md:h-[500px]">
-        <img src="https://images.unsplash.com/photo-1610962381137-50ef93055125?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Cover Image" class="w-full h-full object-cover rounded-4xl">
-      </div>
-    </div>
   </UContainer>
 </template>
+
+<style scoped>
+
+</style>
