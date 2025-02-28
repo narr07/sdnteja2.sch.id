@@ -3,7 +3,7 @@
   <UApp>
     <NuxtRouteAnnouncer />
     <UiNav />
-    <div class="py-22 md:py-26">
+    <div class="py-22  md:py-26">
       <NuxtPage />
     </div>
   </UApp>
