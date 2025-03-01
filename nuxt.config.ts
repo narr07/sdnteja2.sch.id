@@ -27,6 +27,7 @@ export default defineNuxtConfig({
   },
 
   icon: {
+    provider: 'server',
     customCollections: [
       {
         prefix: 'narr',
