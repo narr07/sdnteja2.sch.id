@@ -1,4 +1,3 @@
-
 @layer theme, base, components, utilities;
 
 @import 'tailwindcss/theme' layer(theme);
@@ -7,49 +6,48 @@
 
 /* Then import "@nuxt/ui": */
 @import '@nuxt/ui';
- 
 
 @theme static {
   --font-sans: 'Rubik', sans-serif;
 
   --breakpoint-3xl: 1920px;
 
-  --color-red-50:  #FCE9E9;
-  --color-red-100: #F9D3D3;
-  --color-red-200: #F3A6A6;
-  --color-red-300: #EC7A7A;
-  --color-red-400: #E64D4D;
-  --color-red-500: #E02020;
-  --color-red-600: #B81A1A;
+  --color-red-50: #fce9e9;
+  --color-red-100: #f9d3d3;
+  --color-red-200: #f3a6a6;
+  --color-red-300: #ec7a7a;
+  --color-red-400: #e64d4d;
+  --color-red-500: #e02020;
+  --color-red-600: #b81a1a;
   --color-red-700: #901414;
-  --color-red-800: #680E0E;
+  --color-red-800: #680e0e;
   --color-red-900: #400909;
-  --color-red-950: #2B0606;
-  
-  --color-yellow-50:  #FCE8C4;
-  --color-yellow-100: #FBE1B1;
-  --color-yellow-200: #F8D28A;
-  --color-yellow-300: #F6C363;
-  --color-yellow-400: #F4B43D;
-  --color-yellow-500: #F2A516;
-  --color-yellow-600: #C5840B;
+  --color-red-950: #2b0606;
+
+  --color-yellow-50: #fce8c4;
+  --color-yellow-100: #fbe1b1;
+  --color-yellow-200: #f8d28a;
+  --color-yellow-300: #f6c363;
+  --color-yellow-400: #f4b43d;
+  --color-yellow-500: #f2a516;
+  --color-yellow-600: #c5840b;
   --color-yellow-700: #906008;
-  --color-yellow-800: #5B3D05;
+  --color-yellow-800: #5b3d05;
   --color-yellow-900: #261902;
-  --color-yellow-950: #0B0701;
-  --color-night-50:  #FFFFFF;
-  --color-night-100: #F8F9FD;
-  --color-night-200: #CFD7ED;
-  --color-night-300: #A6B4DE;
-  --color-night-400: #7D92CF;
-  --color-night-500: #546FC0;
-  --color-night-600: #3B55A1;
-  --color-night-700: #2C3F78;
-  --color-night-800: #1D2A4F;
-  --color-night-900: #0E1426;
+  --color-yellow-950: #0b0701;
+  --color-night-50: #ffffff;
+  --color-night-100: #f8f9fd;
+  --color-night-200: #cfd7ed;
+  --color-night-300: #a6b4de;
+  --color-night-400: #7d92cf;
+  --color-night-500: #546fc0;
+  --color-night-600: #3b55a1;
+  --color-night-700: #2c3f78;
+  --color-night-800: #1d2a4f;
+  --color-night-900: #0e1426;
   --color-night-950: #060912;
 }
 
 body {
-  @apply bg-night-100 dark:bg-night-950
+  @apply bg-night-100 dark:bg-night-950;
 }
