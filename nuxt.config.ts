@@ -26,14 +26,23 @@ export default defineNuxtConfig({
     },
   },
 
-  // icon: {
-  //   customCollections: [
-  //     {
-  //       prefix: 'narr',
-  //       dir: './app/assets/icons',
-  //     },
-  //   ],
-  // },
+  icon: {
+    customCollections: [
+      {
+        prefix: 'narr',
+        dir: './app/assets/icons',
+      },
+    ],
+  },
+  nitro: {
+    prerender: {
+      routes: ['/'],
+      crawlLinks: true,
+    },
+    experimental: {
+      websocket: true,
+    },
+  },
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   future: {
