@@ -1,6 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({ 
-  modules: ['@nuxt/ui',   '@nuxt/content',  '@nuxthub/core', ],
+export default defineNuxtConfig({
+  modules: [
+    '@nuxt/ui',
+    '@nuxt/content',
+    '@nuxthub/core',
+    '@nuxt/eslint',
+    '@nuxt/image',
+  ],
   css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'system', // default value of $colorMode.preference
@@ -8,14 +14,18 @@ export default defineNuxtConfig({
   },
   hub: {
     database: true,
-  }, 
+  },
   content: {
     database: {
       type: 'd1',
       bindingName: 'teja2',
     },
   },
-
+  eslint: {
+    config: {
+      standalone: false,
+    },
+  },
   icon: {
     customCollections: [
       {
