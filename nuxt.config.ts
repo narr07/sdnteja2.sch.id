@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     server: false,
     client: true,
   },
-  modules: ['@nuxt/ui', '@nuxt/eslint', '@nuxt/content', '@nuxt/image', '@nuxthub/core', '@nuxt/icon'],
+  modules: ['@nuxt/ui',   '@nuxt/content', '@nuxt/image', '@nuxthub/core', ],
   css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'system', // default value of $colorMode.preference
@@ -13,12 +13,7 @@ export default defineNuxtConfig({
   },
   hub: {
     database: true,
-  },
-  eslint: {
-    config: {
-      standalone: false,
-    },
-  },
+  }, 
   content: {
     database: {
       type: 'd1',
