@@ -1,12 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({ 
-  modules: ['@nuxt/ui',   '@nuxt/content',   '@nuxthub/core', ],
+ 
+  modules: ['@nuxt/ui'],
   css: ['~/assets/css/main.css'],
-  
-  hub: {
-    database: true,
-  }, 
-  
+ 
   nitro: {
     prerender: {
       routes: ['/'],

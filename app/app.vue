@@ -1,4 +1,3 @@
- app.vue
 <template>
   <UApp>
     <NuxtRouteAnnouncer />
