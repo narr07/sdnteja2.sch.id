@@ -10,6 +10,7 @@ const isDark = computed({
   },
 })
 </script>
+
 <template>
   <ClientOnly v-if="!colorMode?.forced">
     <UButton

@@ -20,9 +20,9 @@
         </UCard>
       </div>
       <div class="flex-1">
-        <UCard variant="soft" class=" bg-night-200 dark:bg-night-900 h-full text-night-900   rounded-4xl  ">
+        <UCard variant="soft" class=" bg-night-200 dark:bg-night-900 h-full text-night-900 dark:text-white   rounded-4xl  ">
           <p class="py-6">
-            SDN Teja II adalah sekolah dasar yang berkomitmen untuk memberikan pendidikan berkualitas tinggi kepada siswa-siswinya. Dengan fasilitas yang lengkap dan tenaga pengajar yang berpengalaman, kami berusaha menciptakan lingkungan belajar yang kondusif dan menyenangkan. Bergabunglah dengan kami untuk masa depan yang lebih cerah.
+            Wujudkan Impian Pendidikan Berkualitas untuk Semua, Lingkungan Belajar yang Nyaman, Kreatif, dan Menyenangkan
           </p>
         </UCard>
       </div>
