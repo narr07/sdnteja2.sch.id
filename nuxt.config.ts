@@ -1,9 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
-  sourcemap: {
-    server: false,
-    client: true,
-  },
+export default defineNuxtConfig({ 
   modules: ['@nuxt/ui',   '@nuxt/content', '@nuxt/image', '@nuxthub/core', ],
   css: ['~/assets/css/main.css'],
   colorMode: {
