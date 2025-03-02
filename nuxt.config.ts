@@ -2,19 +2,11 @@
 export default defineNuxtConfig({ 
   modules: ['@nuxt/ui',   '@nuxt/content',   '@nuxthub/core', ],
   css: ['~/assets/css/main.css'],
-  colorMode: {
-    preference: 'system', // default value of $colorMode.preference
-    fallback: 'light', // fallback value if not system preference found
-  },
+  
   hub: {
     database: true,
   }, 
-  content: {
-    database: {
-      type: 'd1',
-      bindingName: 'teja2',
-    },
-  }, 
+  
   nitro: {
     prerender: {
       routes: ['/'],
