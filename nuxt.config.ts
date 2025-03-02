@@ -1,16 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({ 
-  modules: [   '@nuxt/content', '@nuxt/image', '@nuxthub/core', ],
-  
-  hub: {
-    database: true,
-  }, 
-  content: {
-    database: {
-      type: 'd1',
-      bindingName: 'teja2',
-    },
-  }, 
+  modules: [    ],
+    
   nitro: {
     prerender: {
       routes: ['/'],
