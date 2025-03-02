@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@nuxthub/core',
     '@nuxt/eslint',
     '@nuxt/image',
+    'nuxt-aos',
   ],
   css: ['~/assets/css/main.css'],
   colorMode: {
