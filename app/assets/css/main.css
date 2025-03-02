@@ -8,7 +8,7 @@
 @import '@nuxt/ui';
 
 @utility headLine {
-   @apply text-5xl text-center md:text-6xl font-bold  
+  @apply text-5xl text-center md:text-6xl font-bold;
 }
 @theme static {
   --font-sans: 'Rubik', sans-serif;
