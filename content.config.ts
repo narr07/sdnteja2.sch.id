@@ -2,10 +2,13 @@ import { defineCollection, defineContentConfig, z } from '@nuxt/content'
 
 export default defineContentConfig({
   collections: {
-
     content: defineCollection({
       type: 'page',
-      source: '**',
+      source: {
+        include: '**',
+        exclude: ['berita/**', 'guru/**'],
+        prefix: '/',
+      },
     }),
     berita: defineCollection({
       type: 'page',
