@@ -47,13 +47,13 @@ const items = [
           Alumni
         </h1>
       </div>
-      <UCard data-aos="fade-up" variant="soft" class="rounded-4xl bg-night-200 dark:bg-night-900 py-8">
+      <UCard data-aos="fade-up" variant="soft" class="rounded-4xl bg-night-50 shadow-teja dark:bg-night-900 md:py-8">
         <UCarousel
           v-slot="{ item }"
           loop
           wheel-gestures
           :items="items"
-          :ui="{ item: 'basis-1/3' }"
+          :ui="{ item: 'md:basis-1/3' }"
           class="p-4"
         >
           <div class="flex flex-col items-center justify-center p-8">

@@ -21,6 +21,14 @@ export default defineNuxtConfig({
     database: true,
   },
   content: {
+    preview: {
+      api: 'https://api.nuxt.studio',
+      gitInfo: {
+        name: 'sdnteja2.sch.id',
+        owner: 'sdnteja2',
+        url: 'https://github.com/sdnteja2/sdnteja2.sch.id',
+      },
+    },
     database: {
       type: 'd1',
       bindingName: 'teja2',

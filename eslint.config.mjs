@@ -7,7 +7,7 @@ export default withNuxt(
     formatters: {
       css: 'prettier',
       html: true,
-      markdown: 'dprint',
+      markdown: false,
     },
     vue: true,
     stylistic: true,
