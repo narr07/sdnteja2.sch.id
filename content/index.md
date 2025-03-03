@@ -17,3 +17,6 @@ description: Halaman Home
 
 ::page-alumni
 ::
+
+::page-last-news
+::

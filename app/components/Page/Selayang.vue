@@ -11,7 +11,7 @@
         </h1>
       </div>
       <!-- Testimonials -->
-      <UCard variant="soft" class="rounded-4xl bg-night-200 dark:bg-night-900 py-8">
+      <UCard data-aos="fade-up" variant="soft" class="rounded-4xl bg-night-200 dark:bg-night-900 py-8">
         <!-- Grid -->
         <div class="md:grid md:grid-cols-2 md:gap-10 lg:gap-16 md:items-center">
           <div class="hidden md:block mb-24 md:mb-0 sm:px-6">
