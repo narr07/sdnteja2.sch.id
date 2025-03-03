@@ -34,7 +34,7 @@ export default defineContentConfig({
     }),
     guru: defineCollection({
       type: 'data',
-      source: 'guru/**.yml',
+      source: 'guru/*.yml',
       schema: z.object({
         nama: z.string(),
         kelas: z.string(),
