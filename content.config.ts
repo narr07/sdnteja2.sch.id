@@ -2,10 +2,17 @@ import { defineCollection, defineContentConfig, z } from '@nuxt/content'
 
 export default defineContentConfig({
   collections: {
+
+    content: defineCollection({
+      type: 'page',
+      source: '**',
+    }),
     berita: defineCollection({
       type: 'page',
       source: 'berita/*.md',
       schema: z.object({
+        title: z.string(),
+        description: z.string(),
         draft: z.boolean().default(false),
         category: z.enum(['Alps', 'Himalaya', 'Pyrenees']).optional(),
         date: z.date(),
@@ -26,11 +33,6 @@ export default defineContentConfig({
           }),
         })),
       }),
-    }),
-
-    content: defineCollection({
-      type: 'page',
-      source: '**',
     }),
     guru: defineCollection({
       type: 'data',
