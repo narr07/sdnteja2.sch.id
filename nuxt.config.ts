@@ -8,6 +8,10 @@ export default defineNuxtConfig({
     '@nuxt/image',
     'nuxt-aos',
   ],
+  experimental: {
+    componentIslands: true,
+    viewTransition: true,
+  },
   css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'system', // default value of $colorMode.preference

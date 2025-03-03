@@ -13,6 +13,8 @@
 @theme static {
   --font-sans: 'Rubik', sans-serif;
 
+  --shadow-teja: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
+
   --breakpoint-3xl: 1920px;
 
   --color-red-50: #fce9e9;
