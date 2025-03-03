@@ -12,12 +12,18 @@ export default defineContentConfig({
       schema: z.object({
         nama: z.string(),
         kelas: z.string(),
-        foto: z.string(),
+        foto: z.object({
+          src: z.string().editor({ input: 'media' }),
+          alt: z.string().default(function (this: { nama: string }) { return this.nama }), // alt diambil dari nama
+        }),
         catatan: z.string(),
         nip: z.string(),
         jabatan: z.string(),
         pendidikan: z.string(),
-        pengalaman: z.string(),
+        pengalaman: z.array(z.object({
+          title: z.string(),
+          tahun: z.string(),
+        })),
       }),
     }),
   },

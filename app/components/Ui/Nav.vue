@@ -1,4 +1,12 @@
-<script lang="ts" setup>
+<script setup lang="ts">
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+function isActive(path: string): boolean {
+  return route.path === path || (path !== '/' && route.path.startsWith(`${path}/`))
+}
+
 const { data } = await useAsyncData('navigation', () => {
   return queryCollectionNavigation('content')
 })
@@ -16,7 +24,7 @@ const { data } = await useAsyncData('navigation', () => {
             <nav>
               <div v-if="data" class="flex flex-row items-center space-x-4">
                 <div v-for="item in data" :key="item.path">
-                  <NuxtLink :to="item.path" :class="{ 'active-link': $route.path === item.path }">
+                  <NuxtLink :to="item.path" :class="{ 'active-link': isActive(item.path) }">
                     {{ item.title }}
                   </NuxtLink>
                 </div>

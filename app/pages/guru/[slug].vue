@@ -20,10 +20,21 @@ const { data: guruPage } = await useAsyncData(route.path, () => {
           <h2 class="text-2xl font-bold">
             {{ guruPage?.kelas }}
           </h2>
-
-          <pre>
-           {{ guruPage }}
-          </pre>
+          <p class="text-center italic">
+            {{ guruPage?.catatan ? `"${guruPage.catatan}"` : '-' }}
+          </p>
+          <p class="text-center mt-4">
+            <strong>NIP:</strong> {{ guruPage?.nip }}
+          </p>
+          <p class="text-center">
+            <strong>Jabatan:</strong> {{ guruPage?.jabatan }}
+          </p>
+          <p class="text-center">
+            <strong>Pendidikan:</strong> {{ guruPage?.pendidikan }}
+          </p>
+          <p class="text-center">
+            <strong>Pengalaman:</strong> {{ guruPage?.pengalaman }}
+          </p>
         </div>
       </UCard>
     </UContainer>
