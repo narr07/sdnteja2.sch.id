@@ -4,7 +4,7 @@ export const collections = {
   content: defineCollection({
     type: 'page',
     source: {
-      include: '**',
+      include: '*.md',
       exclude: ['berita/**', 'guru/**'],
       prefix: '/',
     },

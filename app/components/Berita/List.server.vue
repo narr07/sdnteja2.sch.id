@@ -10,10 +10,10 @@ const { data: beritaPage } = await useAsyncData('beritas', () => {
 <template>
   <div class="py-20">
     <UContainer>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div v-for="berita in beritaPage" :key="berita.title" class="grid grid-cols-2 md:grid-cols-4 gap-8">
         <UCard>
           <h2>
-            {{ beritaPage?.title }}
+            {{ berita?.title }}
           </h2>
         </UCard>
       </div>
