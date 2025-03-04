@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { data: beritaPage } = await useAsyncData('beritas', () => {
   return queryCollection('berita')
+    .select('title', 'date', 'path')
     .order('date', 'DESC')
     .all()
 })
