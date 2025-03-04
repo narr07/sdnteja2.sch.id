@@ -37,20 +37,18 @@ export const collections = {
     }),
   }),
   guru: defineCollection({
-    type: 'data',
+    type: 'page',
     source: 'guru/*.yml',
     schema: z.object({
       nama: z.string(),
       kelas: z.string(),
-      foto: z.object({
-        src: z.string().editor({ input: 'media' }),
-        alt: z.string().default(function (this: { nama: string }) { return this.nama }), // alt diambil dari nama
-      }),
+      foto: z.string().editor({ input: 'media' }),
       catatan: z.string(),
       nip: z.string(),
+      nuptk: z.string(),
       jabatan: z.string(),
       pendidikan: z.string(),
-      pengalaman: z.array(z.object({
+      pelatihan: z.array(z.object({
         title: z.string(),
         tahun: z.string(),
       }),
