@@ -101,7 +101,7 @@ const { data: guruPage } = await useAsyncData(`guru-${route.path}`, () => {
                   Pengalaman
                 </p>
                 <p class="font-bold">
-                  Sosial media
+                  {{ guruPage?.nuptk || '-' }}
                 </p>
               </div>
             </div>

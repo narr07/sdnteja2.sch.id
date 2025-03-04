@@ -10,9 +10,11 @@ const { data: beritaPage } = await useAsyncData('beritas', () => {
   <div class="py-20">
     <UContainer>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-        <pre>
-          {{ beritaPage }}
-        </pre>
+        <UCard>
+          <h2>
+            {{ beritaPage?.title }}
+          </h2>
+        </UCard>
       </div>
     </UContainer>
   </div>
