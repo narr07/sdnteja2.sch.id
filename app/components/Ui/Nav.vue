@@ -13,12 +13,19 @@ const { data } = await useAsyncData('navigation', () => {
 </script>
 
 <template>
+  <div class="bg-red-500 fixed z-50 top-0 w-full">
+    <p class="text-xs text-center text-white  ">
+      Website Masih dalam pengembangan
+    </p>
+  </div>
   <div class="fixed top-4 mx-auto w-full z-50">
     <UContainer>
-      <div variant="subtle" class="rounded-4xl p-4 md:rounded-[40px] dark:bg-night-800/80 bg-slate-50/50 shadow backdrop-blur">
+      <div variant="subtle" class="rounded-4xl p-4 px-6 md:rounded-[40px] dark:bg-night-800/80 bg-slate-50/50 shadow backdrop-blur">
         <div class="flex justify-between items-center">
           <div>
-            Logo
+            <NuxtLink to="/">
+              <UiLogo />
+            </NuxtLink>
           </div>
           <div class="flex items-center space-x-4">
             <nav>

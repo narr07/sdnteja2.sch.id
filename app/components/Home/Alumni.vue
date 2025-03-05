@@ -50,10 +50,17 @@ const items = [
       <UCard data-aos="fade-up" variant="soft" class="rounded-4xl bg-night-50 shadow-teja dark:bg-night-900 md:py-8">
         <UCarousel
           v-slot="{ item }"
+
+          arrows
+
+          :ui="{
+            controls: 'absolute bottom-1/2 inset-x-10',
+            item: 'md:basis-1/3',
+          }"
           loop
           wheel-gestures
           :items="items"
-          :ui="{ item: 'md:basis-1/3' }"
+
           class="p-4"
         >
           <div class="flex flex-col items-center justify-center p-8">
