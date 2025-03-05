@@ -1,5 +1,10 @@
 <script lang="ts" setup>
-
+defineProps({
+  image: {
+    type: String,
+    default: 'https://res.cloudinary.com/dyy24w5kl/image/upload/v1741192676/teja2_pasukan_s6jtrc.jpg',
+  },
+})
 </script>
 
 <template>
@@ -51,7 +56,7 @@
     </div>
     <div class="flex-2">
       <div data-aos="fade-up" variant="soft" class="var rounded-4xl aspect-video">
-        <NuxtImg src="https://images.unsplash.com/photo-1610962381137-50ef93055125?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Cover Image" class="w-full h-full object-cover aspect-video rounded-4xl" />
+        <NuxtImg :src="image" alt="Cover Image" class="w-full h-full object-cover aspect-video rounded-4xl" />
       </div>
     </div>
   </UContainer>
