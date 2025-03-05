@@ -98,7 +98,7 @@ const { data: guruPage } = await useAsyncData(`guru-${route.path}`, () => {
 
               <div class="bg-white dark:bg-night-800 rounded-xl p-3 shadow-sm">
                 <p class="font-semibold text-sm text-gray-500 dark:text-gray-400">
-                  Pengalaman
+                  NUPTK
                 </p>
                 <p class="font-bold">
                   {{ guruPage?.nuptk || '-' }}
@@ -117,18 +117,18 @@ const { data: guruPage } = await useAsyncData(`guru-${route.path}`, () => {
           <div class="p-4">
             <h3 class="text-xl font-bold mb-2 flex items-center">
               <UIcon name="i-heroicons-academic-cap" class="mr-2" />
-              Prestasi
+              Pelatihan
             </h3>
             <div class="bg-white dark:bg-night-800 rounded-xl p-4 shadow-sm">
-              <ul v-if="guruPage?.pelatihan && guruPage.pelatihan.length">
+              <ol v-if="guruPage?.pelatihan && guruPage.pelatihan.length" class="list-decimal list-inside">
                 <li v-for="(item, index) in guruPage.pelatihan" :key="index">
                   <span class="font-bold">
                     {{ item.title }}
                   </span>- {{ item.tahun }}
                 </li>
-              </ul>
+              </ol>
               <p v-else class="italic">
-                Belum ada data prestasi
+                -
               </p>
             </div>
           </div>

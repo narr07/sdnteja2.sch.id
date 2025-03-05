@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/image',
     'nuxt-aos',
+    '@nuxtjs/seo',
   ],
   experimental: {
     componentIslands: true,
