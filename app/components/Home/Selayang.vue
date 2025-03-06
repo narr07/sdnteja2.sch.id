@@ -11,9 +11,9 @@ defineProps({
   <div class="py-8">
     <UContainer>
       <div class="py-8">
-        <h1 data-aos="fade-up" class="text-5xl text-center md:text-6xl   font-bold ">
+        <h2 data-aos="fade-up" class="text-5xl text-center md:text-6xl   font-bold ">
           Selayang Pandang
-        </h1>
+        </h2>
       </div>
       <!-- Testimonials -->
       <UCard data-aos="fade-up" variant="soft" class="rounded-4xl bg-night-200 dark:bg-night-900 py-8">

@@ -43,9 +43,9 @@ const items = [
   <div class="py-8">
     <UContainer>
       <div class="py-8">
-        <h1 data-aos="fade-up" class="text-5xl text-center md:text-6xl   font-bold ">
+        <h2 data-aos="fade-up" class="text-5xl text-center md:text-6xl   font-bold ">
           Alumni
-        </h1>
+        </h2>
       </div>
       <UCard data-aos="fade-up" variant="soft" class="rounded-4xl bg-night-50 shadow-teja dark:bg-night-900 md:py-8">
         <UCarousel

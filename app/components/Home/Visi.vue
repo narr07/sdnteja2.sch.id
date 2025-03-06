@@ -6,9 +6,9 @@
   <div class="bg-red-500 dark:bg-night-900 pt-20 pb-28 mt-12 ">
     <UContainer class=" ">
       <div class="py-8">
-        <h1 data-aos="fade-up" class="text-5xl text-center md:text-6xl text-white font-bold ">
+        <h2 data-aos="fade-up" class="text-5xl text-center md:text-6xl text-white font-bold ">
           Visi, Misi, dan Tujuan
-        </h1>
+        </h2>
       </div>
       <div class="grid-cols-1 md:grid-cols-3 grid gap-4">
         <UCard data-aos="fade-up" variant="soft" class="justify-evenly    flex-col h-full bg-night-50 text-night-700  dark:bg-night-950 dark:text-white   rounded-4xl  ">
@@ -25,9 +25,9 @@
         </UCard>
         <UCard data-aos-delay="100" data-aos="fade-up" variant="soft" class="justify-evenly    flex-col h-full bg-night-50 text-night-700  dark:bg-night-950 dark:text-white   rounded-4xl  ">
           <div>
-            <h1 class="text-5xl md:text-6xl pb-4 font-bold ">
+            <h2 class="text-5xl md:text-6xl pb-4 font-bold ">
               Misi
-            </h1>
+            </h2>
           </div>
           <div>
             <ol class="pb-6 list-decimal ml-6">
@@ -59,7 +59,3 @@
     </UContainer>
   </div>
 </template>
-
-<style scoped>
-
-</style>

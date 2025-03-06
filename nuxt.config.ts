@@ -2,16 +2,23 @@
 export default defineNuxtConfig({
   modules: [
     '@nuxt/ui',
+    '@nuxtjs/seo',
     '@nuxt/content',
     '@nuxthub/core',
     '@nuxt/eslint',
     '@nuxt/image',
     'nuxt-aos',
-    '@nuxtjs/seo',
   ],
   experimental: {
     componentIslands: true,
     viewTransition: true,
+  },
+  site: {
+    url: 'https://sdnteja2.sch.id/',
+    name: 'SDN TEJA II',
+    description: 'Website resmi SDN Teja II, Kecamatan Rajagaluh, Kabupaten Majalengka, Jawa Barat',
+    defaultLocale: 'id', // not needed if you have @nuxtjs/i18n installed
+    themeColor: '#F22727',
   },
   css: ['~/assets/css/main.css'],
   colorMode: {
@@ -34,6 +41,19 @@ export default defineNuxtConfig({
   eslint: {
     config: {
       standalone: false,
+    },
+  },
+  image: {
+    format: ['webp'],
+    domains: ['nuxtjs.org', 'res.cloudinary.com'],
+    screens: {
+      'xs': 320,
+      'sm': 640,
+      'md': 768,
+      'lg': 1024,
+      'xl': 1280,
+      'xxl': 1536,
+      '2xl': 1536,
     },
   },
   icon: {

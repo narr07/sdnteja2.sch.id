@@ -7,6 +7,16 @@ const { data: page } = await useAsyncData(`halaman-${route.path}`, () => {
 if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
+useSeoMeta({
+  title: page.value.title,
+  description: page.value.description,
+  // twitterTitle: page.value.title,
+  // twitterDescription: page.value.description,
+})
+defineOgImageComponent('OgImage', {
+  title: page.value.title,
+  description: page.value.description,
+})
 </script>
 
 <template>
