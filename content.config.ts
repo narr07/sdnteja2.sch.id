@@ -105,8 +105,7 @@ export const collections = {
         src: z.string().editor({ input: 'media' }),
         alt: z.string(),
       }),
-      tags: z.array(
-      ),
+      tags: z.array(z.string()),
       category: z.enum(['Siswa', 'Informasi', 'Tips', 'Guru']).optional(),
       seo: z.intersection(
         z.object({
