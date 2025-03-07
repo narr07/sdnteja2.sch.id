@@ -30,7 +30,6 @@ export const collections = {
       ]).default(true).editor({ hidden: true }),
     }),
   }),
-
   berita: defineCollection({
     type: 'page',
     source: 'berita/*.md',
@@ -38,10 +37,6 @@ export const collections = {
       title: z.string(),
       description: z.string(),
       date: z.date(),
-      image: z.object({
-        src: z.string().editor({ input: 'media' }),
-        alt: z.string(),
-      }),
       seo: z.intersection(
         z.object({
           title: z.string().optional(),
@@ -97,6 +92,40 @@ export const collections = {
         title: z.string(),
         tahun: z.string(),
       })),
+    }),
+  }),
+  artikel: defineCollection({
+    type: 'page',
+    source: 'artikel/*.md',
+    schema: z.object({
+      title: z.string(),
+      description: z.string(),
+      date: z.date(),
+      image: z.object({
+        src: z.string().editor({ input: 'media' }),
+        alt: z.string(),
+      }),
+      tags: z.array(z.object({
+        name: z.string(),
+      })),
+      category: z.enum(['Siswa', 'Informasi', 'Tips', 'Guru']).optional(),
+      seo: z.intersection(
+        z.object({
+          title: z.string().optional(),
+          description: z.string().optional(),
+          meta: z.array(z.record(z.string(), z.any())).optional(),
+          link: z.array(z.record(z.string(), z.any())).optional(),
+        }),
+        z.record(z.string(), z.any()),
+      ).optional().default({}).editor({ hidden: true }),
+      navigation: z.union([
+        z.boolean(),
+        z.object({
+          title: z.string(),
+          description: z.string(),
+          icon: z.string(),
+        }),
+      ]).default(true).editor({ hidden: true }),
     }),
   }),
 }

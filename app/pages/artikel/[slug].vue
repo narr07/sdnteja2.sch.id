@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 const route = useRoute()
 
-const { data: beritaPage } = await useAsyncData(`berita-${route.path}`, () => {
-  return queryCollection('berita').path(route.path).first()
+const { data: artikelPage } = await useAsyncData(`artikel-${route.path}`, () => {
+  return queryCollection('artikel').path(route.path).first()
 })
 
 defineOgImageComponent('OgImage', {
-  page: 'Berita',
-  title: beritaPage?.value?.title,
-  description: beritaPage?.value?.description,
+  page: 'Artikel',
+  title: artikelPage?.value?.title,
+  description: artikelPage?.value?.description,
 })
 </script>
 
@@ -18,15 +18,15 @@ defineOgImageComponent('OgImage', {
       <div class="max-w-4xl mx-auto ">
         <div data-aos="fade-up" class="py-8 space-y-6 ">
           <h1 class="text-3xl  md:text-4xl font-bold">
-            {{ beritaPage?.title }}
+            {{ artikelPage?.title }}
           </h1>
-          <p>{{ beritaPage?.description }}</p>
+          <p>{{ artikelPage?.description }}</p>
           <UBadge>
-            {{ beritaPage?.date ? new Date(beritaPage.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }) : '' }}
+            {{ artikelPage?.date ? new Date(artikelPage.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }) : '' }}
           </UBadge>
         </div>
         <article data-aos-delay="100" data-aos="fade-up" class="max-w-4xl mx-auto prose prose-night dark:prose-invert">
-          <ContentRenderer v-if="beritaPage" :value="beritaPage" />
+          <ContentRenderer v-if="artikelPage" :value="artikelPage" />
         </article>
       </div>
     </UContainer>

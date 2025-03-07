@@ -1,8 +1,11 @@
 @layer theme, base, components, utilities;
+@plugin "@tailwindcss/typography";
+@config "../../../tailwind.config.ts";
 
 @import 'tailwindcss/theme' layer(theme);
 @import 'tailwindcss/preflight' layer(base);
 @import 'tailwindcss/utilities' layer(utilities);
+
 
 /* Then import "@nuxt/ui": */
 @import '@nuxt/ui';
@@ -10,6 +13,7 @@
 @utility headLine {
   @apply text-5xl text-center md:text-6xl font-bold;
 }
+
 @theme static {
   --font-sans: 'Rubik', sans-serif;
 
@@ -28,7 +32,6 @@
   --color-red-800: #680e0e;
   --color-red-900: #400909;
   --color-red-950: #2b0606;
-
   --color-yellow-50: #fce8c4;
   --color-yellow-100: #fbe1b1;
   --color-yellow-200: #f8d28a;
@@ -56,3 +59,5 @@
 body {
   @apply bg-night-100 dark:bg-night-950;
 }
+
+
