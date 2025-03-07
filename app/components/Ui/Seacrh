@@ -1,4 +1,4 @@
-// app/components/SearchButton.vue
+<!-- // app/components/SearchButton.vue
 <script setup lang="ts">
 // Ref untuk istilah pencarian, hasil pencarian, dan status modal
 const searchTerm = ref('')
@@ -113,4 +113,4 @@ defineShortcuts({
       />
     </template>
   </UModal>
-</template>
+</template> -->

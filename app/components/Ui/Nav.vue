@@ -37,7 +37,7 @@ const { data } = await useAsyncData('navigation', () => {
                 </div>
               </div>
             </nav>
-            <UiSeacrh />
+            <!-- <UiSeacrh /> -->
             <UiColorMode />
           </div>
         </div>
