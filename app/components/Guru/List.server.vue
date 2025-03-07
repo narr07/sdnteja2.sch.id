@@ -2,6 +2,8 @@
 const { data: guruTeja } = await useAsyncData('gurus', () => {
   return queryCollection('guru').all()
 })
+
+const img = useImage()
 </script>
 
 <template>
@@ -15,7 +17,11 @@ const { data: guruTeja } = await useAsyncData('gurus', () => {
                 :title="guru.nama"
                 :alt="guru.nama"
                 loading="lazy"
-                :src="guru.foto" width="234" height="234" class="rounded-3xl mb-4 aspect-square object-cover object-top   transition-all duration-300 ease-in-out"
+                :src="guru.foto"
+                width="234"
+                height="234"
+                :placeholder="img(`${guru.foto}`, { h: 10, f: 'png', blur: 2, q: 50 })"
+                class="rounded-3xl mb-4 aspect-square object-cover object-top   transition-all duration-300 ease-in-out"
               />
               <h2 class=" font-bold text-sm text-center">
                 {{ guru.nama }}

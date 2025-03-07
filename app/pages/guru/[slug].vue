@@ -13,6 +13,7 @@ defineOgImageComponent('User', {
   kelas: guruPage?.value?.kelas,
   pembina: guruPage?.value?.jabatan,
 })
+const img = useImage()
 </script>
 
 <template>
@@ -32,7 +33,8 @@ defineOgImageComponent('User', {
               :alt="guruPage?.lengkap"
               :title="guruPage?.lengkap"
               loading="lazy"
-              class="rounded-lg mb-4 h-full w-auto shadow-md hover:scale-105 transition-transform"
+              :placeholder="img(`${guruPage?.foto}`, { h: 10, f: 'png', blur: 2, q: 50 })"
+              class="rounded-lg mb-4 h-full w-auto shadow-md "
             />
             <h2 class="text-lg md:text-xl font-bold mt-2">
               {{ guruPage?.lengkap }}

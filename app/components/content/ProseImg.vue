@@ -31,6 +31,8 @@ const refinedSrc = computed(() => {
   }
   return props.src
 })
+
+const img = useImage()
 </script>
 
 <template>
@@ -65,6 +67,7 @@ const refinedSrc = computed(() => {
       sizes="100vw sm:70vw md:500px"
       loading="lazy"
       :title="props.alt"
+      :placeholder="img(`${refinedSrc}`, { h: 10, f: 'png', blur: 2, q: 50 })"
     />
     <template #body>
       <component
@@ -77,7 +80,7 @@ const refinedSrc = computed(() => {
         sizes="100vw sm:70vw md:500px"
         loading="lazy"
         :title="props.alt"
-        :placeholder="[1200, 630, 30, 10]"
+        :placeholder="img(`${refinedSrc}`, { h: 10, f: 'png', blur: 2, q: 50 })"
       />
     </template>
   </UModal>

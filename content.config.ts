@@ -1,3 +1,4 @@
+// content.config.ts
 import { defineCollection, z } from '@nuxt/content'
 
 export const collections = {
@@ -37,6 +38,8 @@ export const collections = {
       title: z.string(),
       description: z.string(),
       date: z.date(),
+      tags: z.array(z.string(),
+      ),
       seo: z.intersection(
         z.object({
           title: z.string().optional(),
@@ -92,6 +95,10 @@ export const collections = {
         title: z.string(),
         tahun: z.string(),
       })),
+      sosial: z.object({
+        email: z.string().url(),
+        instagram: z.string().url(),
+      }),
     }),
   }),
   artikel: defineCollection({
@@ -102,10 +109,13 @@ export const collections = {
       description: z.string(),
       date: z.date(),
       image: z.object({
-        src: z.string().editor({ input: 'media' }),
-        alt: z.string(),
+        src: z.union([
+          z.string().url(), // Menerima string berupa URL
+          z.string().editor({ input: 'media' }), // Menerima input media
+        ]),
       }),
-      tags: z.array(z.string()),
+      tags: z.array(z.string(),
+      ),
       category: z.enum(['Siswa', 'Informasi', 'Tips', 'Guru']).optional(),
       seo: z.intersection(
         z.object({
@@ -126,4 +136,5 @@ export const collections = {
       ]).default(true).editor({ hidden: true }),
     }),
   }),
+
 }

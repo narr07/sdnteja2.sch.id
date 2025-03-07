@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Collections } from '@nuxt/content'
+
 const route = useRoute()
 
 const { data: page } = await useAsyncData(`halaman-${route.path}`, () => {

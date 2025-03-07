@@ -1,21 +1,49 @@
 <script setup lang="ts">
+// Pagination state
+const itemsPerPage = 8
+const route = useRoute()
+const router = useRouter()
+
+const currentPage = ref(Number(route.query.page) || 1)
+// Update query parameter saat `currentPage` berubah
+watch(currentPage, (newPage) => {
+  router.replace({
+    query: {
+      ...route.query,
+      page: newPage.toString(),
+    },
+  })
+})
 const { data: artikelPage } = await useAsyncData('HalamanArtikel', () => {
   return queryCollection('artikel')
     .select('title', 'date', 'path', 'image')
     .order('date', 'DESC')
     .all()
 })
+const totalItems = computed(() => artikelPage.value?.length ?? 0)
+
+const paginatedBlogs = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  return artikelPage.value?.slice(start, end) ?? []
+})
+
+const img = useImage()
 </script>
 
 <template>
   <div class="py-20">
     <UContainer>
+      <UiTags />
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div v-for="artikel in artikelPage" :key="artikel.title">
+        <div v-for="artikel in paginatedBlogs" :key="artikel.title">
           <NuxtLink :to="artikel.path">
             <UCard data-aos="fade-up" variant="soft" class="bg-night-50 hover:shadow-none transition-shadow ease-in-out duration-300  shadow-teja dark:bg-night-900 h-full rounded-4xl overflow-hidden">
               <div>
-                <NuxtImg height="300px" width="500" :src="artikel.image.toString()" :alt="artikel.title" class="rounded-2xl object-cover object-center w-full h-[300px] bg-cover aspect-video" />
+                <NuxtImg
+                  height="300px" width="500" :src="artikel.image.toString()" :alt="artikel.title" class="rounded-2xl object-cover object-center w-full h-[300px] bg-cover aspect-video"
+                  :placeholder="img(`${artikel.image.toString()}`, { h: 10, f: 'png', blur: 1, q: 50 })"
+                />
                 <div class="mt-4   ">
                   <h2 class="text-xl font-bold line-clamp-2">
                     {{ artikel?.title }}
@@ -29,6 +57,18 @@ const { data: artikelPage } = await useAsyncData('HalamanArtikel', () => {
             </UCard>
           </NuxtLink>
         </div>
+      </div>
+      <div class="flex justify-center mt-8">
+        <UPagination
+          v-model:page="currentPage"
+          show-edges
+          :items-per-page="itemsPerPage"
+          color="primary"
+          :sibling-count="1"
+          :total="totalItems"
+          variant="soft"
+          data-aos="fade-up"
+        />
       </div>
     </UContainer>
   </div>
