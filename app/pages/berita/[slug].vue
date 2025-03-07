@@ -4,6 +4,12 @@ const route = useRoute()
 const { data: beritaPage } = await useAsyncData(`berita-${route.path}`, () => {
   return queryCollection('berita').path(route.path).first()
 })
+
+defineOgImageComponent('OgImage', {
+  page: 'Berita',
+  title: beritaPage?.value?.title,
+  description: beritaPage?.value?.description,
+})
 </script>
 
 <template>
@@ -14,6 +20,7 @@ const { data: beritaPage } = await useAsyncData(`berita-${route.path}`, () => {
           <h1 class="text-3xl  md:text-4xl font-bold">
             {{ beritaPage?.title }}
           </h1>
+          <p>{{ beritaPage?.description }}</p>
           <UBadge>
             {{ beritaPage?.date ? new Date(beritaPage.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }) : '' }}
           </UBadge>

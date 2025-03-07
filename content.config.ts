@@ -85,6 +85,7 @@ export const collections = {
         }),
       ]).default(true).editor({ hidden: true }),
       nama: z.string(),
+      lengkap: z.string(),
       catatan: z.string(),
       kelas: z.string(),
       foto: z.string().editor({ input: 'media' }),

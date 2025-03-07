@@ -4,17 +4,20 @@ const route = useRoute()
 const { data: guruPage } = await useAsyncData(`guru-${route.path}`, () => {
   return queryCollection('guru').path(route.path).first()
 })
+
+defineOgImageComponent('User', {
+  page: 'Guru',
+  title: guruPage?.value?.lengkap,
+  description: guruPage?.value?.catatan,
+  image: guruPage?.value?.foto,
+  kelas: guruPage?.value?.kelas,
+  pembina: guruPage?.value?.jabatan,
+})
 </script>
 
 <template>
   <div>
     <UContainer>
-      <div class="py-8">
-        <h1 data-aos="fade-up" class="text-5xl text-center md:text-6xl font-bold">
-          {{ guruPage?.nama }}
-        </h1>
-      </div>
-
       <!-- Bento Grid Layout -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <!-- Main Profile Card -->
@@ -26,12 +29,13 @@ const { data: guruPage } = await useAsyncData(`guru-${route.path}`, () => {
           <div class="flex flex-col items-center justify-center p-4">
             <NuxtImg
               :src="guruPage?.foto"
-              width="234"
-              height="234"
-              class="rounded-lg mb-4 shadow-md hover:scale-105 transition-transform"
+              :alt="guruPage?.lengkap"
+              :title="guruPage?.lengkap"
+              loading="lazy"
+              class="rounded-lg mb-4 h-full w-auto shadow-md hover:scale-105 transition-transform"
             />
-            <h2 class="text-2xl font-bold mt-2">
-              {{ guruPage?.nama }}
+            <h2 class="text-lg md:text-xl font-bold mt-2">
+              {{ guruPage?.lengkap }}
             </h2>
             <UBadge color="primary" variant="solid" class="mt-1">
               {{ guruPage?.kelas }}

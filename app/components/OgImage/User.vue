@@ -5,10 +5,20 @@
  */
 import { computed } from 'vue'
 
-const props = withDefaults(defineProps<{ title?: string, description?: string, page?: string }>(), {
+const props = withDefaults(defineProps<{
+  title?: string
+  description?: string
+  page?: string
+  image?: string
+  kelas?: string
+  pembina?: string
+}>(), {
   title: 'title',
   description: 'description',
-  page: '',
+  page: 'Guru',
+  image: '',
+  kelas: '',
+  pembina: '',
 })
 
 const title = computed(() => {
@@ -49,21 +59,43 @@ const description = computed(() => {
       </defs>
     </svg>
 
-    <div class="w-[600px] pl-[100px]">
-      <p class="uppercase text-[24px]  text-yellow-500 mb-4 font-semibold">
+    <div class="w-[1000px] pl-[100px]">
+      <p class="uppercase text-[24px]  text-yellow-300 mb-4 font-semibold">
         <span v-if="props.page">{{ props.page }} - </span> SDN TEJA II
       </p>
-      <h1 v-if="title" class="w-[600px] m-0 text-5xl font-semibold text-white mb-4   flex items-center">
+      <h1 v-if="title" class="w-[900px] m-0 text-5xl font-semibold text-white mb-4   flex items-center">
         <span>{{ title }}</span>
       </h1>
-      <p v-if="description" class="text-[28px] text-red-200 leading-tight">
-        {{ description }}
+      <p class="text-[28px]  text-yellow-300  rounded-3xl leading-tight">
+        {{ kelas }} - {{ pembina }}
+      </p>
+
+      <p
+        v-if="description"
+        :style="{
+          fontStyle: 'italic',
+        }" class="text-[24px] italic w-[700px] text-red-200 leading-tight"
+      >
+        "{{ description }}"
       </p>
     </div>
+    <img
+      class="absolute top-[160px] right-[90px] "
+      :src="image"
+      height="300"
+      width="210"
+      :style="{
+
+        borderRadius: '2rem',
+        backgroundSize: 'cover',
+        objectFit: 'cover',
+        objectPosition: 'center',
+      }"
+    >
     <svg
-      class="absolute top-[160px] right-[90px]"
-      width="340"
-      height="340"
+      class="absolute top-[20px] left-[50px]"
+      width="150"
+      height="150"
       viewBox="0 0 340 340"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
