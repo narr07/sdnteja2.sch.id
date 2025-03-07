@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import ImageComponent from '#build/mdc-image-component.mjs'
 import { computed, useRuntimeConfig } from '#imports'
-
 import { joinURL, withLeadingSlash, withTrailingSlash } from 'ufo'
 
 const props = defineProps({
@@ -11,16 +10,15 @@ const props = defineProps({
   },
   alt: {
     type: String,
-    default: 'permadi.dev',
+    default: 'Gambar Artikel',
   },
   width: {
     type: [String, Number],
     default: '1200',
-
   },
   height: {
     type: [String, Number],
-    default: '800',
+    default: '630',
   },
 })
 
@@ -36,15 +34,51 @@ const refinedSrc = computed(() => {
 </script>
 
 <template>
-  <component
-    :is="ImageComponent"
-    :src="refinedSrc"
-    :alt="props.alt"
-    :width="props.width"
-    :height="props.height"
-    class="rounded-4xl"
-    sizes="100vw sm:70vw md:500px"
-    loading="lazy"
+  <UModal
+
     :title="props.alt"
-  />
+    :close="{
+      color: 'primary',
+      variant: 'outline',
+      class: 'rounded-full',
+    }"
+    :ui="{
+      overlay: 'fixed bg-(--ui-bg-elevated)/50  backdrop-blur',
+      content: 'fixed max-w-5xl mx-auto    rounded-2xl shadow-lg',
+      header: 'flex items-center gap-1.5 p-4 sm:px-6 min-h-16',
+      wrapper: '',
+      body: 'flex-1 overflow-y-auto p-4 sm:p-6',
+      footer: 'flex items-center gap-1.5 p-4 sm:px-6',
+      title: 'text-(--ui-text-highlighted) font-semibold',
+      description: 'mt-1 text-(--ui-text-muted) text-sm',
+      close: 'absolute top-4 end-4',
+
+    }"
+  >
+    <component
+      :is="ImageComponent"
+      :src="refinedSrc"
+      :alt="props.alt"
+      :width="props.width"
+      :height="props.height"
+      class="rounded-4xl   w-full h-auto mx-auto"
+      sizes="100vw sm:70vw md:500px"
+      loading="lazy"
+      :title="props.alt"
+    />
+    <template #body>
+      <component
+        :is="ImageComponent"
+        :src="refinedSrc"
+        :alt="props.alt"
+        width="1920"
+        height="1080"
+        class="rounded-4xl h-auto w-full  mx-auto"
+        sizes="100vw sm:70vw md:500px"
+        loading="lazy"
+        :title="props.alt"
+        :placeholder="[1200, 630, 30, 10]"
+      />
+    </template>
+  </UModal>
 </template>
