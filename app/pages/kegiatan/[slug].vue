@@ -5,33 +5,37 @@ interface Image {
   secure_url: string
 }
 
+interface ApiResponse {
+  success: boolean
+  resources?: Image[]
+  message?: string
+}
+
 const img = useImage()
 const images = ref<Image[]>([])
 
 // Ambil query parameter dari URL
 const route = useRoute()
-const tagOrFolder = computed(() => route.query.tag || 'default-tag')
+const tagOrFolder = computed(() => route.query.tag || 'default-tag') // Key unik berdasarkan tag
 const title = computed(() => route.query.title || 'default-title')
 
-// Fetch data berdasarkan tag
-const { status, data, error, execute } = useLazyFetch('/api/getImages', {
+// Fetch data dengan caching
+const { status, data, error, refresh } = useLazyFetch<ApiResponse>('/api/getImages', {
   method: 'POST',
-  body: { tag: tagOrFolder.value }, // Pastikan tag dikirimkan dengan benar
+  body: { tag: tagOrFolder.value },
+  key: `get-images-${tagOrFolder.value}`, // Key unik untuk caching
 })
 
-// Jalankan fetch pertama kali
-execute().then(() => {
-  console.log('API Response:', data.value) // Log respons API
-
-  // Tangani kemungkinan struktur respons
-  if (data.value && 'resources' in data.value) {
-    images.value = data.value.resources.map((resource: any) => ({
+// Perbarui images saat data berubah
+watch(data, (newValue) => {
+  if (newValue?.success && Array.isArray(newValue.resources)) {
+    images.value = newValue.resources.map(resource => ({
       public_id: resource.public_id,
       secure_url: resource.secure_url,
     }))
   }
   else {
-    console.error('No resources found in API response:', data.value)
+    console.error('No resources found or API failed:', newValue?.message)
     images.value = [] // Set default jika tidak ada resources
   }
 })
@@ -52,6 +56,15 @@ watch(error, (err) => {
         {{ title }}
       </h1>
     </div>
+
+    <!-- Tombol untuk Refresh -->
+    <div class="text-center mb-4">
+      <button class="btn btn-primary" @click="() => refresh()">
+        Refresh Data
+      </button>
+    </div>
+
+    <!-- Loading State -->
     <div v-if="status === 'pending'">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <USkeleton
@@ -63,8 +76,9 @@ watch(error, (err) => {
         Loading ...
       </div>
     </div>
+
+    <!-- Tampilkan Gambar -->
     <div v-else>
-      <!-- Masonry Layout -->
       <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
         <div v-for="image in images" :key="image.public_id" class="relative">
           <NuxtImg
@@ -76,6 +90,11 @@ watch(error, (err) => {
           />
         </div>
       </div>
+    </div>
+
+    <!-- Error Handling -->
+    <div v-if="error" class="text-red-500 text-center">
+      Error fetching images: {{ error.message }}
     </div>
   </UContainer>
 </template>
