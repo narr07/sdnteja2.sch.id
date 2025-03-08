@@ -138,16 +138,7 @@ export const collections = {
       description: z.string(),
       date: z.date(),
       tag: z.string(),
-      cover: z.union([
-        z.object({
-          type: z.literal('media'),
-          url: z.string().editor({ input: 'media' }),
-        }),
-        z.object({
-          type: z.literal('link'),
-          url: z.string(),
-        }),
-      ]),
+      cover: z.string().editor({ input: 'media' }),
       seo: z.intersection(
         z.object({
           title: z.string().optional(),

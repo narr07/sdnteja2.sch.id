@@ -18,14 +18,21 @@ export default defineEventHandler(async (event) => {
   const { tag, folder } = (await readBody(event)) as RequestBody
 
   try {
-    let resources
+    let resources = []
+
     if (tag) {
-      resources = await cloudinary.v2.api.resources_by_tag(tag)
+      const result = await cloudinary.v2.api.resources_by_tag(tag)
+      resources = result.resources
     }
     else if (folder) {
-      resources = await cloudinary.v2.search.expression(`folder=${folder}`).execute()
+      const result = await cloudinary.v2.search.expression(`folder=${folder}`).execute()
+      resources = result.resources
     }
-    return resources
+    else {
+      throw new Error('Tag or folder must be provided')
+    }
+
+    return { resources }
   }
   catch (error) {
     console.error('Error fetching images:', error)

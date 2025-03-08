@@ -10,6 +10,7 @@ const images = ref<Image[]>([])
 // Get the tag from the route params or props
 const route = useRoute()
 const tagOrFolder = computed(() => route.query.tag || 'default-tag') // Gunakan 'default-tag' jika tag tidak ada
+const title = computed(() => route.query.title || 'default-title')
 
 const { status, data, error, execute } = useLazyFetch('/api/getImages', {
   method: 'POST',
@@ -18,18 +19,25 @@ const { status, data, error, execute } = useLazyFetch('/api/getImages', {
 
 // Jalankan fungsi execute untuk mengambil data
 execute().then(() => {
-  images.value = data.value.resources
+  images.value = (data.value as { resources: Image[] }).resources || []
 })
 
 // Tangani error jika ada
 watch(error, (err) => {
-  if (err)
+  if (err) {
     console.error('Error fetching images:', err)
+    images.value = [] // Set default value in case of error
+  }
 })
 </script>
 
 <template>
   <UContainer class="p-6">
+    <div class="py-8 max-w-3xl mx-auto">
+      <h1 data-aos="fade-up" class="text-2xl text-center md:text-5xl text-balance   font-bold ">
+        {{ title }}
+      </h1>
+    </div>
     <div v-if="status === 'pending'">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <USkeleton
