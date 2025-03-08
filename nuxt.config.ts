@@ -74,6 +74,7 @@ export default defineNuxtConfig({
     },
     experimental: {
       websocket: true,
+      openAPI: true,
     },
   },
   compatibilityDate: '2024-11-01',
