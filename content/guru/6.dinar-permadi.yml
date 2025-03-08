@@ -7,10 +7,17 @@ nip: '-'
 nuptk: 2539774675130192
 jabatan: Operator
 pendidikan: S1 - Pendidikan Guru Sekolah Dasar
-pelatihan:
-  - title: Sertifikasi Guru Profesional
-    tahun: '2020'
-  - title: Pelatihan Pembelajaran Jarak Jauh
-    tahun: '2021'
-  - title: Guru Penggerak
-    tahun: '2024'
+pelatihan: []
+sosial:
+  - icon: i-hugeicons-instagram
+    link: https://www.instagram.com/narr07/
+    alt: Instagram
+  - icon: i-hugeicons-mail-01
+    link: mailto:dinarpermadi07@gmail.com?subject=Halo
+    alt: Email
+  - icon: i-hugeicons-facebook-01
+    link: https://www.facebook.com/narr07
+    alt: Facebook
+  - icon: i-hugeicons-new-twitter-rectangle
+    link: https://x.com/dinarpermadi07
+    alt: Twitter / X
