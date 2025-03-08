@@ -44,6 +44,17 @@ const img = useImage()
             <UBadge color="primary" variant="solid" class="mt-1">
               {{ guruPage?.kelas }}
             </UBadge>
+            <div v-if="guruPage?.sosial && guruPage.sosial.length" class="flex space-x-2 mt-4">
+              <UButton
+                v-for="(social, index) in guruPage.sosial"
+                :key="index"
+                :to="social.link"
+                target="_blank"
+                rel="noopener noreferrer"
+                :title="social.alt"
+                :icon="social.icon"
+              />
+            </div>
           </div>
         </UCard>
 
@@ -152,6 +163,7 @@ const img = useImage()
           class="px-4 py-2"
         />
       </div>
+      <pre>{{ guruPage }}</pre>
     </UContainer>
   </div>
 </template>

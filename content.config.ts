@@ -130,6 +130,44 @@ export const collections = {
       ]).default(true).editor({ hidden: true }),
     }),
   }),
+  kegiatan: defineCollection({
+    type: 'page',
+    source: 'kegiatan/*.yml',
+    schema: z.object({
+      title: z.string(),
+      description: z.string(),
+      date: z.date(),
+      tag: z.string(),
+      cover: z.union([
+        z.object({
+          type: z.literal('media'),
+          url: z.string().editor({ input: 'media' }),
+        }),
+        z.object({
+          type: z.literal('link'),
+          url: z.string(),
+        }),
+      ]),
+      seo: z.intersection(
+        z.object({
+          title: z.string().optional(),
+          description: z.string().optional(),
+          meta: z.array(z.record(z.string(), z.any())).optional(),
+          link: z.array(z.record(z.string(), z.any())).optional(),
+        }),
+        z.record(z.string(), z.any()),
+      ).optional().default({}).editor({ hidden: true }),
+      navigation: z.union([
+        z.boolean(),
+        z.object({
+          title: z.string(),
+          description: z.string(),
+          icon: z.string(),
+        }),
+      ]).default(true).editor({ hidden: true }),
+    }),
+
+  }),
   search: defineCollection({
     type: 'page',
     source: {
