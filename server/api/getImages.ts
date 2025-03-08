@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
   try {
     // Validasi environment variables
     if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+      console.error('Missing Cloudinary configuration')
       throw new Error('Cloudinary configuration is missing')
     }
 
@@ -21,6 +22,7 @@ export default defineEventHandler(async (event) => {
     console.log('Tag received:', tag)
 
     if (!tag) {
+      console.error('Tag is required')
       throw new Error('Tag is required')
     }
 

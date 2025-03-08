@@ -28,6 +28,8 @@ const { status, data, error, refresh } = useLazyFetch<ApiResponse>('/api/getImag
 
 // Perbarui images saat data berubah
 watch(data, (newValue) => {
+  console.log('API Response:', newValue)
+
   if (newValue?.success && Array.isArray(newValue.resources)) {
     images.value = newValue.resources.map(resource => ({
       public_id: resource.public_id,
