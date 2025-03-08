@@ -1,3 +1,4 @@
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
 interface Image {
   public_id: string
@@ -7,26 +8,39 @@ interface Image {
 const img = useImage()
 const images = ref<Image[]>([])
 
-// Get the tag from the route params or props
+// Ambil query parameter dari URL
 const route = useRoute()
-const tagOrFolder = computed(() => route.query.tag || 'default-tag') // Gunakan 'default-tag' jika tag tidak ada
+const tagOrFolder = computed(() => route.query.tag || 'default-tag')
 const title = computed(() => route.query.title || 'default-title')
 
+// Fetch data berdasarkan tag
 const { status, data, error, execute } = useLazyFetch('/api/getImages', {
   method: 'POST',
-  body: { tag: tagOrFolder },
+  body: { tag: tagOrFolder.value }, // Pastikan tag dikirimkan dengan benar
 })
 
-// Jalankan fungsi execute untuk mengambil data
+// Jalankan fetch pertama kali
 execute().then(() => {
-  images.value = (data.value as { resources: Image[] }).resources || []
+  console.log('API Response:', data.value) // Log respons API
+
+  // Tangani kemungkinan struktur respons
+  if (data.value && 'resources' in data.value) {
+    images.value = data.value.resources.map((resource: any) => ({
+      public_id: resource.public_id,
+      secure_url: resource.secure_url,
+    }))
+  }
+  else {
+    console.error('No resources found in API response:', data.value)
+    images.value = [] // Set default jika tidak ada resources
+  }
 })
 
 // Tangani error jika ada
 watch(error, (err) => {
   if (err) {
     console.error('Error fetching images:', err)
-    images.value = [] // Set default value in case of error
+    images.value = [] // Set default value jika terjadi error
   }
 })
 </script>
@@ -34,7 +48,7 @@ watch(error, (err) => {
 <template>
   <UContainer class="p-6">
     <div class="py-8 max-w-3xl mx-auto">
-      <h1 data-aos="fade-up" class="text-2xl text-center md:text-5xl text-balance   font-bold ">
+      <h1 data-aos="fade-up" class="text-2xl text-center md:text-5xl text-balance font-bold">
         {{ title }}
       </h1>
     </div>
@@ -45,19 +59,14 @@ watch(error, (err) => {
           class="w-full h-[200px] rounded-lg bg-red-50/50 dark:bg-red-700/50"
         />
       </div>
-      <div class="animate-pulse texl-2xl py-16 text-center">
+      <div class="animate-pulse text-2xl py-16 text-center">
         Loading ...
       </div>
     </div>
     <div v-else>
       <!-- Masonry Layout -->
       <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
-        <div
-          v-for="image in images"
-          :key="image.public_id"
-
-          class="relative"
-        >
+        <div v-for="image in images" :key="image.public_id" class="relative">
           <NuxtImg
             :src="image.secure_url"
             height="auto"

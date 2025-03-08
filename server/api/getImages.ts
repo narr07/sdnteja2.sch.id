@@ -9,33 +9,19 @@ cloudinary.v2.config({
   secure: true,
 })
 
-interface RequestBody {
-  tag?: string
-  folder?: string
-}
-
 export default defineEventHandler(async (event) => {
-  const { tag, folder } = (await readBody(event)) as RequestBody
-
   try {
-    let resources = []
+    const { tag } = await readBody(event)
 
-    if (tag) {
-      const result = await cloudinary.v2.api.resources_by_tag(tag)
-      resources = result.resources
-    }
-    else if (folder) {
-      const result = await cloudinary.v2.search.expression(`folder=${folder}`).execute()
-      resources = result.resources
-    }
-    else {
-      throw new Error('Tag or folder must be provided')
+    if (!tag) {
+      throw new Error('Tag is required')
     }
 
-    return { resources }
+    const result = await cloudinary.v2.api.resources_by_tag(tag)
+    return { resources: result.resources }
   }
   catch (error) {
-    console.error('Error fetching images:', error)
-    return { message: 'An error occurred', error }
+    console.error('Error in /api/getImages:', error)
+    return { statusCode: 500, message: 'Internal Server Error', error }
   }
 })
