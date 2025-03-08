@@ -23,7 +23,7 @@ export const collections = {
       ).optional().default({}).editor({ hidden: true }),
       navigation:
         z.object({
-          icon: z.string(),
+          icon: z.string().editor({ input: 'icon' }),
         }),
 
     }),
@@ -92,10 +92,11 @@ export const collections = {
         title: z.string(),
         tahun: z.string(),
       })),
-      sosial: z.object({
-        email: z.string().url(),
-        instagram: z.string().url(),
-      }),
+      sosial: z.array(z.object({
+        icon: z.string().editor({ input: 'icon' }),
+        link: z.string(),
+        alt: z.string(),
+      })).max(4),
     }),
   }),
   artikel: defineCollection({
@@ -106,14 +107,10 @@ export const collections = {
       description: z.string(),
       date: z.date(),
       image: z.object({
-        src: z.union([
-          z.string().url(), // Menerima string berupa URL
-          z.string().editor({ input: 'media' }), // Menerima input media
-        ]),
+        src: z.string().editor({ input: 'media' }),
       }),
       tags: z.array(z.string(),
       ),
-      category: z.enum(['Siswa', 'Informasi', 'Tips', 'Guru']).optional(),
       seo: z.intersection(
         z.object({
           title: z.string().optional(),

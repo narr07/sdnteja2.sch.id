@@ -112,7 +112,9 @@ useSeoMeta({
     </header>
 
     <section class="page-section">
-      <UiTags />
+      <div class="sticky top-22 z-50 ">
+        <UiTags />
+      </div>
 
       <div class="mt-6">
         <div v-if="!paginatedPosts.length">

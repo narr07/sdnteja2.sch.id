@@ -31,7 +31,6 @@ const dropdownItems = computed(() => {
     </div>
     <div class="fixed top-4 mx-auto w-full z-50">
       <UContainer>
-        {{ data }}
         <div variant="subtle" class="rounded-4xl p-4 px-6 md:rounded-[40px] dark:bg-night-800/80 bg-slate-50/50 shadow backdrop-blur">
           <div class="flex justify-between items-center">
             <div>
@@ -40,7 +39,6 @@ const dropdownItems = computed(() => {
               </NuxtLink>
             </div>
             <div class="flex items-center space-x-4">
-              <!-- Menu Desktop -->
               <nav class="hidden md:flex">
                 <div v-if="data" class="flex flex-row items-center space-x-4">
                   <div v-for="item in data" :key="item.path">
@@ -51,18 +49,19 @@ const dropdownItems = computed(() => {
                 </div>
               </nav>
 
-              <UiSearchButton />
-              <UiColorMode />
-              <!-- Menu Mobile -->
-              <div class="md:hidden">
-                <UDropdownMenu
-                  :items="dropdownItems"
-                  :ui="{
-                    content: 'w-32',
-                  }"
-                >
-                  <UButton icon="solar:hamburger-menu-linear" />
-                </UDropdownMenu>
+              <div class="flex items-center space-x-2">
+                <UiSearchButton />
+                <UiColorMode />
+                <div class="md:hidden">
+                  <UDropdownMenu
+                    :items="dropdownItems"
+                    :ui="{
+                      content: 'w-32',
+                    }"
+                  >
+                    <UButton icon="solar:hamburger-menu-linear" />
+                  </UDropdownMenu>
+                </div>
               </div>
             </div>
           </div>

@@ -8,9 +8,11 @@ const { data: beritaPage } = await useAsyncData('HalamanBerita', () => {
 </script>
 
 <template>
-  <div class="py-20">
+  <div class=" ">
     <UContainer>
-      <UiTags />
+      <div class="sticky top-22 z-50 ">
+        <UiTags />
+      </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div v-for="berita in beritaPage" :key="berita.title">
           <NuxtLink :to="berita.path">

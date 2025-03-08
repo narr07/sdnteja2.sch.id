@@ -55,8 +55,8 @@ const img = useImage()
         >
           <div class="p-4">
             <h3 class="text-xl font-bold mb-2 flex items-center">
-              <UIcon name="i-heroicons-document-text" class="mr-2" />
-              Catatan Guru
+              <UIcon name="solar:notebook-linear" class="mr-2" />
+              Quote
             </h3>
             <p class="italic text-lg">
               {{ guruPage?.catatan ? `"${guruPage.catatan}"` : 'Tidak ada catatan' }}
@@ -72,7 +72,7 @@ const img = useImage()
         >
           <div class="p-4">
             <h3 class="text-xl font-bold mb-3 flex items-center">
-              <UIcon name="i-heroicons-identification" class="mr-2" />
+              <UIcon name="solar:user-id-linear" class="mr-2" />
               Informasi Guru
             </h3>
 
@@ -124,7 +124,7 @@ const img = useImage()
         >
           <div class="p-4">
             <h3 class="text-xl font-bold mb-2 flex items-center">
-              <UIcon name="i-heroicons-academic-cap" class="mr-2" />
+              <UIcon name="solar:stars-minimalistic-linear" class="mr-2" />
               Pelatihan
             </h3>
             <div class="bg-white dark:bg-night-800 rounded-xl p-4 shadow-sm">
@@ -147,13 +147,10 @@ const img = useImage()
       <div class="flex justify-center mb-8">
         <UButton
           to="/guru"
-          icon="i-heroicons-arrow-left"
-          color="primary"
-          variant="soft"
+          icon="solar:arrow-left-linear"
+          label="Kembali ke Daftar Guru"
           class="px-4 py-2"
-        >
-          Kembali ke Daftar Guru
-        </UButton>
+        />
       </div>
     </UContainer>
   </div>
