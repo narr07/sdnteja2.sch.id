@@ -1,3 +1,4 @@
+// app/pages/kegiatan/[slug].vue
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
 interface Image {

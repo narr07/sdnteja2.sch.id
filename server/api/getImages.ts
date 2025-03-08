@@ -1,3 +1,4 @@
+// server/api/getImages.ts
 /* eslint-disable no-console */
 /* eslint-disable node/prefer-global/process */
 import cloudinary from 'cloudinary'
