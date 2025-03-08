@@ -47,7 +47,7 @@ const groups = computed(() => [
     id: 'blog',
     label: searchTerm.value
       ? `Hasil pencarian untuk “${searchTerm.value}”...`
-      : 'Semua Blog',
+      : 'Semua Konten',
     items: searchResults.value
       .filter(item =>
         item.title.toLowerCase().includes(searchTerm.value.toLowerCase())

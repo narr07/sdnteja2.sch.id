@@ -33,8 +33,10 @@ const img = useImage()
               :alt="guruPage?.lengkap"
               :title="guruPage?.lengkap"
               loading="lazy"
+              height="400"
+              width="300"
               :placeholder="img(`${guruPage?.foto}`, { h: 10, f: 'png', blur: 2, q: 50 })"
-              class="rounded-lg mb-4 h-full w-auto shadow-md "
+              class="rounded-lg mb-4 h-full w-auto shadow-md bg-cover bg-center object-cover "
             />
             <h2 class="text-lg md:text-xl font-bold mt-2">
               {{ guruPage?.lengkap }}

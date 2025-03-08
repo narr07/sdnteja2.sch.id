@@ -21,14 +21,11 @@ export const collections = {
         }),
         z.record(z.string(), z.any()),
       ).optional().default({}).editor({ hidden: true }),
-      navigation: z.union([
-        z.boolean(),
+      navigation:
         z.object({
-          title: z.string(),
-          description: z.string(),
           icon: z.string(),
         }),
-      ]).default(true).editor({ hidden: true }),
+
     }),
   }),
   berita: defineCollection({
