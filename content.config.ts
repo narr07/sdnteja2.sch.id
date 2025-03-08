@@ -136,5 +136,13 @@ export const collections = {
       ]).default(true).editor({ hidden: true }),
     }),
   }),
-
+  search: defineCollection({
+    type: 'page',
+    source: {
+      include: '**/*.md',
+      exclude: ['*.md'],
+      prefix: '/',
+    },
+    schema: z.object({}),
+  }),
 }
