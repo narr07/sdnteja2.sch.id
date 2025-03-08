@@ -1,4 +1,3 @@
-// app/pages/kegiatan/[slug].vue
 <!-- eslint-disable no-console -->
 <script setup lang="ts">
 interface Image {
@@ -20,12 +19,12 @@ const route = useRoute()
 const tagOrFolder = computed(() => route.query.tag || 'default-tag') // Key unik berdasarkan tag
 const title = computed(() => route.query.title || 'default-title')
 
-// Fetch data dengan caching
-const { status, data, error, refresh } = useLazyFetch<ApiResponse>('/api/getImages', {
-  method: 'POST',
-  body: { tag: tagOrFolder.value },
-  key: `get-images-${tagOrFolder.value}`, // Key unik untuk caching
-})
+// Fetch data dengan caching menggunakan useAsyncData
+const { data, pending, error, refresh } = useAsyncData<ApiResponse>(`get-images-${tagOrFolder.value}`, () =>
+  $fetch('/api/getImages', {
+    method: 'POST',
+    body: { tag: tagOrFolder.value },
+  }))
 
 // Perbarui images saat data berubah
 watch(data, (newValue) => {
@@ -68,7 +67,7 @@ watch(error, (err) => {
     </div>
 
     <!-- Loading State -->
-    <div v-if="status === 'pending'">
+    <div v-if="pending">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <USkeleton
           v-for="n in 3" :key="n"

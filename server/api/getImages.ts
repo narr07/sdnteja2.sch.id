@@ -34,6 +34,6 @@ export default defineEventHandler(async (event) => {
   }
   catch (error) {
     console.error('Error in /api/getImages:', error)
-    return { success: false, message: 'Failed to fetch images', details: error.message }
+    return { success: false, message: 'Failed to fetch images', details: (error as Error).message }
   }
 })
