@@ -1,4 +1,3 @@
-<!-- app/pages/kegiatan/[slug].vue -->
 <script setup lang="ts">
 interface Image {
   public_id: string
@@ -16,8 +15,8 @@ const route = useRoute()
 const tagOrFolder = computed(() => route.query.tag || 'default-tag')
 const title = computed(() => route.query.title || 'default-title')
 
-// Gunakan GET request dengan query parameter
-const { data, pending, error, refresh } = await useLazyFetch<ApiResponse>('/api/getImages', {
+// Fetch data menggunakan GET request dengan query parameter
+const { data, status, error } = useLazyFetch<ApiResponse>('/api/getImages', {
   method: 'GET',
   query: { tag: tagOrFolder.value },
   key: `get-images-${tagOrFolder.value}`,
@@ -42,14 +41,9 @@ watch(error, (err) => {
     </div>
 
     <!-- Refresh Button -->
-    <div class="text-center mb-4">
-      <UButton class="btn btn-primary" @click="() => refresh()">
-        Refresh Data
-      </UButton>
-    </div>
 
     <!-- Loading State -->
-    <div v-if="pending">
+    <div v-if="status === 'pending'">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         <USkeleton v-for="n in 3" :key="n" class="w-full h-[200px] rounded-lg bg-red-50/50 dark:bg-red-700/50" />
       </div>
@@ -59,7 +53,7 @@ watch(error, (err) => {
     </div>
 
     <!-- Display Images -->
-    <div v-else>
+    <div v-if="images.length > 0">
       <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
         <div v-for="image in images" :key="image.public_id" class="relative">
           <NuxtImg
