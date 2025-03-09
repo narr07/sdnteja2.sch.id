@@ -12,41 +12,27 @@ interface ApiResponse {
 }
 
 const img = useImage()
-const images = ref<Image[]>([])
-
-// Ambil query parameter dari URL
 const route = useRoute()
 const tagOrFolder = computed(() => route.query.tag || 'default-tag') // Key unik berdasarkan tag
 const title = computed(() => route.query.title || 'default-title')
 
-// Fetch data dengan caching menggunakan useAsyncData
-const { data, pending, error, refresh } = useAsyncData<ApiResponse>(`get-images-${tagOrFolder.value}`, () =>
-  $fetch('/api/getImages', {
-    method: 'POST',
-    body: { tag: tagOrFolder.value },
-  }))
-
-// Perbarui images saat data berubah
-watch(data, (newValue) => {
-  console.log('API Response:', newValue)
-
-  if (newValue?.success && Array.isArray(newValue.resources)) {
-    images.value = newValue.resources.map(resource => ({
-      public_id: resource.public_id,
-      secure_url: resource.secure_url,
-    }))
-  }
-  else {
-    console.error('No resources found or API failed:', newValue?.message)
-    images.value = [] // Set default jika tidak ada resources
-  }
+// Fetch data dengan lazy loading
+const { data, pending, error, refresh, execute } = useLazyFetch<ApiResponse>('/api/getImages', {
+  method: 'POST',
+  body: { tag: tagOrFolder.value },
+  key: `get-images-${tagOrFolder.value}`, // Key unik untuk caching
 })
+
+// Jalankan fetch pertama kali
+execute()
+
+// Tampilkan images menggunakan computed property
+const images = computed(() => data.value?.resources || [])
 
 // Tangani error jika ada
 watch(error, (err) => {
   if (err) {
     console.error('Error fetching images:', err)
-    images.value = [] // Set default value jika terjadi error
   }
 })
 </script>

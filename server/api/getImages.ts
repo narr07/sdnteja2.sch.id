@@ -1,4 +1,3 @@
-// server/api/getImages.ts
 /* eslint-disable no-console */
 /* eslint-disable node/prefer-global/process */
 import cloudinary from 'cloudinary'
@@ -15,7 +14,6 @@ export default defineEventHandler(async (event) => {
   try {
     // Validasi environment variables
     if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
-      console.error('Missing Cloudinary configuration')
       throw new Error('Cloudinary configuration is missing')
     }
 
@@ -23,7 +21,6 @@ export default defineEventHandler(async (event) => {
     console.log('Tag received:', tag)
 
     if (!tag) {
-      console.error('Tag is required')
       throw new Error('Tag is required')
     }
 
@@ -34,6 +31,6 @@ export default defineEventHandler(async (event) => {
   }
   catch (error) {
     console.error('Error in /api/getImages:', error)
-    return { success: false, message: 'Failed to fetch images', details: (error as Error).message }
+    return { success: false, message: 'Failed to fetch images', details: error.message }
   }
 })
