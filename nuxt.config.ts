@@ -72,6 +72,7 @@ export default defineNuxtConfig({
     prerender: {
       routes: ['/'],
       crawlLinks: true,
+      ignore: ['/api/**'],
     },
     experimental: {
       websocket: true,
@@ -83,6 +84,7 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
   routeRules: {
+    'kegiatan/**': { isr: true },
     '/api/**': { cors: true },
   },
   runtimeConfig: {

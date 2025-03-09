@@ -49,10 +49,26 @@ watch(error, (err) => {
     images.value = [] // Set default value jika terjadi error
   }
 })
+
+// ini alternatif
+async function fetchImages(tag: string) {
+  const { data } = await useFetch(`/api/getImagesByTag?tag=${tag}`)
+  // Handle the response data here
+  return data.value
+}
+
+const getImages2 = await fetchImages('fasilitas')
 </script>
 
 <template>
   <UContainer class="p-6">
+    <UCard>
+      ini dari getimages 2
+      <pre>
+
+      {{ getImages2 }}
+    </pre>
+    </UCard>
     <div class="py-8 max-w-3xl mx-auto">
       <h1 data-aos="fade-up" class="text-2xl text-center md:text-5xl text-balance font-bold">
         {{ title }}
