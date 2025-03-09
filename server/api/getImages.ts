@@ -1,23 +1,27 @@
 /* eslint-disable no-console */
-/* eslint-disable node/prefer-global/process */
+
 import cloudinary from 'cloudinary'
 import { defineEventHandler, readBody } from 'h3'
 
-cloudinary.v2.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME as string,
-  api_key: process.env.CLOUDINARY_API_KEY as string,
-  api_secret: process.env.CLOUDINARY_API_SECRET as string,
-  secure: true,
-})
-
 export default defineEventHandler(async (event) => {
+  const config = useRuntimeConfig()
+
+  // Konfigurasi Cloudinary menggunakan runtime config
+  cloudinary.v2.config({
+    cloud_name: config.cloudinaryCloudName,
+    api_key: config.cloudinaryApiKey,
+    api_secret: config.cloudinaryApiSecret,
+    secure: true,
+  })
+
   try {
     // Validasi environment variables
-    if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+    if (!config.cloudinaryCloudName || !config.cloudinaryApiKey || !config.cloudinaryApiSecret) {
       console.error('Missing Cloudinary configuration')
       throw new Error('Cloudinary configuration is missing')
     }
 
+    // Ambil body dari request
     const { tag } = await readBody(event)
     console.log('Tag received:', tag)
 
@@ -26,6 +30,7 @@ export default defineEventHandler(async (event) => {
       throw new Error('Tag is required')
     }
 
+    // Panggil API Cloudinary
     const result = await cloudinary.v2.api.resources_by_tag(tag)
     console.log('Cloudinary response:', result)
 
