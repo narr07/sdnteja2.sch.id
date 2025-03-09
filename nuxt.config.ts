@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/image',
     'nuxt-aos',
+    '@nuxtjs/cloudinary',
   ],
   experimental: {
     componentIslands: true,
@@ -20,6 +21,10 @@ export default defineNuxtConfig({
     description: 'Website resmi SDN Teja II, Kecamatan Rajagaluh, Kabupaten Majalengka, Jawa Barat',
     defaultLocale: 'id', // not needed if you have @nuxtjs/i18n installed
     themeColor: '#F22727',
+  },
+  cloudinary: {
+    cloudName: 'dyy24w5kl', // Ganti dengan nama cloud Anda
+    apiKey: process.env.CLOUDINARY_API_KEY, // Ganti dengan API key Anda
   },
   css: ['~/assets/css/main.css'],
   colorMode: {
@@ -99,10 +104,10 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     // Variabel yang hanya tersedia di server-side
-    cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
-    cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
     cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
     public: {
+      cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
+      cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
       // Variabel public yang dapat diakses dari client-side
       apiBase: '/api', // Contoh variabel public
     },
