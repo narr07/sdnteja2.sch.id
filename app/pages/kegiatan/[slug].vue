@@ -77,18 +77,39 @@ watch(tagOrFolder, async (newTag) => {
   images2.value = await fetchImages(newTag as string)
 })
 
+const images3 = ref<Image[]>([]) // State reaktif untuk menyimpan hasil fetch
+const dynamicTag = computed(() => route.query.tag || 'default-tag') // Nilai dinamis untuk tag
+
+// Fungsi untuk fetch data gambar
 async function fetchImages3(tag: string): Promise<Image[]> {
-  const { data } = await useFetch<ApiResponse>(`/api/getImagesByTag?tag=${tag}`)
+  const { data, error } = await useFetch<ApiResponse>(`/api/getImagesByTag?tag=${tag}`)
+
+  if (error.value) {
+    console.error('Error fetching images3:', error.value)
+    return []
+  }
+
+  console.log('Data fetched for images3:', data.value) // Tambahkan log untuk debugging
+
   if (data.value?.resources) {
     return data.value.resources.map(resource => ({
       public_id: resource.public_id,
-      secure_url: resource.secure_url.replace('http://', 'https://'),
+      secure_url: resource.secure_url.replace('http://', 'https://'), // Pastikan HTTPS digunakan
     }))
   }
+
   return []
 }
 
-const images3 = ref<Image[]>(await fetchImages3('kegiatan'))
+// Fetch data gambar berdasarkan tag dinamis
+fetchImages3(dynamicTag.value as string).then((result) => {
+  images3.value = result // Simpan hasil ke state reaktif
+})
+
+// Re-fetch data saat tag berubah
+watch(dynamicTag, async (newTag) => {
+  images3.value = await fetchImages3(newTag as string)
+})
 </script>
 
 <template>
@@ -102,8 +123,9 @@ const images3 = ref<Image[]>(await fetchImages3('kegiatan'))
     <div>
       <div>
         <h2 class="font-bold text-lg">
-          Hasil Fetch dengan images2
+          Hasil Fetch dengan images3
         </h2>
+        <pre>{{ images3 }}</pre> <!-- Log isi dari images3 -->
         <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
           <div v-for="image in images3" :key="image.public_id" class="relative">
             <NuxtImg
