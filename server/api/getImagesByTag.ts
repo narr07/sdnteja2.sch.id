@@ -1,3 +1,4 @@
+// server/api/getImagesByTag.ts
 /* eslint-disable node/prefer-global/process */
 import { v2 as cloudinary } from 'cloudinary'
 import { defineEventHandler } from 'h3'
