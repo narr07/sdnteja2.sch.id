@@ -1,3 +1,4 @@
+<!-- eslint-disable no-console -->
 <script setup lang="ts">
 interface Image {
   public_id: string
@@ -11,49 +12,75 @@ interface ApiResponse {
 }
 
 const img = useImage()
+const images = ref<Image[]>([])
+
+// Ambil query parameter dari URL
 const route = useRoute()
-const tagOrFolder = computed(() => route.query.tag || 'default-tag')
+const tagOrFolder = computed(() => route.query.tag || 'default-tag') // Key unik berdasarkan tag
 const title = computed(() => route.query.title || 'default-title')
 
-// Fetch data menggunakan GET request dengan query parameter
-const { data, status, error } = useLazyFetch<ApiResponse>('/api/getImages', {
-  method: 'GET',
-  query: { tag: tagOrFolder.value },
-  key: `get-images-${tagOrFolder.value}`,
+// Fetch data dengan caching
+const { status, data, error, refresh } = useLazyFetch<ApiResponse>('/api/getImages', {
+  method: 'POST',
+  body: { tag: tagOrFolder.value },
+  key: `get-images-${tagOrFolder.value}`, // Key unik untuk caching
 })
 
-// Images computed property
-const images = computed(() => data.value?.resources || [])
+// Perbarui images saat data berubah
+watch(data, (newValue) => {
+  console.log('API Response:', newValue)
 
-// Error handling
+  if (newValue?.success && Array.isArray(newValue.resources)) {
+    images.value = newValue.resources.map(resource => ({
+      public_id: resource.public_id,
+      secure_url: resource.secure_url,
+    }))
+  }
+  else {
+    console.error('No resources found or API failed:', newValue?.message)
+    images.value = [] // Set default jika tidak ada resources
+  }
+})
+
+// Tangani error jika ada
 watch(error, (err) => {
-  if (err)
+  if (err) {
     console.error('Error fetching images:', err)
+    images.value = [] // Set default value jika terjadi error
+  }
 })
 </script>
 
 <template>
   <UContainer class="p-6">
     <div class="py-8 max-w-3xl mx-auto">
-      <h1 data-aos="fade-up" class="text-2xl text-center md:text-5xl font-bold">
+      <h1 data-aos="fade-up" class="text-2xl text-center md:text-5xl text-balance font-bold">
         {{ title }}
       </h1>
     </div>
 
-    <!-- Refresh Button -->
+    <!-- Tombol untuk Refresh -->
+    <div class="text-center mb-4">
+      <UButton class="btn btn-primary" @click="() => refresh()">
+        Refresh Data
+      </UButton>
+    </div>
 
     <!-- Loading State -->
     <div v-if="status === 'pending'">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <USkeleton v-for="n in 3" :key="n" class="w-full h-[200px] rounded-lg bg-red-50/50 dark:bg-red-700/50" />
+        <USkeleton
+          v-for="n in 3" :key="n"
+          class="w-full h-[200px] rounded-lg bg-red-50/50 dark:bg-red-700/50"
+        />
       </div>
       <div class="animate-pulse text-2xl py-16 text-center">
         Loading ...
       </div>
     </div>
 
-    <!-- Display Images -->
-    <div v-if="images.length > 0">
+    <!-- Tampilkan Gambar -->
+    <div v-else>
       <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
         <div v-for="image in images" :key="image.public_id" class="relative">
           <NuxtImg
