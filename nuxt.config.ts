@@ -77,6 +77,15 @@ export default defineNuxtConfig({
     experimental: {
       websocket: true,
     },
+    cloudflare: {
+      pages: {
+        routes: {
+          exclude: [
+            '/kegiatan/*',
+          ],
+        },
+      },
+    },
   },
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
