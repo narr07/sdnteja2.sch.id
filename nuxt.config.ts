@@ -72,7 +72,7 @@ export default defineNuxtConfig({
     prerender: {
       routes: ['/'],
       crawlLinks: true,
-      ignore: ['/api/**'],
+      ignore: ['/api/**', '/kegiatan/**'],
     },
     experimental: {
       websocket: true,
@@ -84,8 +84,9 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
   routeRules: {
-    'kegiatan/**': { isr: true },
+    'kegiatan/**': { swr: true },
     '/api/**': { cors: true },
+
   },
   runtimeConfig: {
     // Variabel yang hanya tersedia di server-side
