@@ -1,4 +1,4 @@
-<!-- eslint-disable no-console -->
+<!-- app/pages/kegiatan/[slug].vue -->
 <script setup lang="ts">
 interface Image {
   public_id: string
@@ -13,59 +13,52 @@ interface ApiResponse {
 
 const img = useImage()
 const route = useRoute()
-const tagOrFolder = computed(() => route.query.tag || 'default-tag') // Key unik berdasarkan tag
+const tagOrFolder = computed(() => route.query.tag || 'default-tag')
 const title = computed(() => route.query.title || 'default-title')
 
-// Fetch data dengan lazy loading
-const { data, pending, error, refresh, execute } = useLazyFetch<ApiResponse>('/api/getImages', {
-  method: 'POST',
-  body: { tag: tagOrFolder.value },
-  key: `get-images-${tagOrFolder.value}`, // Key unik untuk caching
+// Gunakan GET request dengan query parameter
+const { data, pending, error, refresh } = await useLazyFetch<ApiResponse>('/api/getImages', {
+  method: 'GET',
+  query: { tag: tagOrFolder.value },
+  key: `get-images-${tagOrFolder.value}`,
 })
 
-// Jalankan fetch pertama kali
-execute()
-
-// Tampilkan images menggunakan computed property
+// Images computed property
 const images = computed(() => data.value?.resources || [])
 
-// Tangani error jika ada
+// Error handling
 watch(error, (err) => {
-  if (err) {
+  if (err)
     console.error('Error fetching images:', err)
-  }
 })
 </script>
 
 <template>
   <UContainer class="p-6">
     <div class="py-8 max-w-3xl mx-auto">
-      <h1 data-aos="fade-up" class="text-2xl text-center md:text-5xl text-balance font-bold">
+      <h1 data-aos="fade-up" class="text-2xl text-center md:text-5xl font-bold">
         {{ title }}
       </h1>
     </div>
 
-    <!-- Tombol untuk Refresh -->
+    <!-- Refresh Button -->
     <div class="text-center mb-4">
-      <button class="btn btn-primary" @click="() => refresh()">
+      <UButton class="btn btn-primary" @click="() => refresh()">
         Refresh Data
-      </button>
+      </UButton>
     </div>
 
     <!-- Loading State -->
     <div v-if="pending">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        <USkeleton
-          v-for="n in 3" :key="n"
-          class="w-full h-[200px] rounded-lg bg-red-50/50 dark:bg-red-700/50"
-        />
+        <USkeleton v-for="n in 3" :key="n" class="w-full h-[200px] rounded-lg bg-red-50/50 dark:bg-red-700/50" />
       </div>
       <div class="animate-pulse text-2xl py-16 text-center">
         Loading ...
       </div>
     </div>
 
-    <!-- Tampilkan Gambar -->
+    <!-- Display Images -->
     <div v-else>
       <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
         <div v-for="image in images" :key="image.public_id" class="relative">

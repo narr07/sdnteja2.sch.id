@@ -1,7 +1,8 @@
-/* eslint-disable no-console */
 /* eslint-disable node/prefer-global/process */
+/* eslint-disable no-console */
+// server/api/getImages.get.ts
 import cloudinary from 'cloudinary'
-import { defineEventHandler, readBody } from 'h3'
+import { createError, defineEventHandler, getQuery } from 'h3'
 
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME as string,
@@ -12,16 +13,11 @@ cloudinary.v2.config({
 
 export default defineEventHandler(async (event) => {
   try {
-    // Validasi environment variables
-    if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
-      throw new Error('Cloudinary configuration is missing')
-    }
-
-    const { tag } = await readBody(event)
+    const { tag } = getQuery(event)
     console.log('Tag received:', tag)
 
-    if (!tag) {
-      throw new Error('Tag is required')
+    if (!tag || typeof tag !== 'string') {
+      throw createError({ statusCode: 400, statusMessage: 'Tag is required' })
     }
 
     const result = await cloudinary.v2.api.resources_by_tag(tag)
@@ -30,7 +26,7 @@ export default defineEventHandler(async (event) => {
     return { success: true, resources: result.resources }
   }
   catch (error) {
-    console.error('Error in /api/getImages:', error)
-    return { success: false, message: 'Failed to fetch images', details: error.message }
+    console.error('Error fetching images:', error)
+    throw createError({ statusCode: 500, statusMessage: 'Internal Server Error' })
   }
 })
