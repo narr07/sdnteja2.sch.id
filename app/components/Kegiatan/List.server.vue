@@ -18,9 +18,18 @@ const img = useImage()
 <template>
   <div class="py-20">
     <UContainer>
-      <pre>
-      {{ images }}
-      </pre>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+        <div v-for="image in images" :key="image.asset_id" class="transition-transform duration-200 ease-in-out transform hover:scale-98">
+          <NuxtImg
+            :src="image.secure_url"
+            :alt="image.public_id"
+            loading="lazy"
+            width="500"
+            height="300"
+            class="rounded-3xl mb-4 aspect-video object-cover object-top h-[250px] w-[600px] transition-all duration-300 ease-in-out"
+          />
+        </div>
+      </div>
 
       <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         <div v-for="galeri in kegiatanSekolah" :key="galeri.title" class="transition-transform duration-200 ease-in-out transform hover:scale-98 ">
