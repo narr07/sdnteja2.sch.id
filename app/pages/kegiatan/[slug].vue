@@ -13,6 +13,7 @@ interface ApiResponse {
 
 const img = useImage()
 const images = ref<Image[]>([])
+const images2 = ref<Image[]>([]) // State reaktif untuk menyimpan hasil fetch
 
 // Ambil query parameter dari URL
 const route = useRoute()
@@ -50,20 +51,44 @@ watch(error, (err) => {
   }
 })
 
-async function fetchImages(tag: string) {
-  const { data } = await useFetch(`/api/getImagesByTag?tag=${tag}`)
-  // Handle the response data here
-  return data.value
+async function fetchImages(tag: string): Promise<Image[]> {
+  const { data, error } = await useFetch<ApiResponse>(`/api/getImagesByTag?tag=${tag}`)
+
+  if (error.value) {
+    console.error('Error fetching images:', error.value)
+    return []
+  }
+
+  return Array.isArray(data.value?.resources)
+    ? data.value.resources.map((resource: any) => ({
+        public_id: resource.public_id,
+        secure_url: resource.secure_url.replace('http://', 'https://'), // Pastikan HTTPS digunakan
+      }))
+    : []
 }
 
-const images2 = ref<Image[]>(await fetchImages(`${tagOrFolder.value}`).then(data =>
-  Array.isArray(data)
-    ? data.map((resource: any) => ({
-        public_id: resource.public_id,
-        secure_url: resource.secure_url.replace('http://', 'https://'),
-      }))
-    : []),
-)
+// Fetch data gambar pertama kali berdasarkan tag dinamis
+fetchImages(tagOrFolder.value as string).then((result) => {
+  images2.value = result
+})
+
+// Re-fetch data saat tag berubah
+watch(tagOrFolder, async (newTag) => {
+  images2.value = await fetchImages(newTag as string)
+})
+
+async function fetchImages3(tag: string): Promise<Image[]> {
+  const { data } = await useFetch<ApiResponse>(`/api/getImagesByTag?tag=${tag}`)
+  if (data.value?.resources) {
+    return data.value.resources.map(resource => ({
+      public_id: resource.public_id,
+      secure_url: resource.secure_url.replace('http://', 'https://'),
+    }))
+  }
+  return []
+}
+
+const images3 = ref<Image[]>(await fetchImages3('kegiatan'))
 </script>
 
 <template>
@@ -75,16 +100,36 @@ const images2 = ref<Image[]>(await fetchImages(`${tagOrFolder.value}`).then(data
     </div>
 
     <div>
-      ini dari image2
-      <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
-        <div v-for="image in images2" :key="image.public_id" class="relative">
-          <NuxtImg
-            :src="image.secure_url"
-            height="auto"
-            width="100%"
-            class="rounded-lg w-full h-auto"
-            :placeholder="img(`${image.secure_url}`, { h: 10, f: 'png', blur: 1, q: 50 })"
-          />
+      <div>
+        <h2 class="font-bold text-lg">
+          Hasil Fetch dengan images2
+        </h2>
+        <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
+          <div v-for="image in images3" :key="image.public_id" class="relative">
+            <NuxtImg
+              :src="image.secure_url"
+              height="auto"
+              width="100%"
+              class="rounded-lg w-full h-auto"
+              :placeholder="img(`${image.secure_url}`, { h: 10, f: 'png', blur: 1, q: 50 })"
+            />
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2 class="font-bold text-lg">
+          Hasil Fetch dengan images2
+        </h2>
+        <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
+          <div v-for="image in images2" :key="image.public_id" class="relative">
+            <NuxtImg
+              :src="image.secure_url"
+              height="auto"
+              width="100%"
+              class="rounded-lg w-full h-auto"
+              :placeholder="img(`${image.secure_url}`, { h: 10, f: 'png', blur: 1, q: 50 })"
+            />
+          </div>
         </div>
       </div>
 
