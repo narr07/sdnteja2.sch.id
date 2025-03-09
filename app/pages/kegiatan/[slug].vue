@@ -1,199 +1,65 @@
-<!-- eslint-disable no-console -->
-<script setup lang="ts">
-interface Image {
-  public_id: string
-  secure_url: string
-}
-
-interface ApiResponse {
-  success: boolean
-  resources?: Image[]
-  message?: string
-}
-
-const img = useImage()
-const images = ref<Image[]>([])
-const images2 = ref<Image[]>([]) // State reaktif untuk menyimpan hasil fetch
-
-// Ambil query parameter dari URL
+<script lang="ts" setup>
 const route = useRoute()
-const tagOrFolder = computed(() => route.query.tag || 'default-tag') // Key unik berdasarkan tag
-const title = computed(() => route.query.title || 'default-title')
 
-// Fetch data dengan caching
-const { status, data, error, refresh } = useLazyFetch<ApiResponse>('/api/getImages', {
-  method: 'POST',
-  body: { tag: tagOrFolder.value },
-  key: `get-images-${tagOrFolder.value}`, // Key unik untuk caching
+const { data: kegiatanPage } = await useAsyncData(`kegiatan-${route.path}`, () => {
+  return queryCollection('kegiatan').path(route.path).first()
 })
 
-// Perbarui images saat data berubah
-watch(data, (newValue) => {
-  console.log('API Response:', newValue)
-
-  if (newValue?.success && Array.isArray(newValue.resources)) {
-    images.value = newValue.resources.map(resource => ({
-      public_id: resource.public_id,
-      secure_url: resource.secure_url.replace('http://', 'https://'),
-    }))
-  }
-  else {
-    console.error('No resources found or API failed:', newValue?.message)
-    images.value = [] // Set default jika tidak ada resources
-  }
+defineOgImageComponent('OgImage', {
+  title: kegiatanPage?.value?.title,
+  description: kegiatanPage?.value?.description,
 })
 
-// Tangani error jika ada
-watch(error, (err) => {
-  if (err) {
-    console.error('Error fetching images:', err)
-    images.value = [] // Set default value jika terjadi error
-  }
-})
-
-async function fetchImages(tag: string): Promise<Image[]> {
-  const { data, error } = await useFetch<ApiResponse>(`/api/getImagesByTag?tag=${tag}`)
-
-  if (error.value) {
-    console.error('Error fetching images:', error.value)
-    return []
-  }
-
-  return Array.isArray(data.value?.resources)
-    ? data.value.resources.map((resource: any) => ({
-        public_id: resource.public_id,
-        secure_url: resource.secure_url.replace('http://', 'https://'), // Pastikan HTTPS digunakan
-      }))
-    : []
+async function fetchCldImages(tag: string) {
+  const { data } = await useFetch(`/api/getImagesByTag?tag=${tag}`)
+  // Handle the response data here
+  return data.value
 }
 
-// Fetch data gambar pertama kali berdasarkan tag dinamis
-fetchImages(tagOrFolder.value as string).then((result) => {
-  images2.value = result
-})
-
-// Re-fetch data saat tag berubah
-watch(tagOrFolder, async (newTag) => {
-  images2.value = await fetchImages(newTag as string)
-})
-
-const images3 = ref<Image[]>([]) // State reaktif untuk menyimpan hasil fetch
-const dynamicTag = computed(() => route.query.tag || 'default-tag') // Nilai dinamis untuk tag
-
-// Fungsi untuk fetch data gambar
-async function fetchImages3(tag: string): Promise<Image[]> {
-  const { data, error } = await useFetch<ApiResponse>(`/api/getImagesByTag?tag=${tag}`)
-
-  if (error.value) {
-    console.error('Error fetching images3:', error.value)
-    return []
-  }
-
-  console.log('Data fetched for images3:', data.value) // Tambahkan log untuk debugging
-
-  if (data.value?.resources) {
-    return data.value.resources.map(resource => ({
-      public_id: resource.public_id,
-      secure_url: resource.secure_url.replace('http://', 'https://'), // Pastikan HTTPS digunakan
-    }))
-  }
-
-  return []
-}
-
-// Fetch data gambar berdasarkan tag dinamis
-fetchImages3(dynamicTag.value as string).then((result) => {
-  images3.value = result // Simpan hasil ke state reaktif
-})
-
-// Re-fetch data saat tag berubah
-watch(dynamicTag, async (newTag) => {
-  images3.value = await fetchImages3(newTag as string)
-})
+const cldImages = await fetchCldImages(`${kegiatanPage?.value?.tag}`)
+const img = useImage()
 </script>
 
 <template>
-  <UContainer class="p-6">
-    <div class="py-8 max-w-3xl mx-auto">
-      <h1 data-aos="fade-up" class="text-2xl text-center md:text-5xl text-balance font-bold">
-        {{ title }}
-      </h1>
-    </div>
-
-    <div>
-      <div>
-        <h2 class="font-bold text-lg">
-          Hasil Fetch dengan images3
-        </h2>
-        <pre>{{ images3 }}</pre> <!-- Log isi dari images3 -->
-        <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
-          <div v-for="image in images3" :key="image.public_id" class="relative">
-            <NuxtImg
-              :src="image.secure_url"
-              height="auto"
-              width="100%"
-              class="rounded-lg w-full h-auto"
-              :placeholder="img(`${image.secure_url}`, { h: 10, f: 'png', blur: 1, q: 50 })"
-            />
-          </div>
-        </div>
-      </div>
-      <div>
-        <h2 class="font-bold text-lg">
-          Hasil Fetch dengan images2
-        </h2>
-        <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
-          <div v-for="image in images2" :key="image.public_id" class="relative">
-            <NuxtImg
-              :src="image.secure_url"
-              height="auto"
-              width="100%"
-              class="rounded-lg w-full h-auto"
-              :placeholder="img(`${image.secure_url}`, { h: 10, f: 'png', blur: 1, q: 50 })"
-            />
-          </div>
-        </div>
-      </div>
-
-      <!-- Tombol untuk Refresh -->
-      <div class="text-center mb-4">
-        <UButton class="btn btn-primary" @click="() => refresh()">
-          Refresh Data
-        </UButton>
-      </div>
-
-      <!-- Loading State -->
-      <div v-if="status === 'pending'">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <USkeleton
-            v-for="n in 3" :key="n"
-            class="w-full h-[200px] rounded-lg bg-red-50/50 dark:bg-red-700/50"
+  <div>
+    <UContainer>
+      <!-- Bento Grid Layout -->
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+        <div v-for="image in cldImages" :key="image.asset_id" class="transition-transform duration-200 ease-in-out transform hover:scale-98">
+          <NuxtImg
+            :src="image.secure_url"
+            :alt="image.public_id"
+            loading="lazy"
+            width="500"
+            height="300"
+            class="rounded-3xl mb-4 aspect-video object-cover object-top h-[250px] w-[600px] transition-all duration-300 ease-in-out"
           />
         </div>
-        <div class="animate-pulse text-2xl py-16 text-center">
-          Loading ...
-        </div>
       </div>
-
-      <!-- Tampilkan Gambar -->
-      <div v-else>
-        <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
-          <div v-for="image in images" :key="image.public_id" class="relative">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <!-- Main Profile Card -->
+        <UCard
+          data-aos="fade-up"
+          variant="soft"
+          class="rounded-3xl bg-night-50 shadow-teja dark:bg-night-900 md:col-span-1 row-span-2"
+        >
+          <div class="flex flex-col items-center justify-center p-4">
             <NuxtImg
-              :src="image.secure_url"
-              height="auto"
-              width="100%"
-              class="rounded-lg w-full h-auto"
-              :placeholder="img(`${image.secure_url}`, { h: 10, f: 'png', blur: 1, q: 50 })"
+              :src="kegiatanPage?.cover"
+              :alt="kegiatanPage?.title"
+              :title="kegiatanPage?.title"
+              loading="lazy"
+              height="400"
+              width="300"
+              :placeholder="img(`${kegiatanPage?.title}`, { h: 10, f: 'png', blur: 2, q: 50 })"
+              class="rounded-lg mb-4 h-full w-auto shadow-md bg-cover bg-center object-cover "
             />
+            <h2 class="text-lg md:text-xl font-bold mt-2">
+              {{ kegiatanPage?.title }}
+            </h2>
           </div>
-        </div>
+        </UCard>
       </div>
-
-      <!-- Error Handling -->
-      <div v-if="error" class="text-red-500 text-center">
-        Error fetching images: {{ error.message }}
-      </div>
-    </div>
-  </UContainer>
+    </UContainer>
+  </div>
 </template>
