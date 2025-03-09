@@ -25,7 +25,7 @@ async function fetchCldImages(tag: string): Promise<CloudinaryImage[]> {
   try {
     const { data } = await useFetch(`/api/cldimage/${tag}`)
     if (data.value && Array.isArray(data.value)) {
-      return data.value as CloudinaryImage[] // Pastikan respons berupa array gambar
+      return data.value as unknown as CloudinaryImage[] // Pastikan respons berupa array gambar
     }
     console.warn(`No images found for tag: ${tag}`)
     return []

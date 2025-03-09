@@ -105,9 +105,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Variabel yang hanya tersedia di server-side
     cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
+    cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
     public: {
-      cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
-      cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
       // Variabel public yang dapat diakses dari client-side
       apiBase: '/api', // Contoh variabel public
     },

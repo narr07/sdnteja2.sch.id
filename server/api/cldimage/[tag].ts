@@ -3,7 +3,7 @@ import { defineEventHandler, getRouterParam } from 'h3'
 
 export default defineEventHandler(async (event) => {
   // Ambil parameter `tag` dari URL
-  const tag = getRouterParam(event, 'tag')
+  const tag = getRouterParam(event, 'tag') as string
   const config = useRuntimeConfig()
 
   // Konfigurasi Cloudinary
