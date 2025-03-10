@@ -17,10 +17,18 @@
     "@nuxthub/core": "0.8.17",
     "drizzle-orm": "^0.40.0",
     "nuxt": "^3.15.4",
+    "unenv": "^1.10.0",
     "vue": "latest",
     "vue-router": "latest",
     "wrangler": "^3.101.0"
   },
+  "onlyBuiltDependencies": [
+    "@parcel/watcher",
+    "@sentry/cli",
+    "better-sqlite3",
+    "esbuild",
+    "sharp"
+  ],
   "devDependencies": {
     "@antfu/eslint-config": "^4.3.0",
     "@nuxt/eslint": "^1.1.0",
@@ -32,12 +40,5 @@
     "eslint-plugin-format": "^1.0.1",
     "eslint-plugin-tailwindcss": "^3.18.0",
     "nuxt-aos": "^1.2.5"
-  },
-  "onlyBuiltDependencies": [
-    "@parcel/watcher",
-    "@sentry/cli",
-    "better-sqlite3",
-    "esbuild",
-    "sharp"
-  ]
+  }
 }
