@@ -23,8 +23,9 @@ export default defineNuxtConfig({
     themeColor: '#F22727',
   },
   cloudinary: {
-    cloudName: 'dyy24w5kl', // Ganti dengan nama cloud Anda
+    cloudName: process.env.CLOUDINARY_CLOUD_NAME, // Ganti dengan nama cloud Anda
     apiKey: process.env.CLOUDINARY_API_KEY, // Ganti dengan API key Anda
+
   },
   css: ['~/assets/css/main.css'],
   colorMode: {
@@ -33,6 +34,9 @@ export default defineNuxtConfig({
   },
   hub: {
     database: true,
+    bindings: {
+      compatibilityFlags: ['nodejs_compat_v2'],
+    },
   },
   content: {
     preview: {
@@ -77,16 +81,17 @@ export default defineNuxtConfig({
     prerender: {
       routes: ['/'],
       crawlLinks: true,
-      ignore: ['/api/**', '/kegiatan/**'],
+      // ignore: ['/api/**', '/kegiatan/**'],
     },
     experimental: {
       websocket: true,
+      // openAPI: true,
     },
     cloudflare: {
       pages: {
         routes: {
           exclude: [
-            '/kegiatan/*',
+            'kegiatan/*',
           ],
         },
       },
@@ -99,14 +104,20 @@ export default defineNuxtConfig({
   },
   routeRules: {
     'kegiatan/**': { swr: true },
-    '/api/**': { cors: true },
+    '/api/**': {
+      cors: true,
+      headers: {
+        'Access-Control-Allow-Methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        'Access-Control-Allow-Origin': '*',
+      },
+    },
 
   },
   runtimeConfig: {
     // Variabel yang hanya tersedia di server-side
-    cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
     cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
     cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+    cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
     public: {
       // Variabel public yang dapat diakses dari client-side
       apiBase: '/api', // Contoh variabel public

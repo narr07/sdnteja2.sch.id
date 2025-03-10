@@ -13,8 +13,8 @@ interface CloudinaryImage {
 
 // Ambil data halaman berdasarkan route
 const route = useRoute()
-const { data: kegiatanPage } = await useAsyncData(`kegiatan-${route.path}`, () => {
-  return queryCollection('kegiatan').path(route.path).first()
+const { data: kegiatanPage } = await useAsyncData(`kegiatan-${route.path}`, async () => {
+  return await queryCollection('kegiatan').path(route.path).first()
 })
 
 // Variabel untuk menyimpan gambar dari Cloudinary
@@ -46,11 +46,33 @@ watch(
   },
   { immediate: true }, // Jalankan langsung saat komponen di-mount
 )
+async function fetchCldImages2(tag: string) {
+  const { data } = await useFetch(`/api/getImagesByTag?tag=${tag}`)
+  // Handle the response data here
+  return data.value
+}
+
+const cldImages2 = await fetchCldImages2(`${kegiatanPage?.value?.tag}`)
 </script>
 
 <template>
   <div>
     <UContainer>
+      <div>
+        ini dari api
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+          <div v-for="image in cldImages2" :key="image.asset_id" class="transition-transform duration-200 ease-in-out transform hover:scale-98">
+            <NuxtImg
+              :src="image.secure_url"
+              :alt="image.public_id"
+              loading="lazy"
+              width="500"
+              height="300"
+              class="rounded-3xl mb-4 aspect-video object-cover object-top h-[250px] w-[600px] transition-all duration-300 ease-in-out"
+            />
+          </div>
+        </div>
+      </div>
       <!-- Tampilkan grid gambar jika ada data -->
       <div v-if="cldImages.length" class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         <div
