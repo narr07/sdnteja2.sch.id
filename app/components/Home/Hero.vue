@@ -56,7 +56,13 @@ defineProps({
     </div>
     <div class="flex-2">
       <div data-aos="fade-up" variant="soft" class="var rounded-4xl aspect-video">
-        <NuxtImg :src="image" alt="Cover Image" class="w-full h-full object-cover aspect-video rounded-4xl" />
+        <NuxtImg
+          format="webp"
+          quality="70"
+          loading="lazy"
+          title="Hero"
+          :src="image" alt="Hero" class="w-full h-full object-cover aspect-video rounded-4xl"
+        />
       </div>
     </div>
   </UContainer>

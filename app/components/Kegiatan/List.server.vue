@@ -15,14 +15,14 @@ const img = useImage()
         <div v-for="galeri in kegiatanSekolah" :key="galeri.title" class="transition-transform duration-200 ease-in-out transform hover:scale-98 ">
           <NuxtLink data-aos="fade-up" :to=" galeri.path " class="shadow-2xl rounded-3xl overflow-hidden">
             <NuxtImg
-
+              format="webp"
+              quality="50"
+              height="300px"
+              width="500"
               :title="galeri.title"
               :alt="galeri.title"
               loading="lazy"
               :src="galeri.cover"
-
-              width="500"
-              height="300"
               :placeholder="img(`${galeri.cover}`, { h: 10, f: 'png', blur: 2, q: 50 })"
               class="rounded-3xl mb-4 aspect-video object-cover object-top h-[250px] w-[600px]  transition-all duration-300 ease-in-out"
             />

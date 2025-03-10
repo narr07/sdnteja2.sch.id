@@ -40,7 +40,12 @@ defineProps({
               <footer class="mt-6">
                 <div class="flex items-center">
                   <div class="md:hidden shrink-0">
-                    <NuxtImg class="size-12 rounded-full object-cover" :src="image" alt="Kepala Sekolah" />
+                    <NuxtImg
+                      format="webp"
+                      quality="70"
+                      title="Kepala Sekolah"
+                      class="size-12 rounded-full object-cover" :src="image" alt="Kepala Sekolah"
+                    />
                   </div>
                   <div class="ms-4 md:ms-0">
                     <div class="text-base font-semibold text-red-500">

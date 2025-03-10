@@ -51,7 +51,13 @@ const props = withDefaults(defineProps<{
       }"
     >
       <div class="relative">
-        <NuxtImg :src="item.image" height="500" width="auto" class="rounded-4xl object-cover object-center h-auto w-full aspect-video" />
+        <NuxtImg
+          :title="item.title"
+          :alt="item.title"
+          format="webp"
+          quality="70"
+          :src="item.image" height="500" width="auto" class="rounded-4xl object-cover object-center h-auto w-full aspect-video"
+        />
         <p v-if="item.title" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/80 dark:bg-night-800/80 px-3 py-1 rounded-md font-medium">
           {{ item.title }}
         </p>

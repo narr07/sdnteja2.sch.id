@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/image',
     'nuxt-aos',
+    'nuxt-booster',
   ],
 
   experimental: {
@@ -54,7 +55,9 @@ export default defineNuxtConfig({
     },
   },
   image: {
-
+    cloudinary: {
+      baseURL: 'https://res.cloudinary.com/dyy24w5kl/image/upload',
+    },
     format: ['webp'],
     domains: ['nuxtjs.org', 'res.cloudinary.com'],
     screens: {
@@ -74,13 +77,32 @@ export default defineNuxtConfig({
       },
     ],
   },
-  app: {
-    head: {
-      titleTemplate: '%s %separator %siteName',
-      templateParams: {
-        separator: '—', // choose a separator
-        siteName: 'SDN Teja II', // set a site name
+  booster: {
+    detection: {
+      performance: true,
+      browserSupport: true,
+      battery: true,
+    },
+
+    performanceMetrics: {
+      timing: {
+        fcp: 800,
+        dcl: 1200,
       },
+    },
+
+    optimizeSSR: {
+      cleanPreloads: true,
+      cleanPrefetches: true,
+      inlineStyles: true,
+    },
+
+    /**
+     * IntersectionObserver rootMargin for Compoennts and Assets
+     */
+    lazyOffset: {
+      component: '0%',
+      asset: '0%',
     },
   },
   nitro: {

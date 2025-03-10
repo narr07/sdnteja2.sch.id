@@ -21,7 +21,7 @@ function openFullscreen(image: string) {
   document.body.style.overflow = 'hidden' // Mencegah scroll pada body
 
   // Dapatkan indeks gambar yang sedang ditampilkan
-  currentImageIndex.value = kegiatanPage.value?.foto.findIndex(img => img === image) || 0
+  currentImageIndex.value = kegiatanPage.value?.foto.findIndex(img => img.src === image) || 0
 }
 
 // Fungsi untuk menutup gambar fullscreen
@@ -34,7 +34,7 @@ function closeFullscreen() {
 function navigatePrev() {
   if (currentImageIndex.value > 0) {
     currentImageIndex.value--
-    selectedImage.value = kegiatanPage.value?.foto[currentImageIndex.value] || ''
+    selectedImage.value = kegiatanPage.value?.foto[currentImageIndex.value]?.src || ''
   }
 }
 
@@ -42,9 +42,11 @@ function navigatePrev() {
 function navigateNext() {
   if (kegiatanPage.value?.foto && currentImageIndex.value < kegiatanPage.value.foto.length - 1) {
     currentImageIndex.value++
-    selectedImage.value = kegiatanPage.value?.foto[currentImageIndex.value] || ''
+    selectedImage.value = kegiatanPage.value?.foto[currentImageIndex.value]?.src || ''
   }
 }
+
+// Fungsi untuk mengunduh gambar
 
 // Computed properties untuk memeriksa apakah tombol navigasi harus dinonaktifkan
 const isPrevDisabled = computed(() => currentImageIndex.value <= 0)
@@ -69,18 +71,19 @@ defineOgImageComponent('OgImage', {
       </h1>
     </div>
     <div class="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
-      <div v-for="image in kegiatanPage?.foto" :key="image" class="relative">
+      <div v-for="image in kegiatanPage?.foto" :key="image.src" class="relative">
         <NuxtImg
           v-if="image"
-
-          :src="image"
+          format="webp"
+          :src="image.src"
           height="auto"
           width="100%"
+          quality="50"
           loading="lazy"
           :alt="kegiatanPage?.title"
           class="rounded-lg w-full h-auto cursor-zoom-in"
-          :placeholder="img(`${image}`, { h: 10, f: 'png', blur: 1, q: 50 })"
-          @click="openFullscreen(image)"
+          :placeholder="img(`${image.src}`, { h: 10, f: 'webp', blur: 1, q: 50 })"
+          @click="openFullscreen(image.src)"
         />
       </div>
     </div>
@@ -101,29 +104,30 @@ defineOgImageComponent('OgImage', {
         class="fixed inset-0 bg-night-900/90 z-50 flex items-center justify-center p-4"
         @click="closeFullscreen"
       >
-        <button
-          class="absolute top-4 right-4 z-50 text-white text-3xl focus:outline-none"
+        <UButton
+          class="absolute top-4 right-4 z-50  focus:outline-none"
+          size="lg"
+          icon="solar:close-square-linear"
           @click.stop="closeFullscreen"
-        >
-          &times;
-        </button>
-        <button
-          class="absolute left-4 z-50 text-white text-3xl focus:outline-none"
+        />
+        <UButton
+          class="absolute left-4 z-50 focus:outline-none"
           :disabled="isPrevDisabled"
+          size="lg"
+          icon="solar:arrow-left-linear"
           @click.stop="navigatePrev"
-        >
-          &larr;
-        </button>
-        <button
-          class="absolute right-4 z-50 text-white text-3xl focus:outline-none"
+        />
+        <UButton
+          class="absolute right-4 z-50 focus:outline-none"
           :disabled="isNextDisabled"
+          size="lg"
+          icon="solar:arrow-right-linear"
           @click.stop="navigateNext"
-        >
-          &rarr;
-        </button>
+        />
         <div class="relative max-h-screen cursor-zoom-out max-w-full w-full h-full" @click.stop="closeFullscreen">
           <NuxtImg
             v-if="selectedImage"
+            format="webp"
             :src="selectedImage"
             class="w-full h-full object-contain"
             :alt="kegiatanPage?.title"

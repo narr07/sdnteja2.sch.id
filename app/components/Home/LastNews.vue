@@ -42,6 +42,7 @@ const img = useImage()
                 <UCard data-aos="fade-up" variant="soft" class="bg-night-50 hover:shadow-none transition-shadow ease-in-out duration-300 shadow-teja dark:bg-night-950 h-full rounded-4xl overflow-hidden">
                   <div>
                     <NuxtImg
+                      format="webp" quality="50"
                       height="300px" width="500" :src="artikel.image.toString()" :alt="artikel.title" class="rounded-2xl object-cover object-center w-full h-[300px] bg-cover aspect-video"
                       :placeholder="img(`${artikel.image.toString()}`, { h: 10, f: 'png', blur: 1, q: 50 })"
                     />

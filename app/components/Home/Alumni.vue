@@ -65,7 +65,16 @@ const props = withDefaults(defineProps<{
           class="p-4"
         >
           <div class="flex flex-col items-center justify-center p-8">
-            <NuxtImg :src="item.foto" width="234" height="234" class="rounded-4xl mb-4" />
+            <NuxtImg
+              format="webp"
+              quality="70"
+              loading="lazy"
+              :alt="item.nama"
+              :title="item.nama"
+              :src="item.foto"
+              width="234"
+              height="234" class="rounded-4xl mb-4 shadow-lg"
+            />
             <h3 class="text-lg font-bold">
               {{ item.nama }}
             </h3>
