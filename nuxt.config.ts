@@ -1,4 +1,3 @@
-/* eslint-disable node/prefer-global/process */
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
@@ -9,7 +8,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/image',
     'nuxt-aos',
-    '@nuxtjs/cloudinary',
+
   ],
   experimental: {
     componentIslands: true,
@@ -22,11 +21,7 @@ export default defineNuxtConfig({
     defaultLocale: 'id', // not needed if you have @nuxtjs/i18n installed
     themeColor: '#F22727',
   },
-  cloudinary: {
-    cloudName: process.env.CLOUDINARY_CLOUD_NAME, // Ganti dengan nama cloud Anda
-    apiKey: process.env.CLOUDINARY_API_KEY, // Ganti dengan API key Anda
 
-  },
   css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'system', // default value of $colorMode.preference
@@ -52,9 +47,7 @@ export default defineNuxtConfig({
     },
   },
   image: {
-    cloudinary: {
-      baseURL: 'https://res.cloudinary.com/dyy24w5kl/image/upload',
-    },
+
     format: ['webp'],
     domains: ['nuxtjs.org', 'res.cloudinary.com'],
     screens: {
@@ -63,7 +56,6 @@ export default defineNuxtConfig({
       'md': 768,
       'lg': 1024,
       'xl': 1280,
-      'xxl': 1536,
       '2xl': 1536,
     },
   },
@@ -90,14 +82,5 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  runtimeConfig: {
-    // Variabel yang hanya tersedia di server-side
-    cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
-    cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
-    cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET,
-    public: {
-      // Variabel public yang dapat diakses dari client-side
-      apiBase: '/api', // Contoh variabel public
-    },
-  },
+
 })

@@ -13,7 +13,7 @@ const img = useImage()
     <UContainer>
       <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         <div v-for="galeri in kegiatanSekolah" :key="galeri.title" class="transition-transform duration-200 ease-in-out transform hover:scale-98 ">
-          <NuxtLink data-aos="fade-up" :to="{ path: galeri.path, query: { tag: galeri.tag, title: galeri.title } }" class="shadow-2xl rounded-3xl overflow-hidden">
+          <NuxtLink data-aos="fade-up" :to=" galeri.path " class="shadow-2xl rounded-3xl overflow-hidden">
             <NuxtImg
 
               :title="galeri.title"

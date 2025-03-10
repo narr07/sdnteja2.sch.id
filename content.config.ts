@@ -137,7 +137,7 @@ export const collections = {
       title: z.string(),
       description: z.string(),
       date: z.date(),
-      tag: z.string(),
+      foto: z.array(z.string().editor({ input: 'media' })),
       cover: z.string().editor({ input: 'media' }),
       seo: z.intersection(
         z.object({
