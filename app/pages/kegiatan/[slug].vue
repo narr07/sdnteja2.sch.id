@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-import { useAsyncData } from '#app'
-import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-
 // Definisikan tipe data untuk gambar Cloudinary
 interface CloudinaryImage {
   asset_id: string

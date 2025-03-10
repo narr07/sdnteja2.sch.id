@@ -34,9 +34,7 @@ export default defineNuxtConfig({
   },
   hub: {
     database: true,
-    bindings: {
-      compatibilityFlags: ['nodejs_compat_v2'],
-    },
+
   },
   content: {
     preview: {
@@ -85,33 +83,12 @@ export default defineNuxtConfig({
     },
     experimental: {
       websocket: true,
-      // openAPI: true,
-    },
-    cloudflare: {
-      pages: {
-        routes: {
-          exclude: [
-            'kegiatan/*',
-          ],
-        },
-      },
     },
   },
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   future: {
     compatibilityVersion: 4,
-  },
-  routeRules: {
-    'kegiatan/**': { swr: true },
-    '/api/**': {
-      cors: true,
-      headers: {
-        'Access-Control-Allow-Methods': 'GET',
-        'Access-Control-Allow-Origin': '*',
-      },
-    },
-
   },
   runtimeConfig: {
     // Variabel yang hanya tersedia di server-side
