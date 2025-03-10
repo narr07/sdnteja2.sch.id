@@ -19,38 +19,29 @@ const value = ref({})
 // Router untuk navigasi
 const router = useRouter()
 
-// Fungsi untuk mengambil data saat tombol ditekan
-async function fetchDataOnSearch() {
-  try {
-    const response = await queryCollectionSearchSections('search', {
-      ignoredTags: ['code'],
-    })
-    // Proses data yang diterima
-    searchResults.value = (response || []).map((item: any) => {
-      // Proses item sesuai kebutuhan
-      let type: 'artikel' | 'berita'
-      if (item.id?.includes('/artikel/')) {
-        type = 'artikel'
-      }
-      else if (item.id?.includes('/berita/')) {
-        type = 'berita'
-      }
-      else {
-        type = 'berita' // Default ke berita jika tidak cocok
-      }
-      return { ...item, type }
-    })
-  }
-  catch (error) {
-    console.error('Error fetching data:', error)
-  }
-}
+// Ambil data dari koleksi menggunakan useAsyncData
+const { data: dataSearch } = await useAsyncData('search', () => {
+  return queryCollectionSearchSections('search', {
+    ignoredTags: ['code'],
+  })
+})
 
-// Tombol pencarian
-function handleSearch() {
-  open.value = true // Buka modal
-  fetchDataOnSearch() // Panggil fungsi untuk mengambil data
-}
+// Perbarui hasil pencarian dengan menambahkan properti 'type'
+searchResults.value = (dataSearch.value || []).map((item: any) => {
+  let type: 'artikel' | 'berita'
+
+  if (item.id?.includes('/artikel/')) {
+    type = 'artikel'
+  }
+  else if (item.id?.includes('/berita/')) {
+    type = 'berita'
+  }
+  else {
+    type = 'berita' // Default ke berita jika tidak cocok
+  }
+
+  return { ...item, type }
+})
 
 // Fungsi untuk menangani pemilihan item
 function onSelect(item: any) {
@@ -65,7 +56,7 @@ const groups = computed(() => [
   {
     id: 'blog',
     label: searchTerm.value
-      ? `Hasil pencarian untuk “${searchTerm.value}”...`
+      ? `Hasil pencarian untuk "${searchTerm.value}"...`
       : 'Semua Konten',
     items: searchResults.value
       .filter(item =>
@@ -76,8 +67,8 @@ const groups = computed(() => [
         id: item.id,
         label: item.title,
         icon: item.type === 'artikel'
-          ? 'solar:document-add-linear' // Ikon untuk artikel
-          : 'solar:clipboard-linear', // Ikon untuk berita
+          ? 'i-lucide-file-text' // Ikon untuk artikel
+          : 'i-lucide-home', // Ikon untuk berita
         suffix: `${item.content.slice(0, 50)}...`,
         description: item.titles.join(' > '),
         to: `${item.id}`,
@@ -97,9 +88,9 @@ defineShortcuts({
   <!-- Tombol untuk membuka modal -->
   <UButton
     square
-    icon="solar:magnifer-linear"
+    icon="hugeicons:search-02"
     aria-label="Search"
-    @click="handleSearch"
+    @click="open = true"
   />
 
   <!-- Modal Command Palette -->
@@ -109,6 +100,7 @@ defineShortcuts({
       content: 'rounded-2xl max-w-4xl h-auto mx-2 mx-auto overflow-y-auto',
       overlay: 'fixed bg-(--ui-bg-elevated)/50  backdrop-blur',
     }"
+    close-icon="ph:x-square-duotone"
   >
     <template #content>
       <div class="flex justify-between mb-2">
@@ -130,11 +122,6 @@ defineShortcuts({
           @update:open="open = $event"
           @update:model-value="onSelect"
         />
-        <!-- <UButton
-          icon="i-heroicons-x-mark-20-solid"
-          variant="link"
-          @click="searchTerm = ''"
-        /> -->
       </div>
     </template>
   </UModal>

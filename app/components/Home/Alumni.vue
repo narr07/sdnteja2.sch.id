@@ -1,42 +1,46 @@
 <script setup lang="ts">
-const items = [
-  {
-    src: 'https://picsum.photos/468/468?random=1',
-    name: 'John Doe',
-    job: 'Software Engineer',
-    message: 'Congratulations on your graduation!',
-  },
-  {
-    src: 'https://picsum.photos/468/468?random=2',
-    name: 'Jane Smith',
-    job: 'Product Manager',
-    message: 'Wishing you all the best for your future!',
-  },
-  {
-    src: 'https://picsum.photos/468/468?random=3',
-    name: 'Alice Johnson',
-    job: 'UX Designer',
-    message: 'Keep up the great work!',
-  },
-  {
-    src: 'https://picsum.photos/468/468?random=4',
-    name: 'Bob Brown',
-    job: 'Data Scientist',
-    message: 'Proud of your achievements!',
-  },
-  {
-    src: 'https://picsum.photos/468/468?random=5',
-    name: 'Charlie Davis',
-    job: 'Marketing Specialist',
-    message: 'You did it!',
-  },
-  {
-    src: 'https://picsum.photos/468/468?random=6',
-    name: 'Diana Evans',
-    job: 'HR Manager',
-    message: 'Best of luck in your career!',
-  },
-]
+interface AlumniItem {
+  foto: string
+  nama?: string
+  job?: string
+}
+
+const props = withDefaults(defineProps<{
+  alumni: AlumniItem[]
+}>(), {
+  alumni: () => [
+    {
+      foto: 'https://picsum.photos/468/468?random=1',
+      nama: 'John Doe',
+      job: 'Software Engineer',
+    },
+    {
+      foto: 'https://picsum.photos/468/468?random=2',
+      nama: 'Jane Smith',
+      job: 'Product Manager',
+    },
+    {
+      foto: 'https://picsum.photos/468/468?random=3',
+      nama: 'Alice Johnson',
+      job: 'UX Designer',
+    },
+    {
+      foto: 'https://picsum.photos/468/468?random=4',
+      nama: 'Bob Brown',
+      job: 'Data Scientist',
+    },
+    {
+      foto: 'https://picsum.photos/468/468?random=5',
+      nama: 'Charlie Davis',
+      job: 'Marketing Specialist',
+    },
+    {
+      foto: 'https://picsum.photos/468/468?random=6',
+      nama: 'Diana Evans',
+      job: 'HR Manager',
+    },
+  ],
+})
 </script>
 
 <template>
@@ -50,29 +54,23 @@ const items = [
       <UCard data-aos="fade-up" variant="soft" class="rounded-4xl bg-night-50 shadow-teja dark:bg-night-900 md:py-8">
         <UCarousel
           v-slot="{ item }"
-
           arrows
-
           :ui="{
             controls: 'absolute bottom-1/2 inset-x-10',
             item: 'md:basis-1/3',
           }"
           loop
           wheel-gestures
-          :items="items"
-
+          :items="props.alumni"
           class="p-4"
         >
           <div class="flex flex-col items-center justify-center p-8">
-            <NuxtImg :src="item.src" width="234" height="234" class="rounded-lg mb-4" />
+            <NuxtImg :src="item.foto" width="234" height="234" class="rounded-4xl mb-4" />
             <h3 class="text-lg font-bold">
-              {{ item.name }}
+              {{ item.nama }}
             </h3>
             <p class="text-sm text-gray-500">
               {{ item.job }}
-            </p>
-            <p class="text-sm mt-2">
-              {{ item.message }}
             </p>
           </div>
         </UCarousel>

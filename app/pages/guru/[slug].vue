@@ -35,7 +35,7 @@ const img = useImage()
               loading="lazy"
               height="400"
               width="300"
-              :placeholder="img(`${guruPage?.foto}`, { h: 10, f: 'png', blur: 2, q: 50 })"
+              :placeholder="img(`${guruPage?.foto}`, { h: 10, w: 5, f: 'webp', blur: 2, q: 50 })"
               class="rounded-lg mb-4 h-full w-auto shadow-md bg-cover bg-center object-cover "
             />
             <h2 class="text-lg md:text-xl font-bold mt-2">
@@ -163,7 +163,6 @@ const img = useImage()
           class="px-4 py-2"
         />
       </div>
-      <pre>{{ guruPage }}</pre>
     </UContainer>
   </div>
 </template>

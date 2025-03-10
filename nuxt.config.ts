@@ -8,8 +8,8 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/image',
     'nuxt-aos',
-
   ],
+
   experimental: {
     componentIslands: true,
     viewTransition: true,
@@ -29,6 +29,10 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'system', // default value of $colorMode.preference
     fallback: 'light', // fallback value if not system preference found
+    storageKey: 'nuxt-color-mode', // key used to store the color mode preference
+    classSuffix: '',
+    classPrefix: '',
+    dataValue: 'light',
   },
   hub: {
     database: true,
@@ -69,6 +73,15 @@ export default defineNuxtConfig({
         dir: './app/assets/icons',
       },
     ],
+  },
+  app: {
+    head: {
+      titleTemplate: '%s %separator %siteName',
+      templateParams: {
+        separator: '—', // choose a separator
+        siteName: 'SDN Teja II', // set a site name
+      },
+    },
   },
   nitro: {
     prerender: {

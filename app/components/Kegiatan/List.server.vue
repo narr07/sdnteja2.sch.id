@@ -20,10 +20,11 @@ const img = useImage()
               :alt="galeri.title"
               loading="lazy"
               :src="galeri.cover"
-              width="300"
-              height="100"
+
+              width="500"
+              height="300"
               :placeholder="img(`${galeri.cover}`, { h: 10, f: 'png', blur: 2, q: 50 })"
-              class="rounded-3xl mb-4 aspect-video object-cover object-top h-[100px] w-[400px]  transition-all duration-300 ease-in-out"
+              class="rounded-3xl mb-4 aspect-video object-cover object-top h-[250px] w-[600px]  transition-all duration-300 ease-in-out"
             />
             <h2 class=" font-bold text-sm text-center">
               {{ galeri.title }}
