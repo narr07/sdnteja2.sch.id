@@ -41,8 +41,5 @@
     "eslint-plugin-format": "^1.0.1",
     "eslint-plugin-tailwindcss": "^3.18.0",
     "nuxt-aos": "^1.2.5"
-  },
-  "resolutions": {
-    "nuxt-component-meta": "https://pkg.pr.new/nuxt-component-meta@4f5fb93"
   }
 }

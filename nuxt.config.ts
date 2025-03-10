@@ -85,7 +85,7 @@ export default defineNuxtConfig({
     },
     experimental: {
       websocket: true,
-      openAPI: true,
+      // openAPI: true,
     },
     cloudflare: {
       pages: {
