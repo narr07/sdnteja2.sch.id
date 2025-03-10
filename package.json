@@ -14,13 +14,12 @@
   "dependencies": {
     "@nuxt/content": "3.2.2",
     "@nuxt/ui": "^3.0.0-beta.2",
-    "@nuxthub/core": "0.8.17",
+    "@nuxthub/core": "latest",
     "drizzle-orm": "^0.40.0",
     "nuxt": "latest",
-    "unenv": "^1.10.0",
     "vue": "latest",
     "vue-router": "latest",
-    "wrangler": "^3.101.0"
+    "wrangler": "latest"
   },
   "onlyBuiltDependencies": [
     "@parcel/watcher",

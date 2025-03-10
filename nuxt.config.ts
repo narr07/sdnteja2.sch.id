@@ -14,6 +14,9 @@ export default defineNuxtConfig({
     componentIslands: true,
     viewTransition: true,
   },
+  linkChecker: {
+    runOnBuild: false,
+  },
   site: {
     url: 'https://sdnteja2.sch.id/',
     name: 'SDN TEJA II',
