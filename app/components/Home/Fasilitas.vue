@@ -6,7 +6,7 @@ interface FasilitasItem {
 }
 
 const props = withDefaults(defineProps<{
-  fasilitas: FasilitasItem[]
+  fasilitas?: FasilitasItem[]
 }>(), {
   fasilitas: () => [
     {

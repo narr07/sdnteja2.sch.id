@@ -6,7 +6,7 @@ interface AlumniItem {
 }
 
 const props = withDefaults(defineProps<{
-  alumni: AlumniItem[]
+  alumni?: AlumniItem[]
 }>(), {
   alumni: () => [
     {

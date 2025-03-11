@@ -5,7 +5,7 @@ interface ReferensiItem {
 }
 
 const props = withDefaults(defineProps<{
-  referensi: ReferensiItem[]
+  referensi?: ReferensiItem[]
 }>(), {
   referensi: () => [
     {

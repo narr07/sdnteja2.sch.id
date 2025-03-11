@@ -11,7 +11,7 @@ defineProps({
   <UContainer class="flex flex-col lg:flex-row gap-4">
     <div class="flex-1 flex flex-col gap-4">
       <div class="flex-1">
-        <UCard data-aos="fade-up" variant="soft" class=" flex justify-evenly    flex-col h-full bg-red-500 dark:bg-night-700 text-white   rounded-4xl  ">
+        <UCard data-aos="fade-up" variant="soft" class=" flex justify-evenly    flex-col h-full bg-red-500 dark:bg-night-700 text-white  p-4 rounded-4xl  ">
           <div>
             <p class="pb-6 ">
               <slot name="subtitle">

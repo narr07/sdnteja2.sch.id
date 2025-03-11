@@ -42,7 +42,7 @@ const dropdownItems = computed(() => {
               <nav class="hidden md:flex">
                 <div v-if="data" class="flex flex-row items-center space-x-4">
                   <div v-for="item in data" :key="item.path">
-                    <NuxtLink :to="item.path" :class="{ 'active-link': isActive(item.path) }">
+                    <NuxtLink class="hover:text-red-500" :to="item.path" :class="{ 'active-link': isActive(item.path) }">
                       {{ item.title }}
                     </NuxtLink>
                   </div>
@@ -70,12 +70,6 @@ const dropdownItems = computed(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.active-link {
-  border-bottom: 2px solid red;
-}
-</style>
 
 <style scoped>
 .active-link {

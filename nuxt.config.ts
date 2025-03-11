@@ -26,7 +26,6 @@ export default defineNuxtConfig({
     themeColor: '#F22727',
   },
 
-  css: ['~/assets/css/main.css'],
   colorMode: {
     preference: 'system', // default value of $colorMode.preference
     fallback: 'light', // fallback value if not system preference found
@@ -55,6 +54,7 @@ export default defineNuxtConfig({
     },
   },
   image: {
+    provider: 'ipx',
     cloudinary: {
       baseURL: 'https://res.cloudinary.com/dyy24w5kl/image/upload',
     },
@@ -115,6 +115,7 @@ export default defineNuxtConfig({
       websocket: true,
     },
   },
+  css: ['~/assets/css/main.css'],
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   future: {

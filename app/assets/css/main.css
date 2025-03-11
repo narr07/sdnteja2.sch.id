@@ -6,7 +6,6 @@
 @import 'tailwindcss/preflight' layer(base);
 @import 'tailwindcss/utilities' layer(utilities);
 
-
 /* Then import "@nuxt/ui": */
 @import '@nuxt/ui';
 
@@ -14,10 +13,8 @@
   @apply text-5xl text-center md:text-6xl font-bold;
 }
 
-
 @theme static {
   --font-sans: 'Rubik', sans-serif;
-
   --shadow-teja: 0px 1px 10px 0px rgba(0, 0, 0, 0.05);
 
   --breakpoint-3xl: 1920px;
@@ -58,7 +55,6 @@
 }
 
 body {
-  @apply bg-night-100 dark:bg-night-950;
+  @apply bg-night-100 font-sans dark:bg-night-950;
 }
-
 
