@@ -20,6 +20,7 @@ export default withNuxt(
     rules: {
       'style/no-tabs': 'off',
       'style/no-mixed-spaces-and-tabs': 'off',
+      'vue/component-name-in-template-casing': 'off',
     },
   },
 

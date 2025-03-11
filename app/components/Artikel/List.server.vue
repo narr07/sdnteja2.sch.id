@@ -45,7 +45,7 @@ const img = useImage()
                 <NuxtImg
                   format="webp"
                   quality="50"
-                  height="300px"
+                  height="300"
                   width="500"
                   :src="artikel.image.toString()"
                   :alt="artikel.title"

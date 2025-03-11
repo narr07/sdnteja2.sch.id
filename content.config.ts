@@ -137,8 +137,43 @@ export const collections = {
       title: z.string(),
       description: z.string(),
       date: z.date(),
-      foto: z.array(z.object({ src: z.string().editor({ input: 'media' }) })),
+      foto: z.array(z.object({
+        src: z.string().editor({ input: 'media' }),
+      })),
       cover: z.string().editor({ input: 'media' }),
+      seo: z.intersection(z.object({
+        title: z.string().optional(),
+        description: z.string().optional(),
+        meta: z.array(z.record(z.string(), z.any())).optional(),
+        link: z.array(z.record(z.string(), z.any())).optional(),
+      }), z.record(z.string(), z.any())).optional().default({}).editor({ hidden: true }),
+      navigation: z.union([z.boolean(), z.object({
+        title: z.string(),
+        description: z.string(),
+        icon: z.string(),
+      })]).default(true).editor({ hidden: true }),
+    }),
+
+  }),
+  search: defineCollection({
+    type: 'page',
+    source: {
+      include: '**/*.md',
+      exclude: ['*.md'],
+      prefix: '/',
+    },
+    schema: z.object({}),
+  }),
+  media: defineCollection({
+    type: 'data',
+    source: 'media/**',
+    schema: z.object({
+      title: z.string(),
+      idVideo: z.string(),
+      description: z.string(),
+      link: z.string(),
+      kelas: z.enum(['1', '2', '3', '4', '5', '6']),
+      sumber: z.string(),
       seo: z.intersection(
         z.object({
           title: z.string().optional(),
@@ -157,15 +192,5 @@ export const collections = {
         }),
       ]).default(true).editor({ hidden: true }),
     }),
-
-  }),
-  search: defineCollection({
-    type: 'page',
-    source: {
-      include: '**/*.md',
-      exclude: ['*.md'],
-      prefix: '/',
-    },
-    schema: z.object({}),
   }),
 }

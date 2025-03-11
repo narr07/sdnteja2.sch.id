@@ -17,8 +17,8 @@ const img = useImage()
             <NuxtImg
               format="webp"
               quality="50"
-              height="300px"
-              width="500"
+              height="200"
+              width="450"
               :title="galeri.title"
               :alt="galeri.title"
               loading="lazy"

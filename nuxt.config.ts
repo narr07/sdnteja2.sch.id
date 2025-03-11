@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@nuxt/image',
     'nuxt-aos',
     'nuxt-booster',
+    '@nuxt/scripts',
   ],
 
   experimental: {
@@ -55,11 +56,12 @@ export default defineNuxtConfig({
   },
   image: {
     provider: 'ipx',
-    cloudinary: {
-      baseURL: 'https://res.cloudinary.com/dyy24w5kl/image/upload',
-    },
     format: ['webp'],
-    domains: ['nuxtjs.org', 'res.cloudinary.com'],
+    domains: ['nuxtjs.org', 'res.cloudinary.com', 'img.youtube.com', 'i.vimeocdn.com'],
+    alias: {
+      youtube: 'https://img.youtube.com',
+      vimeo: 'https://i.vimeocdn.com',
+    },
     screens: {
       'xs': 320,
       'sm': 640,
