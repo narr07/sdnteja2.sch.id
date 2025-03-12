@@ -127,12 +127,12 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     cloudinary: {
-      apiKey: process.env.CLOUDINARY_API_KEY || '',
-      apiSecret: process.env.CLOUDINARY_API_SECRET || '',
-      cloudName: process.env.CLOUDINARY_CLOUD_NAME || 'dyy24w5kl',
+      apiKey: process.env.NUXT_CLOUDINARY_API_KEY || '747436524922873',
+      apiSecret: process.env.NUXT_CLOUDINARY_API_SECRET || 'dunxYcRv6GQls_MqTPycjkJQH3E',
+      cloudName: process.env.NUXT_CLOUDINARY_CLOUD_NAME || 'dyy24w5kl',
     },
     public: {
-      cloudinaryBaseUrl: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME || 'dyy24w5kl'}`,
+      cloudinaryBaseUrl: `https://res.cloudinary.com/${process.env.NUXT_CLOUDINARY_CLOUD_NAME || 'dyy24w5kl'}`,
     },
   },
 })

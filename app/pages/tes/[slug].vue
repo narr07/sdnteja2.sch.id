@@ -26,11 +26,19 @@ async function fetchImages(tag: string) {
         tag, // Kirim tag ke API
       },
     })
+    if (!Array.isArray(res)) {
+      // eslint-disable-next-line unicorn/prefer-type-error
+      throw new Error('Respons API tidak valid.')
+    }
     images.value = res
   }
-  // eslint-disable-next-line unused-imports/no-unused-vars
   catch (err) {
-    error.value = 'Gagal memuat gambar.'
+    if (err instanceof Error) {
+      error.value = `Gagal memuat gambar: ${err.message || 'Kesalahan tidak diketahui.'}`
+    }
+    else {
+      error.value = 'Gagal memuat gambar: Kesalahan tidak diketahui.'
+    }
   }
   finally {
     loading.value = false
@@ -41,6 +49,9 @@ async function fetchImages(tag: string) {
 onMounted(() => {
   if (tesPage.value && tesPage.value.tag) {
     fetchImages(tesPage.value.tag) // Ambil gambar berdasarkan tesPage.tag
+  }
+  else {
+    error.value = 'Tag tidak ditemukan pada halaman ini.'
   }
 })
 
