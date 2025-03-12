@@ -200,6 +200,7 @@ export const collections = {
       title: z.string(),
       description: z.string(),
       date: z.date(),
+      tag: z.string(),
       foto: z.string(),
       cover: z.string().editor({ input: 'media' }),
       seo: z.intersection(z.object({
