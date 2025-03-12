@@ -193,4 +193,27 @@ export const collections = {
       ]).default(true).editor({ hidden: true }),
     }),
   }),
+  tes: defineCollection({
+    type: 'page',
+    source: 'tes/*.yml',
+    schema: z.object({
+      title: z.string(),
+      description: z.string(),
+      date: z.date(),
+      foto: z.string(),
+      cover: z.string().editor({ input: 'media' }),
+      seo: z.intersection(z.object({
+        title: z.string().optional(),
+        description: z.string().optional(),
+        meta: z.array(z.record(z.string(), z.any())).optional(),
+        link: z.array(z.record(z.string(), z.any())).optional(),
+      }), z.record(z.string(), z.any())).optional().default({}).editor({ hidden: true }),
+      navigation: z.union([z.boolean(), z.object({
+        title: z.string(),
+        description: z.string(),
+        icon: z.string(),
+      })]).default(true).editor({ hidden: true }),
+    }),
+
+  }),
 }
