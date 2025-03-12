@@ -1,7 +1,7 @@
 // KegiatanPage.vue
 
 <script setup lang="ts">
-const { data: tes } = await useAsyncData('galeris', () => {
+const { data: tes } = await useAsyncData('tesgaleris', () => {
   return queryCollection('tes').all()
 })
 
