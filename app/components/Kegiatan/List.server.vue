@@ -1,7 +1,7 @@
 // KegiatanPage.vue
 
 <script setup lang="ts">
-const { data: kegiatanSekolah } = await useAsyncData('galeris', () => {
+const { data: kegiatanList } = await useAsyncData('kegiatanList', () => {
   return queryCollection('kegiatan').all()
 })
 
@@ -12,7 +12,7 @@ const img = useImage()
   <div class="py-20">
     <UContainer>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-        <div v-for="galeri in kegiatanSekolah" :key="galeri.title" class="transition-transform duration-200 ease-in-out transform hover:scale-98 ">
+        <div v-for="galeri in kegiatanList" :key="galeri.title" class="transition-transform duration-200 ease-in-out transform hover:scale-98 ">
           <NuxtLink data-aos="fade-up" :to=" galeri.path " class="shadow-2xl rounded-3xl overflow-hidden">
             <NuxtImg
               format="webp"

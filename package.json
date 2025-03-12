@@ -18,6 +18,7 @@
     "drizzle-orm": "^0.40.0",
     "nuxt": "latest",
     "nuxt-booster": "^3.2.2",
+    "nuxt-google-translate": "^1.2.0",
     "unenv": "^1.10.0",
     "vue": "latest",
     "vue-router": "latest",

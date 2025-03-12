@@ -26,7 +26,7 @@ defineProps({
               </slot>
             </h1>
           </div>
-          <div class="flex flex-col mt-6 space-y-2">
+          <div class="flex notranslate flex-col mt-6 space-y-2">
             <div>
               <UBadge variant="soft" color="neutral">
                 <slot name="npsn">

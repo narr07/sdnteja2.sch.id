@@ -20,8 +20,10 @@ defineOgImageComponent('OgImage', {
 </script>
 
 <template>
-  <ContentRenderer
-    v-if="page"
-    :value="page"
-  />
+  <div>
+    <ContentRenderer
+      v-if="page"
+      :value="page"
+    />
+  </div>
 </template>

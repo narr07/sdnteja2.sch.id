@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     'nuxt-aos',
     'nuxt-booster',
     '@nuxt/scripts',
+    'nuxt-google-translate',
   ],
 
   experimental: {
@@ -19,6 +20,10 @@ export default defineNuxtConfig({
   },
   linkChecker: {
     runOnBuild: false,
+  },
+  googleTranslate: {
+    defaultLanguage: 'id',
+    supportedLanguages: ['id', 'en', 'su', 'es', 'ru', 'ja'],
   },
   site: {
     url: 'https://sdnteja2.sch.id/',
