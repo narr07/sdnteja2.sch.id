@@ -5,11 +5,54 @@ const { data: beritaPage } = await useAsyncData('HalamanBerita', () => {
     .order('date', 'DESC')
     .all()
 })
+
+const beritaTerkait = [
+  {
+    url: 'https://www.dikdasmen.go.id/pencarian/berita',
+    title: 'Kemdikbud',
+    icon: 'https://res.cloudinary.com/dyy24w5kl/image/upload/v1730119603/logo/tutwuri_fdqfmn.png',
+  },
+  {
+    url: 'https://disdik.jabarprov.go.id/informasi/berita',
+    title: 'Disdik Jabar',
+    icon: 'https://res.cloudinary.com/dyy24w5kl/image/upload/v1730119602/logo/logo-disdik-jabar_wqzwwa.png',
+  },
+  {
+    url: 'https://disdik.majalengkakab.go.id/artikel/semua',
+    title: 'Disdik Majalengka',
+    icon: 'https://res.cloudinary.com/dyy24w5kl/image/upload/v1730119602/logo/logo-disdik-mjl_qjnalj.png',
+  },
+
+]
 </script>
 
 <template>
   <div class=" ">
     <UContainer>
+      <div class="max-w-4xl  mx-auto ">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 items-center my-6 gap-4">
+          <div v-for="berita in beritaTerkait" :key="berita.title">
+            <UButton
+              data-aos="fade-up"
+              size="xl"
+              class="w-full rounded-4xl bg-night-800 dark:bg-red-500 px-8 md:py-4"
+              :to="`${berita.url}?ref=SDNTEJAII`"
+              target="_blank"
+            >
+              <div class="flex flex-col w-full   space-y-2">
+                <div class="flex w-full flex-row justify-between  ">
+                  <div>
+                    {{ berita.title }}
+                  </div>
+                  <div>
+                    <UIcon name="i-lucide-arrow-right" />
+                  </div>
+                </div>
+              </div>
+            </UButton>
+          </div>
+        </div>
+      </div>
       <div class="sticky top-22 z-50 ">
         <UiTags />
       </div>
