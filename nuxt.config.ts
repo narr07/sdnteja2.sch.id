@@ -1,3 +1,4 @@
+/* eslint-disable node/prefer-global/process */
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: [
@@ -115,6 +116,7 @@ export default defineNuxtConfig({
     },
     experimental: {
       websocket: true,
+      openAPI: true,
     },
   },
   css: ['~/assets/css/main.css'],
@@ -123,5 +125,14 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-
+  runtimeConfig: {
+    cloudinary: {
+      apiKey: process.env.CLOUDINARY_API_KEY || '',
+      apiSecret: process.env.CLOUDINARY_API_SECRET || '',
+      cloudName: process.env.CLOUDINARY_CLOUD_NAME || 'dyy24w5kl',
+    },
+    public: {
+      cloudinaryBaseUrl: `https://res.cloudinary.com/${process.env.CLOUDINARY_CLOUD_NAME || 'dyy24w5kl'}`,
+    },
+  },
 })
