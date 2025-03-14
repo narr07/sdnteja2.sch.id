@@ -2,7 +2,9 @@
 
 <script setup lang="ts">
 const { data: kegiatanList } = await useAsyncData('kegiatanList', () => {
-  return queryCollection('kegiatan').all()
+  return queryCollection('kegiatan')
+    .order('date', 'DESC')
+    .all()
 })
 
 const img = useImage()

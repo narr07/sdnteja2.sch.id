@@ -23,7 +23,7 @@ export default defineNuxtConfig({
   },
   googleTranslate: {
     defaultLanguage: 'id',
-    supportedLanguages: ['id', 'en', 'su', 'es', 'ru', 'ja'],
+    supportedLanguages: ['id', 'en', 'es', 'ru'],
   },
   site: {
     url: 'https://sdnteja2.sch.id/',

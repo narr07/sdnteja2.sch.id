@@ -87,10 +87,34 @@ const isNextDisabled = computed(() => {
     return true
   return currentImageIndex.value >= images.value.length - 1
 })
+
+useHead({
+  title: kegiatanPage?.value?.title,
+  titleTemplate: '%s %separator %siteName',
+  templateParams: {
+    separator: '|',
+    siteName: 'SDN TEJA II',
+  },
+})
+useSeoMeta({
+  title: kegiatanPage?.value?.title,
+  description: kegiatanPage?.value?.description,
+  twitterTitle: kegiatanPage?.value?.title,
+  twitterDescription: kegiatanPage?.value?.description,
+})
+
+defineOgImageComponent('OgImage', {
+  page: 'Kegiatan',
+  title: kegiatanPage?.value?.title,
+  description: kegiatanPage?.value?.description,
+})
 </script>
 
 <template>
   <UContainer class="py-8">
+    <div class="mb-4">
+      <UiBreadcrumb />
+    </div>
     <div class="mb-8">
       <h1 class="text-2xl font-bold">
         {{ kegiatanPage?.title }}

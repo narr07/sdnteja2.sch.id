@@ -7,11 +7,19 @@ const { data: page } = await useAsyncData(`halaman-${route.path}`, () => {
 if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
+useHead({
+  title: page.value.title,
+  titleTemplate: '%s %separator %siteName',
+  templateParams: {
+    separator: '|',
+    siteName: 'SDN TEJA II',
+  },
+})
 useSeoMeta({
   title: page.value.title,
   description: page.value.description,
-  // twitterTitle: page.value.title,
-  // twitterDescription: page.value.description,
+  twitterTitle: page.value.title,
+  twitterDescription: page.value.description,
 })
 defineOgImageComponent('OgImage', {
   title: page.value.title,

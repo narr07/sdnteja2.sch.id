@@ -5,6 +5,21 @@ const { data: beritaPage } = await useAsyncData(`berita-${route.path}`, () => {
   return queryCollection('berita').path(route.path).first()
 })
 
+useHead({
+  title: beritaPage?.value?.title,
+  titleTemplate: '%s %separator %siteName',
+  templateParams: {
+    separator: '|',
+    siteName: 'SDN TEJA II',
+  },
+})
+useSeoMeta({
+  title: beritaPage?.value?.title,
+  description: beritaPage?.value?.description,
+  twitterTitle: beritaPage?.value?.title,
+  twitterDescription: beritaPage?.value?.description,
+})
+
 defineOgImageComponent('OgImage', {
   page: 'Berita',
   title: beritaPage?.value?.title,
@@ -16,6 +31,9 @@ defineOgImageComponent('OgImage', {
   <div>
     <UContainer>
       <div class="max-w-4xl mx-auto ">
+        <div class="mb-4">
+          <UiBreadcrumb />
+        </div>
         <div data-aos="fade-up" class="py-8 space-y-6 ">
           <h1 class="text-3xl  md:text-4xl font-bold">
             {{ beritaPage?.title }}

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { data: mediaPage } = await useAsyncData('Medias', () => {
   return queryCollection('media')
-    .select('idVideo', 'title', 'kelas', 'link')
+    .select('idVideo', 'title', 'kelas', 'link', 'pelajaran')
     .order('kelas', 'DESC')
     .all()
 })
@@ -58,7 +58,7 @@ const filteredMedia = computed(() => {
               </ScriptYouTubePlayer>
               <div class="flex justify-center mt-4 flex-col">
                 <h2 class=" font-bold text-sm  ">
-                  {{ media.title }}
+                  {{ media.pelajaran }} - {{ media.title }}
                 </h2>
                 <div class="flex justify-between items-center flex-row">
                   <UBadge block class="mt-2">

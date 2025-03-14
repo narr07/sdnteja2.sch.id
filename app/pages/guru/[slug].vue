@@ -5,6 +5,21 @@ const { data: guruPage } = await useAsyncData(`guru-${route.path}`, () => {
   return queryCollection('guru').path(route.path).first()
 })
 
+useHead({
+  title: guruPage?.value?.lengkap,
+  titleTemplate: '%s %separator %siteName',
+  templateParams: {
+    separator: '|',
+    siteName: 'SDN TEJA II',
+  },
+})
+useSeoMeta({
+  title: guruPage?.value?.lengkap,
+  description: guruPage?.value?.catatan,
+  twitterTitle: guruPage?.value?.lengkap,
+  twitterDescription: guruPage?.value?.catatan,
+})
+
 defineOgImageComponent('User', {
   page: 'Guru',
   title: guruPage?.value?.lengkap,
@@ -14,11 +29,24 @@ defineOgImageComponent('User', {
   pembina: guruPage?.value?.jabatan,
 })
 const img = useImage()
+
+useSchemaOrg([
+  defineArticle({
+    name: guruPage?.value?.lengkap,
+    image: guruPage?.value?.foto,
+    jobTitle: guruPage?.value?.jabatan,
+    worksFor: guruPage?.value?.kelas,
+    description: guruPage?.value?.catatan,
+  }),
+])
 </script>
 
 <template>
   <div>
     <UContainer>
+      <div class="mb-4">
+        <UiBreadcrumb />
+      </div>
       <!-- Bento Grid Layout -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         <!-- Main Profile Card -->

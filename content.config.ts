@@ -105,6 +105,7 @@ export const collections = {
     schema: z.object({
       title: z.string(),
       description: z.string(),
+      author: z.string(),
       date: z.date(),
       image: z.object({
         src: z.string().editor({ input: 'media' }),
@@ -147,6 +148,7 @@ export const collections = {
       idVideo: z.string(),
       link: z.string(),
       kelas: z.enum(['1', '2', '3', '4', '5', '6']),
+      pelajaran: z.string(),
       seo: z.intersection(
         z.object({
           title: z.string().optional(),
