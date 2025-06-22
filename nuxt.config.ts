@@ -77,16 +77,10 @@ export default defineNuxtConfig({
         contentCollection: 'kegiatan',
       },
       {
-        title: 'Artikel',
+        title: 'artikel',
         description: 'Artikel terbaru dari SDN Teja II',
         contentCollection: 'artikel',
       },
-      {
-        title: 'Media Pembelajaran',
-        description: 'Media terbaru dari SDN Teja II',
-        contentCollection: 'media',
-      },
-
     ],
   },
   eslint: {
