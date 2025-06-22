@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "sdnteja2.sch.id",
   "type": "module",
   "private": true,
   "scripts": {
@@ -12,11 +12,11 @@
     "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "@nuxt/content": "3.2.2",
+    "@nuxt/content": "^3.6.1",
     "@nuxt/ui": "^3.0.0-beta.2",
     "@nuxthub/core": "latest",
     "drizzle-orm": "^0.40.0",
-    "nuxt": "latest",
+    "nuxt": "^3.17.5",
     "nuxt-booster": "^3.2.2",
     "nuxt-google-translate": "^1.2.0",
     "unenv": "^1.10.0",
