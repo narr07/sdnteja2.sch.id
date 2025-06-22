@@ -6,8 +6,10 @@ const currentPage = ref(1)
 const itemsPerPage = 10 // Ubah sesuai kebutuhan
 
 // Mengubah slug menjadi array jika itu adalah string yang dipisahkan koma
-const { slug } = route.params
-const filter = Array.isArray(slug) ? slug : slug?.split(',')
+const filter = computed(() => {
+  const slug = route.params.slug
+  return Array.isArray(slug) ? slug : slug?.split(',')
+})
 
 // Reaktif untuk posts dan total posts
 const allPosts = ref<PageTag[]>([]) // Semua data dari artikel dan berita
@@ -44,11 +46,11 @@ async function fetchPosts() {
   const { data: postsData } = await useAsyncData(`posts-${route.path}`, () => {
     return Promise.all<(ArtikelCollectionItem[] | BeritaCollectionItem[])>([
       queryCollection('artikel')
-        .where('tags', 'LIKE', `%${filter?.join('%')}%`)
+        .where('tags', 'LIKE', `%${filter.value?.join('%')}%`)
         .order('date', 'DESC')
         .all(),
       queryCollection('berita')
-        .where('tags', 'LIKE', `%${filter?.join('%')}%`)
+        .where('tags', 'LIKE', `%${filter.value?.join('%')}%`)
         .order('date', 'DESC')
         .all(),
     ])
@@ -96,7 +98,7 @@ watch([currentPage, filter], async () => {
 
 // SEO Meta
 useSeoMeta({
-  title: `Tag: ${filter?.join(', ')}`,
+  title: `Tag: ${filter.value?.join(', ')}`,
   description: 'Ini Halaman Tag',
 })
 </script>

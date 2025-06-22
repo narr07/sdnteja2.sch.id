@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     'nuxt-booster',
     '@nuxt/scripts',
     'nuxt-google-translate',
+    'nuxt-llms',
   ],
 
   experimental: {
@@ -54,6 +55,39 @@ export default defineNuxtConfig({
       type: 'd1',
       bindingName: 'teja2',
     },
+  },
+  llms: {
+    domain: 'https://sdnteja2.sch.id',
+    title: 'SDN Teja II',
+    description: 'Website resmi SDN Teja II, Kecamatan Rajagaluh, Kabupaten Majalengka, Jawa Barat',
+    sections: [
+      {
+        title: 'Guru',
+        description: 'Daftar Guru SDN Teja II',
+        contentCollection: 'guru',
+      },
+      {
+        title: 'Berita',
+        description: 'Berita terbaru dari SDN Teja II',
+        contentCollection: 'berita',
+      },
+      {
+        title: 'Kegiatan',
+        description: 'Kegiatan terbaru dari SDN Teja II',
+        contentCollection: 'kegiatan',
+      },
+      {
+        title: 'Artikel',
+        description: 'Artikel terbaru dari SDN Teja II',
+        contentCollection: 'artikel',
+      },
+      {
+        title: 'Media Pembelajaran',
+        description: 'Media terbaru dari SDN Teja II',
+        contentCollection: 'media',
+      },
+
+    ],
   },
   eslint: {
     config: {
