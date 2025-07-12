@@ -2,7 +2,19 @@
 defineProps({
   image: {
     type: String,
-    default: '/user.png',
+    default: 'https://res.cloudinary.com/dyy24w5kl/image/upload/v1752355168/guru/1susisquare_xvwg5o.jpg',
+  },
+  nama: {
+    type: String,
+    default: 'Nama',
+  },
+  jabatan: {
+    type: String,
+    default: 'Kepala Sekolah',
+  },
+  quote: {
+    type: String,
+    default: 'Kehadiran website sekolah ini merupakan salah satu upaya kita untuk meningkatkan layanan informasi dan komunikasi sekolah kepada seluruh stakeholders, termasuk siswa, guru, karyawan, orang tua siswa, alumni, dan masyarakat umum.',
   },
 })
 </script>
@@ -12,42 +24,40 @@ defineProps({
     <UContainer class=" ">
       <div>
         <div class="md:grid md:grid-cols-2 md:gap-10 lg:gap-16 md:items-center">
-          <div class="md:sticky md:top-22 md:self-start">
+          <div class="md:sticky mb-10 md:top-22 md:self-start">
             <!-- Blockquote -->
-            <blockquote class="relative">
-              <div class="relative z-10">
-                <p class="text-xl font-medium italic text-balance  md:text-2xl md:leading-normal   xl:leading-normal  text-white">
-                  <slot name="quote">
-                    Kehadiran website sekolah ini merupakan salah satu upaya kita untuk meningkatkan layanan informasi dan komunikasi sekolah kepada seluruh stakeholders, termasuk siswa, guru, karyawan, orang tua siswa, alumni, dan masyarakat umum.
-                  </slot>
-                </p>
-              </div>
-
-              <footer class="mt-6">
-                <div class="flex items-center">
-                  <div class=" shrink-0">
-                    <NuxtImg
-                      format="webp"
-                      quality="70"
-                      title="Kepala Sekolah"
-                      class="size-12 rounded-full object-cover" :src="image" alt="Kepala Sekolah"
-                    />
-                  </div>
-                  <div class="ms-4 md:ms-0">
-                    <div class="text-base font-semibold text-red-500">
-                      <slot name="nama">
-                        Nama Kepala Sekolah
-                      </slot>
-                    </div>
-                    <div class="text-xs ">
-                      <slot name="jabatan">
-                        Kepala Sekolah
-                      </slot>
-                    </div>
-                  </div>
+            <UCard data-aos="fade-up" variant="soft" class="justify-evenly    flex-col h-full bg-night-50 text-night-700  dark:bg-night-950 dark:text-white   rounded-4xl  ">
+              <blockquote class="relative">
+                <div class="relative z-10">
+                  <p class="text-xl font-medium italic text-balance  md:text-2xl md:leading-normal   xl:leading-normal  ">
+                    <slot name="quote" />
+                  </p>
                 </div>
-              </footer>
-            </blockquote>
+
+                <footer class="mt-6">
+                  <div class="flex items-center">
+                    <div class=" shrink-0">
+                      <NuxtImg
+                        format="webp"
+                        quality="70"
+                        title="Kepala Sekolah"
+                        class="size-12 rounded-full object-cover"
+                        :src="image"
+                        alt="Kepala Sekolah"
+                      />
+                    </div>
+                    <div class="ms-4 pl-2 md:ms-0">
+                      <div class="text-base font-semibold ">
+                        <slot name="nama" />
+                      </div>
+                      <div class="text-xs ">
+                        <slot name="jabatan" />
+                      </div>
+                    </div>
+                  </div>
+                </footer>
+              </blockquote>
+            </UCard>
             <!-- End Blockquote -->
           </div>
           <div class=" flex flex-col space-y-4">

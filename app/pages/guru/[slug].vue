@@ -120,15 +120,6 @@ useSchemaOrg([
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div class="bg-white dark:bg-night-800 rounded-xl p-3 shadow-sm">
                 <p class="font-semibold text-sm text-gray-500 dark:text-gray-400">
-                  NIP
-                </p>
-                <p class="font-bold">
-                  {{ guruPage?.nip || '-' }}
-                </p>
-              </div>
-
-              <div class="bg-white dark:bg-night-800 rounded-xl p-3 shadow-sm">
-                <p class="font-semibold text-sm text-gray-500 dark:text-gray-400">
                   Jabatan
                 </p>
                 <p class="font-bold">
@@ -142,15 +133,6 @@ useSchemaOrg([
                 </p>
                 <p class="font-bold">
                   {{ guruPage?.pendidikan || '-' }}
-                </p>
-              </div>
-
-              <div class="bg-white dark:bg-night-800 rounded-xl p-3 shadow-sm">
-                <p class="font-semibold text-sm text-gray-500 dark:text-gray-400">
-                  NUPTK
-                </p>
-                <p class="font-bold">
-                  {{ guruPage?.nuptk || '-' }}
                 </p>
               </div>
             </div>
