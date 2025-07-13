@@ -11,7 +11,7 @@ export default defineAppConfig({
       email: {
         title: 'Email',
         icon: 'i-ph-envelope',
-        link: 'mailto:info@sdnteja2.sch.id',
+        link: 'mailto:sdsnteja2@gmail.com',
       },
       instagram: {
         title: 'Instagram',
