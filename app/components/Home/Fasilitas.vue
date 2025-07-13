@@ -1,7 +1,7 @@
 <script setup lang="ts">
 interface FasilitasItem {
-  image: string
   title?: string
+  image: string
   description?: string
 }
 
@@ -10,8 +10,8 @@ const props = withDefaults(defineProps<{
 }>(), {
   fasilitas: () => [
     {
-      image: 'https://picsum.photos/468/468?random=1',
       title: 'Fasilitas 1',
+      image: 'https://picsum.photos/468/468?random=1',
     },
   ],
 })
