@@ -12,19 +12,6 @@ export const collections = {
     schema: z.object({
       title: z.string(),
       description: z.string(),
-      seo: z.intersection(
-        z.object({
-          title: z.string().optional(),
-          description: z.string().optional(),
-          meta: z.array(z.record(z.string(), z.any())).optional(),
-          link: z.array(z.record(z.string(), z.any())).optional(),
-        }),
-        z.record(z.string(), z.any()),
-      ).optional().default({}).editor({ hidden: true }),
-      navigation:
-        z.object({
-          icon: z.string().editor({ input: 'icon' }),
-        }),
 
     }),
   }),
@@ -62,23 +49,6 @@ export const collections = {
     schema: z.object({
       title: z.string().editor({ hidden: true }),
       description: z.string().editor({ hidden: true }),
-      seo: z.intersection(
-        z.object({
-          title: z.string().optional(),
-          description: z.string().optional(),
-          meta: z.array(z.record(z.string(), z.any())).optional(),
-          link: z.array(z.record(z.string(), z.any())).optional(),
-        }),
-        z.record(z.string(), z.any()),
-      ).optional().default({}).editor({ hidden: true }),
-      navigation: z.union([
-        z.boolean(),
-        z.object({
-          title: z.string(),
-          description: z.string(),
-          icon: z.string(),
-        }),
-      ]).default(true).editor({ hidden: true }),
       nama: z.string(),
       lengkap: z.string(),
       catatan: z.string(),

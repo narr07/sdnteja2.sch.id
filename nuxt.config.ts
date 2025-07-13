@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     'nuxt-google-translate',
     'nuxt-llms',
     'motion-v/nuxt',
+    'nuxt-charts',
   ],
   experimental: {
     componentIslands: true,
