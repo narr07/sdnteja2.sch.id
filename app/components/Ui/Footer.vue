@@ -1,3 +1,36 @@
+<script setup>
+import { useGoogleTranslate } from '#imports'
+
+const appConfig = useAppConfig()
+
+const { activeLanguage, setLanguage, supportedLanguages, isLoaded } = useGoogleTranslate()
+
+// Language options without icons
+const languageOptions = computed(() => [
+  {
+    label: 'ID',
+    value: 'id',
+  },
+  {
+    label: 'EN',
+    value: 'en',
+  },
+  {
+    label: 'ES',
+    value: 'es',
+  },
+  {
+    label: 'RU',
+    value: 'ru',
+  },
+].filter(lang => supportedLanguages.value?.includes(lang.value)))
+
+// Update language programmatically
+function changeLanguage(lang) {
+  setLanguage(lang)
+}
+</script>
+
 <template>
   <UContainer>
     <!-- ========== FOOTER ========== -->
@@ -12,14 +45,41 @@
         <div class="sm:flex sm:justify-between sm:items-center">
           <div class="flex flex-wrap items-center gap-3">
             <!-- Language Dropdown -->
-            <LanguageSelector />
+            <div>
+              <USelect
+                :model-value="activeLanguage"
+                :items="languageOptions"
+                :loading="!isLoaded"
+                value-key="value"
+                size="sm"
+                variant="subtle"
+                color="neutral"
+                highlight
+                arrow
+                class="w-15"
+                @update:model-value="changeLanguage"
+              />
+            </div>
           </div>
           <div class="flex flex-wrap justify-between items-center gap-3">
             <!-- Social Brands -->
             <div class="space-x-4">
-              <NuxtLink to="#">
-                <UTooltip text="Instagram" :delay-duration="0">
-                  <UIcon class="size-6 hover:text-red-500" aria-label="Instagram" name="basil:instagram-outline" />
+              <!-- Email -->
+              <NuxtLink :to="appConfig.site.socialMedia.email.link">
+                <UTooltip :text="appConfig.site.socialMedia.email.title" :delay-duration="0">
+                  <UIcon
+                    class="size-6 hover:text-red-500" :aria-label="appConfig.site.socialMedia.email.title"
+                    :name="appConfig.site.socialMedia.email.icon"
+                  />
+                </UTooltip>
+              </NuxtLink>
+              <!-- Instagram -->
+              <NuxtLink :to="appConfig.site.socialMedia.instagram.link">
+                <UTooltip :text="appConfig.site.socialMedia.instagram.title" :delay-duration="0">
+                  <UIcon
+                    class="size-6 hover:text-red-500" :aria-label="appConfig.site.socialMedia.instagram.title"
+                    :name="appConfig.site.socialMedia.instagram.icon"
+                  />
                 </UTooltip>
               </NuxtLink>
             </div> <!-- End Social Brands -->
@@ -29,131 +89,68 @@
       <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6 mb-10">
         <div class="col-span-full hidden lg:col-span-1 lg:block">
           <p class="mt-3 text-xs sm:text-sm text-gray-600">
-            © 2025 narr07. All rights reserved.
+            {{ appConfig.site.copyright }}
           </p>
-        </div> <!-- End Col -->
+          <div>
+            <NuxtLink
+              class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 dark:text-white dark:hover:text-gray-400 hover:underline focus:outline-hidden focus:text-gray-800"
+              to="https://nuxt.com/" target="_blank"
+            >
+              Nuxt JS
+            </NuxtLink>
+          </div>
+        </div> <!-- End Col 0 -->
+
+        <!-- Link pemerintah - DISDIK MAJALENGKA -->
         <div>
-          <h4 class="text-xs font-semibold text-gray-900 uppercase">
-            Teknologi
-          </h4>
+          <h2 class="text-xs font-semibold text-gray-900 dark:text-red-500 uppercase">
+            {{ appConfig.site.government.disdikMajalengka.title }}
+          </h2>
           <div class="mt-3 grid space-y-3 text-sm">
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >About us</a>
-            </p>
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >Blog</a>
-            </p>
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >Careers</a> <span class="inline text-blue-600">— We're hiring</span>
-            </p>
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >Customers</a>
-            </p>
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >Newsroom</a>
-            </p>
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >Sitemap</a>
-            </p>
+            <div v-for="(link, key) in appConfig.site.government.disdikMajalengka.links" :key="key">
+              <NuxtLink
+                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 dark:text-white dark:hover:text-gray-400 hover:underline focus:outline-hidden focus:text-gray-800"
+                :to="link.url" target="_blank"
+              >
+                {{ link.name }}
+              </NuxtLink>
+            </div>
           </div>
-        </div> <!-- End Col -->
+        </div> <!-- End Col 1 -->
+
+        <!-- Link pemerintah - DISDIK JABAR -->
         <div>
-          <h4 class="text-xs font-semibold text-gray-900 uppercase">
-            Resources
-          </h4>
+          <h2 class="text-xs font-semibold text-gray-900 dark:text-red-500 uppercase">
+            {{ appConfig.site.government.disdikJabar.title }}
+          </h2>
           <div class="mt-3 grid space-y-3 text-sm">
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >Community</a>
-            </p>
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >Help & Support</a>
-            </p>
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >eBook</a>
-            </p>
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >What's New</a>
-            </p>
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >Status</a>
-            </p>
+            <div v-for="(link, key) in appConfig.site.government.disdikJabar.links" :key="key">
+              <NuxtLink
+                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 dark:text-white dark:hover:text-gray-400 hover:underline focus:outline-hidden focus:text-gray-800"
+                :to="link.url" target="_blank"
+              >
+                {{ link.name }}
+              </NuxtLink>
+            </div>
           </div>
-        </div> <!-- End Col -->
+        </div> <!-- End Col 2 -->
+
+        <!-- Link pemerintah - KEMDIKDASMEN -->
         <div>
-          <h4 class="text-xs font-semibold text-gray-900 uppercase">
-            Developers
-          </h4>
+          <h2 class="text-xs font-semibold text-gray-900 dark:text-red-500 uppercase">
+            {{ appConfig.site.government.kemdikdasmen.title }}
+          </h2>
           <div class="mt-3 grid space-y-3 text-sm">
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >Api</a>
-            </p>
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >Status</a>
-            </p>
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >GitHub</a> <span class="inline text-blue-600">— New</span>
-            </p>
+            <div v-for="(link, key) in appConfig.site.government.kemdikdasmen.links" :key="key">
+              <NuxtLink
+                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 dark:text-white dark:hover:text-gray-400 hover:underline focus:outline-hidden focus:text-gray-800"
+                :to="link.url" target="_blank"
+              >
+                {{ link.name }}
+              </NuxtLink>
+            </div>
           </div>
-          <h4 class="mt-7 text-xs font-semibold text-gray-900 uppercase">
-            Industries
-          </h4>
-          <div class="mt-3 grid space-y-3 text-sm">
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >Financial Services</a>
-            </p>
-            <p>
-              <a
-                class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-hidden focus:text-gray-800"
-                href="#"
-              >Education</a>
-            </p>
-          </div>
-        </div> <!-- End Col -->
+        </div> <!-- End Col 3 -->
       </div> <!-- End Grid -->
     </footer> <!-- ========== END FOOTER ========== -->
   </UContainer>

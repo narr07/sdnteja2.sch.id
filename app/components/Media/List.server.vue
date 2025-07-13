@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Motion } from 'motion-v'
+
 const { data: mediaPage } = await useAsyncData('Medias', () => {
   return queryCollection('media')
     .select('idVideo', 'title', 'kelas', 'link', 'pelajaran')
@@ -46,7 +48,13 @@ const filteredMedia = computed(() => {
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-        <div v-for="media in filteredMedia" :key="media.idVideo">
+        <Motion
+          v-for="(media, index) in filteredMedia"
+          :key="media.idVideo"
+          :initial="{ opacity: 0, transform: 'translateY(10px)' }"
+          :in-view="{ opacity: 1, transform: 'translateY(0)' }"
+          :transition="{ delay: 0.1 * index }"
+        >
           <div class="flex justify-center flex-col h-full ">
             <div class="p-4 ring rounded h-full dark:bg-night-900 ring-night-200 dark:ring-night-800 overflow-hidden shadow-lg">
               <ScriptYouTubePlayer ref="video" thumbnail-size="maxresdefault" :player-options="{ host: 'https://www.youtube.com' }" :video-id="media.idVideo">
@@ -73,7 +81,7 @@ const filteredMedia = computed(() => {
               </div>
             </div>
           </div>
-        </div>
+        </Motion>
       </div>
     </UContainer>
   </div>

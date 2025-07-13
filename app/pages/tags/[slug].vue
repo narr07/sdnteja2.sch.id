@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Motion } from 'motion-v'
+
 const route = useRoute()
 
 // Pagination
@@ -126,9 +128,15 @@ useSeoMeta({
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-4">
-          <div v-for="pageTag in paginatedPosts" :key="pageTag.path">
+          <Motion
+            v-for="(pageTag) in paginatedPosts"
+            :key="pageTag.path"
+            :initial="{ opacity: 0, transform: 'translateY(10px)' }"
+            :in-view="{ opacity: 1, transform: 'translateY(0)' }"
+            :transition="{ delay: 0.1 }"
+          >
             <NuxtLink :to="`${pageTag.path}`">
-              <UCard data-aos="fade-up" variant="soft" class="bg-night-50 hover:shadow-none transition-shadow ease-in-out duration-300  shadow-teja dark:bg-night-900 h-full rounded-4xl overflow-hidden">
+              <UCard variant="soft" class="bg-night-50 hover:shadow-none transition-shadow ease-in-out duration-300  shadow-teja dark:bg-night-900 h-full rounded-4xl overflow-hidden">
                 <UBadge class="mb-2">
                   {{ pageTag.type }}
                 </UBadge>
@@ -150,7 +158,7 @@ useSeoMeta({
                 </header>
               </UCard>
             </NuxtLink>
-          </div>
+          </Motion>
         </div>
       </div>
 

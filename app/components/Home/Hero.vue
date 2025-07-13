@@ -1,9 +1,33 @@
 <script lang="ts" setup>
-defineProps({
+import { Motion } from 'motion-v'
+
+const props = defineProps({
   image: {
     type: String,
-    default: 'https://res.cloudinary.com/dyy24w5kl/image/upload/v1741192676/teja2_pasukan_s6jtrc.jpg',
+    default: 'https://res.cloudinary.com/dyy24w5kl/image/upload/f_auto,q_auto,w_1200,h_675,c_fill,ar_16:9/v1741192676/teja2_pasukan_s6jtrc.jpg',
   },
+})
+
+// Preload hero image untuk meningkatkan LCP
+useHead({
+  link: [
+    {
+      rel: 'preload',
+      as: 'image',
+      href: props.image,
+      type: 'image/webp',
+      fetchpriority: 'high',
+    },
+    {
+      rel: 'dns-prefetch',
+      href: 'https://res.cloudinary.com',
+    },
+    {
+      rel: 'preconnect',
+      href: 'https://res.cloudinary.com',
+      crossorigin: 'anonymous',
+    },
+  ],
 })
 </script>
 
@@ -11,59 +35,94 @@ defineProps({
   <UContainer class="flex flex-col lg:flex-row gap-4">
     <div class="flex-1 flex flex-col gap-4">
       <div class="flex-1">
-        <UCard data-aos="fade-up" variant="soft" class=" flex justify-evenly    flex-col h-full bg-red-500 dark:bg-night-700 text-white  p-4 rounded-4xl  ">
-          <div>
-            <p class="pb-6 ">
-              <slot name="subtitle">
-                Selamat Datang di Website Kami
-              </slot>
-            </p>
-          </div>
-          <div>
-            <h1 class="font-bold text-[32px] md:text-[40px]  ">
-              <slot name="title">
-                SDN Teja II
-              </slot>
-            </h1>
-          </div>
-          <div class="flex notranslate flex-col mt-6 space-y-2">
+        <Motion
+          :initial="{ opacity: 0, transform: 'translateY(10px)' }"
+          :in-view="{ opacity: 1, transform: 'translateY(0)' }"
+          :transition="{ delay: 0.1 * 0 }"
+        >
+          <UCard variant="soft" class=" flex justify-evenly    flex-col h-full bg-red-500 dark:bg-night-700 text-white  p-4 rounded-4xl  ">
             <div>
-              <UBadge variant="soft" color="neutral">
-                <slot name="npsn">
-                  NPSN: 20246133
+              <p class="pb-6 ">
+                <slot name="subtitle">
+                  Selamat Datang di Website Kami
                 </slot>
-              </UBadge>
+              </p>
             </div>
             <div>
-              <UBadge variant="soft" color="neutral">
-                <slot name="nss">
-                  NSS: 20246133
+              <h1 class="font-bold text-[32px] md:text-[40px]  ">
+                <slot name="title">
+                  SDN Teja II
                 </slot>
-              </UBadge>
+              </h1>
             </div>
-          </div>
-        </UCard>
+            <div class="flex notranslate flex-col mt-6 space-y-2">
+              <div>
+                <UBadge variant="soft" color="neutral">
+                  <slot name="npsn">
+                    NPSN: 20246133
+                  </slot>
+                </UBadge>
+              </div>
+              <div>
+                <UBadge variant="soft" color="neutral">
+                  <slot name="nss">
+                    NSS: 20246133
+                  </slot>
+                </UBadge>
+              </div>
+            </div>
+          </UCard>
+        </Motion>
       </div>
       <div class="flex-1">
-        <UCard data-aos="fade-up" variant="soft" class=" bg-night-50 shadow-teja dark:bg-night-900 h-full text-night-900 dark:text-white flex items-center justify-center   rounded-4xl  ">
-          <p class="py-6 text-balance">
-            <slot name="description">
-              Wujudkan Impian Pendidikan Berkualitas untuk Semua, Lingkungan Belajar yang Nyaman, Kreatif, dan Menyenangkan
-            </slot>
-          </p>
-        </UCard>
+        <Motion
+          :initial="{ opacity: 0, transform: 'translateY(10px)' }"
+          :in-view="{ opacity: 1, transform: 'translateY(0)' }"
+          :transition="{ delay: 0.1 * 1 }"
+        >
+          <UCard variant="soft" class=" bg-night-50 shadow-teja dark:bg-night-900 h-full text-night-900 dark:text-white flex items-center justify-center   rounded-4xl  ">
+            <p class="py-6 text-balance">
+              <slot name="description">
+                Wujudkan Impian Pendidikan Berkualitas untuk Semua, Lingkungan Belajar yang Nyaman, Kreatif, dan Menyenangkan
+              </slot>
+            </p>
+          </UCard>
+        </Motion>
       </div>
     </div>
     <div class="flex-2">
-      <div data-aos="fade-up" variant="soft" class="var rounded-4xl aspect-video">
-        <NuxtImg
-          format="webp"
-          quality="70"
-          loading="lazy"
-          title="Hero"
-          :src="image" alt="Hero" class="w-full h-full object-cover aspect-video rounded-4xl"
-        />
-      </div>
+      <Motion
+        :initial="{ opacity: 0, transform: 'translateY(10px)' }"
+        :in-view="{ opacity: 1, transform: 'translateY(0)' }"
+        :transition="{ delay: 0.1 * 2 }"
+      >
+        <div variant="soft" class="var rounded-4xl aspect-video">
+          <NuxtImg
+            format="webp"
+            quality="85"
+            loading="eager"
+            priority
+            fetchpriority="high"
+            title="SDN Teja II - Sekolah Dasar Negeri"
+            placeholder
+            :src="image"
+            alt="SDN Teja II - Sekolah Dasar Negeri Teja II, Rajagaluh, Majalengka"
+            class="w-full h-full object-cover aspect-video rounded-4xl"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+            width="1200"
+            height="675"
+            :modifiers="{
+              f_auto: true,
+              q_auto: true,
+              c_fill: true,
+              ar: '16:9',
+              w_1200: true,
+              h_675: true,
+              dpr_auto: true,
+            }"
+          />
+        </div>
+      </Motion>
     </div>
   </UContainer>
 </template>

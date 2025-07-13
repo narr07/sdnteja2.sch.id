@@ -62,6 +62,7 @@ function closeFullscreen() {
 // Fungsi untuk navigasi ke gambar sebelumnya
 function navigatePrev() {
   if (currentImageIndex.value > 0) {
+    fullscreenImageLoading.value = true // Set loading saat navigasi
     currentImageIndex.value--
     selectedImage.value = images.value?.[currentImageIndex.value]?.src || ''
   }
@@ -70,6 +71,7 @@ function navigatePrev() {
 // Fungsi untuk navigasi ke gambar berikutnya
 function navigateNext() {
   if (images.value && currentImageIndex.value < images.value.length - 1) {
+    fullscreenImageLoading.value = true // Set loading saat navigasi
     currentImageIndex.value++
     selectedImage.value = images.value?.[currentImageIndex.value]?.src || ''
   }
@@ -146,7 +148,7 @@ defineOgImageComponent('OgImage', {
             :src="image.src"
             height="auto"
             width="100%"
-            quality="50"
+            quality="70"
             loading="lazy"
             :alt="kegiatanPage?.title"
             class="rounded-lg w-full h-auto cursor-zoom-in"
@@ -158,16 +160,7 @@ defineOgImageComponent('OgImage', {
     </div>
 
     <!-- Overlay untuk menampilkan gambar fullscreen dengan transisi -->
-    <Transition
-      name="fade"
-      appear
-      enter-active-class="duration-300 ease-out"
-      enter-from-class="opacity-0 scale-95"
-      enter-to-class="opacity-100 scale-100"
-      leave-active-class="duration-200 ease-in"
-      leave-from-class="opacity-100 scale-100"
-      leave-to-class="opacity-0 scale-95"
-    >
+    <Transition>
       <div
         v-if="showFullscreen"
         class="fixed inset-0 bg-night-900/90 backdrop-blur-md z-50 flex items-center justify-center p-4"
@@ -199,11 +192,20 @@ defineOgImageComponent('OgImage', {
             v-if="fullscreenImageLoading"
             class="absolute inset-0 w-full h-[50%] top-1/2 -translate-y-1/2 rounded-lg bg-red-500/50 dark:bg-red-700/50"
           />
+          <!-- Image hanya muncul saat sudah selesai loading -->
           <NuxtImg
-            v-if="selectedImage"
+            v-if="selectedImage && !fullscreenImageLoading"
             format="webp"
             :src="selectedImage"
             class="w-full h-full object-contain"
+            loading="eager"
+          />
+          <!-- Hidden image untuk trigger loading -->
+          <NuxtImg
+            v-if="selectedImage && fullscreenImageLoading"
+            format="webp"
+            :src="selectedImage"
+            class="opacity-0 absolute"
             loading="eager"
             @load="onFullscreenImageLoad"
           />

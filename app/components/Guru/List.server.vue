@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Motion } from 'motion-v'
+
 const { data: guruTeja } = await useAsyncData('gurus', () => {
   return queryCollection('guru').all()
 })
@@ -10,27 +12,36 @@ const img = useImage()
   <div class="py-20">
     <UContainer>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        <div v-for="guru in guruTeja" :key="guru.nama" class="transition-transform duration-200 ease-in-out transform hover:scale-98 ">
+        <Motion
+          v-for="(guru, index) in guruTeja"
+          :key="guru.nama"
+          :initial="{ opacity: 0, transform: 'translateY(10px)' }"
+          :in-view="{ opacity: 1, transform: 'translateY(0)' }"
+          :transition="{ delay: 0.1 * index }"
+          class="transition-transform duration-200 ease-in-out transform hover:scale-98"
+        >
           <NuxtLink :to="guru.path" class="group">
-            <UCard data-aos="fade-up" variant="soft" class="bg-night-50 shadow-teja dark:bg-night-900 h-full rounded-4xl">
-              <NuxtImg
-                format="webp"
-                quality="70"
-                :title="guru.nama"
-                :alt="guru.nama"
-                loading="lazy"
-                :src="guru.foto"
-                width="234"
-                height="300"
-                :placeholder="img(`${guru.foto}`, { h: 10, f: 'png', blur: 2, q: 50 })"
-                class="rounded-3xl mb-4 aspect-square object-cover object-top bg-top transition-all duration-300 ease-in-out"
-              />
+            <UCard variant="soft" class="bg-night-50 shadow-teja dark:bg-night-900 h-full rounded-4xl">
+              <div class="w-full aspect-square rounded-3xl overflow-hidden mb-4 bg-top bg-gray-100">
+                <NuxtImg
+                  :src="guru.foto"
+                  format="webp"
+                  quality="80"
+                  width="300"
+                  height="300"
+                  sizes="(max-width: 640px) 150px, (max-width: 768px) 180px, 225px"
+                  :placeholder="img(guru.foto, { h: 10, f: 'webp', blur: 2, q: 30 })"
+                  loading="lazy"
+                  densities="1x 2x"
+                  class="w-full h-full object-cover object-center transition-all duration-300 ease-in-out"
+                />
+              </div>
               <h2 class=" font-bold text-sm text-center">
                 {{ guru.nama }}
               </h2>
             </UCard>
           </NuxtLink>
-        </div>
+        </Motion>
       </div>
     </UContainer>
   </div>

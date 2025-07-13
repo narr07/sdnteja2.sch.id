@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Motion } from 'motion-v'
+
 // Pagination state
 const itemsPerPage = 8
 const route = useRoute()
@@ -38,19 +40,29 @@ const img = useImage()
         <UiTags />
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div v-for="artikel in paginatedBlogs" :key="artikel.title">
+        <Motion
+          v-for="(artikel, index) in paginatedBlogs"
+          :key="artikel.title"
+          :initial="{ opacity: 0, transform: 'translateY(10px)' }"
+          :in-view="{ opacity: 1, transform: 'translateY(0)' }"
+
+          :transition="{ delay: 0.1 * index }"
+        >
           <NuxtLink :to="artikel.path">
-            <UCard data-aos="fade-up" variant="soft" class="bg-night-50 hover:shadow-none transition-shadow ease-in-out duration-300  shadow-teja dark:bg-night-900 h-full rounded-4xl overflow-hidden">
+            <UCard variant="soft" class="bg-night-50 hover:shadow-none transition-shadow ease-in-out duration-300  shadow-teja dark:bg-night-900 h-full rounded-4xl overflow-hidden">
               <div>
                 <NuxtImg
                   format="webp"
-                  quality="50"
-                  height="300"
-                  width="500"
+                  quality="75"
+                  height="400"
+                  width="600"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 544px"
+                  densities="1x 2x"
                   :src="artikel.image.toString()"
                   :alt="artikel.title"
                   class="rounded-2xl object-cover object-center w-full h-[300px] bg-cover aspect-video"
-                  :placeholder="img(`${artikel.image.toString()}`, { h: 10, f: 'webp', blur: 2, q: 50 })"
+                  :placeholder="img(artikel.image.toString(), { h: 15, w: 25, f: 'webp', blur: 5, q: 10 })"
+                  loading="lazy"
                 />
                 <div class="mt-4   ">
                   <h2 class="text-xl font-bold line-clamp-2">
@@ -69,7 +81,7 @@ const img = useImage()
               </div>
             </UCard>
           </NuxtLink>
-        </div>
+        </Motion>
       </div>
       <div class="flex justify-center mt-8">
         <UPagination
@@ -80,7 +92,6 @@ const img = useImage()
           :sibling-count="1"
           :total="totalItems"
           variant="soft"
-          data-aos="fade-up"
         />
       </div>
     </UContainer>

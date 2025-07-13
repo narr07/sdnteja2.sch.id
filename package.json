@@ -17,6 +17,7 @@
     "@nuxthub/core": "latest",
     "better-sqlite3": "^12.2.0",
     "drizzle-orm": "^0.40.0",
+    "motion-v": "^1.5.0",
     "nuxt": "^3.17.6",
     "nuxt-booster": "^3.2.2",
     "nuxt-google-translate": "^1.2.0",
@@ -45,7 +46,6 @@
     "drizzle-kit": "^0.30.5",
     "eslint": "^9.31.0",
     "eslint-plugin-format": "^1.0.1",
-    "eslint-plugin-tailwindcss": "^3.18.0",
-    "nuxt-aos": "^1.2.5"
+    "eslint-plugin-tailwindcss": "^3.18.0"
   }
 }

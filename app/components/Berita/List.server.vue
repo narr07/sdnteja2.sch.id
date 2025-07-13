@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Motion } from 'motion-v'
+
 const { data: beritaPage } = await useAsyncData('HalamanBerita', () => {
   return queryCollection('berita')
     .select('title', 'date', 'path')
@@ -31,9 +33,15 @@ const beritaTerkait = [
     <UContainer>
       <div class="max-w-4xl  mx-auto ">
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 items-center my-6 gap-4">
-          <div v-for="berita in beritaTerkait" :key="berita.title">
+          <Motion
+            v-for="(berita, index) in beritaTerkait"
+            :key="berita.title"
+            :initial="{ opacity: 0, transform: 'translateY(10px)' }"
+            :in-view="{ opacity: 1, transform: 'translateY(0)' }"
+            :transition="{ delay: 0.1 * index }"
+          >
             <UButton
-              data-aos="fade-up"
+
               size="xl"
               class="w-full rounded-4xl bg-night-800 dark:bg-red-500 px-8 md:py-4"
               :to="`${berita.url}?ref=SDNTEJAII`"
@@ -50,16 +58,22 @@ const beritaTerkait = [
                 </div>
               </div>
             </UButton>
-          </div>
+          </Motion>
         </div>
       </div>
       <div class="sticky top-22 z-50 ">
         <UiTags />
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div v-for="berita in beritaPage" :key="berita.title">
+        <Motion
+          v-for="(berita, index) in beritaPage"
+          :key="berita.title"
+          :initial="{ opacity: 0, transform: 'translateY(10px)' }"
+          :in-view="{ opacity: 1, transform: 'translateY(0)' }"
+          :transition="{ delay: 0.1 * index }"
+        >
           <NuxtLink :to="berita.path">
-            <UCard data-aos="fade-up" variant="soft" class="bg-night-50 shadow-teja dark:bg-night-900 h-full rounded-4xl p-2 overflow-hidden">
+            <UCard variant="soft" class="bg-night-50 shadow-teja dark:bg-night-900 h-full rounded-4xl p-2 overflow-hidden">
               <h2 class="text-2xl font-bold line-clamp-2">
                 {{ berita?.title }}
               </h2>
@@ -69,7 +83,7 @@ const beritaTerkait = [
               </div>
             </UCard>
           </NuxtLink>
-        </div>
+        </Motion>
       </div>
     </UContainer>
   </div>

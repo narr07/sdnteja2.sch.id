@@ -8,16 +8,14 @@ export default defineNuxtConfig({
     '@nuxthub/core',
     '@nuxt/eslint',
     '@nuxt/image',
-    'nuxt-aos',
     'nuxt-booster',
     '@nuxt/scripts',
     'nuxt-google-translate',
     'nuxt-llms',
+    'motion-v/nuxt',
   ],
-
   experimental: {
     componentIslands: true,
-    viewTransition: true,
   },
   linkChecker: {
     runOnBuild: false,
@@ -33,7 +31,6 @@ export default defineNuxtConfig({
     defaultLocale: 'id', // not needed if you have @nuxtjs/i18n installed
     themeColor: '#F22727',
   },
-
   colorMode: {
     preference: 'system', // default value of $colorMode.preference
     fallback: 'light', // fallback value if not system preference found
@@ -44,7 +41,6 @@ export default defineNuxtConfig({
   },
   hub: {
     database: true,
-
   },
   content: {
     preview: {
@@ -90,7 +86,8 @@ export default defineNuxtConfig({
   },
   image: {
     provider: 'ipx',
-    format: ['webp'],
+    format: ['webp', 'avif'],
+    quality: 80,
     domains: ['nuxtjs.org', 'res.cloudinary.com', 'img.youtube.com', 'i.vimeocdn.com'],
     alias: {
       youtube: 'https://img.youtube.com',
@@ -104,6 +101,17 @@ export default defineNuxtConfig({
       'xl': 1280,
       '2xl': 1536,
     },
+    presets: {
+      hero: {
+        modifiers: {
+          format: 'webp',
+          quality: 85,
+          width: 1200,
+          height: 675,
+          fit: 'cover',
+        },
+      },
+    },
   },
   icon: {
     customCollections: [
@@ -113,26 +121,26 @@ export default defineNuxtConfig({
       },
     ],
   },
+  // app: {
+  //   pageTransition: { name: 'page', mode: 'out-in' },
+  // },
   booster: {
     detection: {
       performance: true,
       browserSupport: true,
       battery: true,
     },
-
     performanceMetrics: {
       timing: {
         fcp: 800,
         dcl: 1200,
       },
     },
-
     optimizeSSR: {
       cleanPreloads: true,
       cleanPrefetches: true,
       inlineStyles: true,
     },
-
     /**
      * IntersectionObserver rootMargin for Compoennts and Assets
      */

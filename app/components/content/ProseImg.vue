@@ -14,11 +14,11 @@ const props = defineProps({
   },
   width: {
     type: [String, Number],
-    default: '1200',
+    default: '800',
   },
   height: {
     type: [String, Number],
-    default: '630',
+    default: '450',
   },
 })
 const open = ref(false)
@@ -36,52 +36,20 @@ const img = useImage()
 </script>
 
 <template>
-  <UModal
-    v-model:open="open"
+  <component
+    :is="ImageComponent"
+    :src="refinedSrc"
+    :alt="props.alt"
+    :width="props.width"
+    :height="props.height"
+    class="rounded-4xl cursor-zoom-in w-full h-auto mx-auto"
+    sizes="(max-width: 640px) 100vw, (max-width: 768px) 80vw, (max-width: 1024px) 70vw, 800px"
+    loading="lazy"
+    format="webp"
+    quality="80"
+    densities="1x 2x"
     :title="props.alt"
-    :close="{
-      color: 'primary',
-      variant: 'outline',
-      class: 'rounded-full',
-    }"
-    :ui="{
-      overlay: 'fixed bg-night-900/80  backdrop-blur',
-      content: 'fixed max-w-5xl mx-auto    rounded-2xl shadow-lg',
-      header: 'flex items-center gap-1.5 p-4 sm:px-6 min-h-16',
-      wrapper: '',
-      body: 'flex-1 overflow-y-auto p-4 sm:p-6',
-      footer: 'flex items-center gap-1.5 p-4 sm:px-6',
-      title: 'text-(--ui-text-highlighted) font-semibold',
-      description: 'mt-1 text-(--ui-text-muted) text-sm',
-      close: 'absolute top-4 end-4',
-
-    }"
-  >
-    <component
-
-      :is="ImageComponent"
-      :src="refinedSrc"
-      :alt="props.alt"
-      :width="props.width"
-      :height="props.height"
-      class="rounded-4xl cursor-zoom-in  w-full h-auto mx-auto"
-      sizes="100vw sm:70vw md:500px"
-      loading="lazy"
-      :title="props.alt"
-      :placeholder="img(`${refinedSrc}`, { h: 10, f: 'png', blur: 2, q: 50 })"
-    />
-    <template #body>
-      <component
-        :is="ImageComponent"
-        :src="refinedSrc"
-        :alt="props.alt"
-        class="rounded-4xl w-full cursor-zoom-out h-full object-cover mx-auto"
-        sizes="100vw sm:70vw md:500px"
-        loading="lazy"
-        :title="props.alt"
-        :placeholder="img(`${refinedSrc}`, { h: 10, f: 'png', blur: 2, q: 50 })"
-        @click="open = false"
-      />
-    </template>
-  </UModal>
+    :placeholder="img(refinedSrc, { h: 20, w: 35, f: 'webp', blur: 5, q: 10 })"
+    @click="open = true"
+  />
 </template>

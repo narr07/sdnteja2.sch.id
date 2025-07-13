@@ -13,26 +13,6 @@ const props = withDefaults(defineProps<{
       image: 'https://picsum.photos/468/468?random=1',
       title: 'Fasilitas 1',
     },
-    {
-      image: 'https://picsum.photos/468/468?random=2',
-      title: 'Fasilitas 2',
-    },
-    {
-      image: 'https://picsum.photos/468/468?random=3',
-      title: 'Fasilitas 3',
-    },
-    {
-      image: 'https://picsum.photos/468/468?random=4',
-      title: 'Fasilitas 4',
-    },
-    {
-      image: 'https://picsum.photos/468/468?random=5',
-      title: 'Fasilitas 5',
-    },
-    {
-      image: 'https://picsum.photos/468/468?random=6',
-      title: 'Fasilitas 6',
-    },
   ],
 })
 </script>
@@ -42,7 +22,7 @@ const props = withDefaults(defineProps<{
     <UCarousel
       v-slot="{ item }"
       arrows
-      data-aos="fade-up"
+
       loop wheel-gestures dots :items="props.fasilitas"
       :ui="{
         item: 'basis-1/1 md:basis-1/2',

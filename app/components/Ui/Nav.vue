@@ -24,11 +24,11 @@ const dropdownItems = computed(() => {
 
 <template>
   <div>
-    <div class="bg-red-500 fixed z-50 top-0 w-full">
+    <!-- <div class="bg-red-500 fixed z-50 top-0 w-full">
       <p class="text-xs text-center text-white  ">
         Website Masih dalam pengembangan
       </p>
-    </div>
+    </div> -->
     <div class="fixed top-4 mx-auto w-full z-50">
       <UContainer>
         <div variant="subtle" class="rounded-4xl p-4 px-6 md:rounded-[40px] dark:bg-night-800/80 bg-slate-50/50 shadow backdrop-blur">

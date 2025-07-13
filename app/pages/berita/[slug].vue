@@ -34,16 +34,24 @@ defineOgImageComponent('OgImage', {
         <div class="mb-4">
           <UiBreadcrumb />
         </div>
-        <div data-aos="fade-up" class="py-8 space-y-6 ">
-          <h1 class="text-3xl  md:text-4xl font-bold">
+        <div class="py-8 space-y-6 ">
+          <h1 class="text-3xl text-justify md:text-4xl font-bold">
             {{ beritaPage?.title }}
           </h1>
-          <p>{{ beritaPage?.description }}</p>
+          <p class="text-justify">
+            {{ beritaPage?.description }}
+          </p>
           <UBadge>
             {{ beritaPage?.date ? new Date(beritaPage.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' }) : '' }}
           </UBadge>
         </div>
-        <article data-aos-delay="100" data-aos="fade-up" class="max-w-4xl prose-img:w-full mx-auto prose prose-night dark:prose-invert">
+        <div class="flex flex-wrap gap-2">
+          <UButton v-for="(tag, n) in beritaPage?.tags" :key="n" size="xs" color="neutral" rel="noopener" :to="`/tags/${tag}`">
+            {{ tag }}
+          </UButton>
+        </div>
+        <USeparator class="py-6" />
+        <article class="max-w-4xl prose-img:w-full mx-auto prose prose-night dark:prose-invert text-justify">
           <ContentRenderer v-if="beritaPage" :value="beritaPage" />
         </article>
       </div>
