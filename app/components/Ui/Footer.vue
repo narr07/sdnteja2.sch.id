@@ -65,7 +65,7 @@ function changeLanguage(lang) {
             <!-- Social Brands -->
             <div class="space-x-4">
               <!-- Email -->
-              <NuxtLink :to="appConfig.site.socialMedia.email.link">
+              <NuxtLink :to="appConfig.site.socialMedia.email.url">
                 <UTooltip :text="appConfig.site.socialMedia.email.title" :delay-duration="0">
                   <UIcon
                     class="size-6 hover:text-red-500" :aria-label="appConfig.site.socialMedia.email.title"
@@ -74,7 +74,7 @@ function changeLanguage(lang) {
                 </UTooltip>
               </NuxtLink>
               <!-- Instagram -->
-              <NuxtLink :to="appConfig.site.socialMedia.instagram.link">
+              <NuxtLink :to="appConfig.site.socialMedia.instagram.url">
                 <UTooltip :text="appConfig.site.socialMedia.instagram.title" :delay-duration="0">
                   <UIcon
                     class="size-6 hover:text-red-500" :aria-label="appConfig.site.socialMedia.instagram.title"

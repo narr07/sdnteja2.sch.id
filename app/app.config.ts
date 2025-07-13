@@ -11,12 +11,12 @@ export default defineAppConfig({
       email: {
         title: 'Email',
         icon: 'i-ph-envelope',
-        link: 'mailto:sdsnteja2@gmail.com',
+        url: 'mailto:sdsnteja2@gmail.com',
       },
       instagram: {
         title: 'Instagram',
         icon: 'basil:instagram-outline',
-        link: 'https://instagram.com/sdnteja2',
+        url: 'https://instagram.com/sdnteja2',
       },
     },
     government: {

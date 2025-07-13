@@ -36,11 +36,11 @@ export default defineNuxtSchema({
                   description: 'Icon untuk email',
                   default: 'i-ph-envelope',
                 }),
-                link: field({
+                url: field({
                   type: 'string',
-                  title: 'Link',
-                  description: 'Link email (mailto:)',
-                  default: 'mailto:info@sdnteja2.sch.id',
+                  title: 'Email Link',
+                  description: 'Link email (format: mailto:email@domain.com)',
+                  default: 'mailto:sdsnteja2@gmail.com',
                 }),
               },
             }),
@@ -61,9 +61,9 @@ export default defineNuxtSchema({
                   description: 'Icon untuk Instagram',
                   default: 'basil:instagram-outline',
                 }),
-                link: field({
+                url: field({
                   type: 'string',
-                  title: 'Link',
+                  title: 'Instagram Link',
                   description: 'Link Instagram',
                   default: 'https://instagram.com/sdnteja2',
                 }),
