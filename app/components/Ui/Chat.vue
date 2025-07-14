@@ -14,10 +14,11 @@ const isOpen = ref(false)
         color="primary"
         variant="solid"
         size="lg"
+        class="fixed bottom-4 right-4 z-50"
       />
 
       <template #content>
-        <UCard class="w-96 h-[500px] flex flex-col shadow-xl">
+        <UCard class="w-96 h-[500px] flex flex-col shadow-xl overflow-y-scroll">
           <!-- Header -->
           <template #header>
             <div class="flex items-center justify-between">
@@ -29,11 +30,9 @@ const isOpen = ref(false)
                 />
                 <div>
                   <h3 class="font-semibold text-sm">
-                    AI Assistant
+                    JADU AI
                   </h3>
-                  <p class="text-xs text-gray-500">
-                    Online
-                  </p>
+                  <UBadge label="Online" size="xs" variant="outline" color="success" />
                 </div>
               </div>
               <UButton
@@ -76,7 +75,7 @@ const isOpen = ref(false)
                   v-if="m.role === 'user'"
                   icon="i-heroicons-user"
                   size="xs"
-                  color="gray"
+                  color="neutral"
                 />
               </div>
             </div>
@@ -105,7 +104,7 @@ const isOpen = ref(false)
                 color="primary"
                 variant="ghost"
                 size="xs"
-                @click="() => reload()"
+                @click="reload"
               />
             </div>
           </div>
