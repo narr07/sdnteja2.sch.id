@@ -56,28 +56,40 @@ export default defineNuxtConfig({
   },
   llms: {
     domain: 'https://sdnteja2.sch.id',
-    title: 'SDN Teja II',
-    description: 'Website resmi SDN Teja II, Kecamatan Rajagaluh, Kabupaten Majalengka, Jawa Barat',
+    title: 'SDN Teja II - Sekolah Dasar Negeri Teja II',
+    description: 'Website resmi SDN Teja II, Kecamatan Rajagaluh, Kabupaten Majalengka, Jawa Barat. Sekolah dasar yang berkomitmen memberikan pendidikan berkualitas dengan tenaga pendidik profesional.',
     sections: [
       {
-        title: 'Guru',
-        description: 'Daftar Guru SDN Teja II',
+        title: 'Profil Guru dan Tenaga Pendidik',
+        description: 'Daftar lengkap guru dan tenaga pendidik SDN Teja II dengan informasi jabatan, pendidikan, kelas yang diajar, dan pengalaman pelatihan profesional. Termasuk data kepala sekolah, guru kelas, dan staf pendidikan lainnya.',
         contentCollection: 'guru',
+        contentFilters: [
+          { field: 'extension', operator: '=', value: 'yml' },
+        ],
       },
       {
-        title: 'Berita',
-        description: 'Berita terbaru dari SDN Teja II',
+        title: 'Berita dan Pengumuman Sekolah',
+        description: 'Berita terbaru, pengumuman resmi, dan informasi penting dari SDN Teja II termasuk kegiatan akademik, kebijakan sekolah, dan perkembangan institusi. Mencakup informasi ANBK, pergantian kepala sekolah, dan jadwal pembelajaran.',
         contentCollection: 'berita',
+        contentFilters: [
+          { field: 'extension', operator: '=', value: 'md' },
+        ],
       },
       {
-        title: 'Kegiatan',
-        description: 'Kegiatan terbaru dari SDN Teja II',
+        title: 'Kegiatan dan Program Sekolah',
+        description: 'Dokumentasi kegiatan sekolah, program ekstrakurikuler, acara khusus, dan berbagai aktivitas yang dilaksanakan di SDN Teja II. Termasuk serah terima jabatan, kegiatan kebersihan, dan program pengembangan karakter siswa.',
         contentCollection: 'kegiatan',
+        contentFilters: [
+          { field: 'extension', operator: '=', value: 'yml' },
+        ],
       },
       {
-        title: 'artikel',
-        description: 'Artikel terbaru dari SDN Teja II',
+        title: 'Artikel Pendidikan dan Informasi Umum',
+        description: 'Artikel edukatif, panduan pendidikan, informasi PPDB/SPMB, sejarah pendidikan, rapor pendidikan, dan konten informatif lainnya yang relevan dengan dunia pendidikan dasar di Indonesia.',
         contentCollection: 'artikel',
+        contentFilters: [
+          { field: 'extension', operator: '=', value: 'md' },
+        ],
       },
     ],
   },
