@@ -42,6 +42,7 @@ export default defineNuxtConfig({
   },
   hub: {
     database: true,
+    ai: true,
   },
   content: {
     preview: {
