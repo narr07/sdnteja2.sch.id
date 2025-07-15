@@ -138,31 +138,31 @@ export default defineNuxtConfig({
   // app: {
   //   pageTransition: { name: 'page', mode: 'out-in' },
   // },
-  booster: {
-    detection: {
-      performance: true,
-      browserSupport: true,
-      battery: true,
-    },
-    performanceMetrics: {
-      timing: {
-        fcp: 800,
-        dcl: 1200,
-      },
-    },
-    optimizeSSR: {
-      cleanPreloads: true,
-      cleanPrefetches: true,
-      inlineStyles: true,
-    },
-    /**
-     * IntersectionObserver rootMargin for Compoennts and Assets
-     */
-    lazyOffset: {
-      component: '0%',
-      asset: '0%',
-    },
-  },
+  // booster: {
+  //   detection: {
+  //     performance: true,
+  //     browserSupport: true,
+  //     battery: true,
+  //   },
+  //   performanceMetrics: {
+  //     timing: {
+  //       fcp: 800,
+  //       dcl: 1200,
+  //     },
+  //   },
+  //   optimizeSSR: {
+  //     cleanPreloads: true,
+  //     cleanPrefetches: true,
+  //     inlineStyles: true,
+  //   },
+  //   /**
+  //    * IntersectionObserver rootMargin for Compoennts and Assets
+  //    */
+  //   lazyOffset: {
+  //     component: '0%',
+  //     asset: '0%',
+  //   },
+  // },
   nitro: {
     prerender: {
       routes: ['/'],

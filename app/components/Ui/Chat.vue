@@ -48,7 +48,7 @@ const isOpen = ref(false)
           <!-- Messages Area -->
           <div class="flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50 dark:bg-gray-900/50">
             <div v-if="messages.length === 0" class="text-center text-gray-500 text-sm py-8">
-              Mulai percakapan dengan AI Assistant
+              Mulai percakapan dengan Jadu AI
             </div>
 
             <div v-for="m in messages" :key="m.id" class="flex" :class="m.role === 'user' ? 'justify-end' : 'justify-start'">

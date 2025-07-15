@@ -41,28 +41,26 @@ function changeLanguage(lang) {
           <UiLogo />
         </NuxtLink>
       </USeparator>
-      <div class="pt-3 pb-8 ">
-        <div class="sm:flex sm:justify-between sm:items-center">
+      <div class="pt-3 pb-8">
+        <div class="flex  justify-between  items-center gap-3">
+          <!-- Language Dropdown -->
           <div class="flex flex-wrap items-center gap-3">
-            <!-- Language Dropdown -->
-            <div>
-              <USelect
-                :model-value="activeLanguage"
-                :items="languageOptions"
-                :loading="!isLoaded"
-                value-key="value"
-                size="sm"
-                variant="subtle"
-                color="neutral"
-                highlight
-                arrow
-                class="w-15"
-                @update:model-value="changeLanguage"
-              />
-            </div>
+            <USelect
+              :model-value="activeLanguage"
+              :items="languageOptions"
+              :loading="!isLoaded"
+              value-key="value"
+              size="sm"
+              variant="subtle"
+              color="neutral"
+              highlight
+              arrow
+              class="w-15"
+              @update:model-value="changeLanguage"
+            />
           </div>
-          <div class="flex flex-wrap justify-between items-center gap-3">
-            <!-- Social Brands -->
+          <!-- Social Brands -->
+          <div class="flex flex-wrap items-center gap-3 justify-end">
             <div class="space-x-4">
               <!-- Email -->
               <NuxtLink :to="appConfig.site.socialMedia.email.url">
@@ -82,10 +80,11 @@ function changeLanguage(lang) {
                   />
                 </UTooltip>
               </NuxtLink>
-            </div> <!-- End Social Brands -->
-          </div> <!-- End Col -->
+            </div>
+          </div>
         </div>
-      </div> <!-- Grid -->
+      </div>
+      <!-- Grid -->
       <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6 mb-10">
         <div class="col-span-full hidden lg:col-span-1 lg:block">
           <p class="mt-3 text-xs sm:text-sm text-gray-600">
