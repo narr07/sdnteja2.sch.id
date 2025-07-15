@@ -15,19 +15,21 @@ export default defineContentConfig({
         description: z.string(),
         seo: z.intersection(
           z.object({
-            title: z.string().optional(),
-            description: z.string().optional(),
-            meta: z.array(z.record(z.string(), z.any())).optional(),
-            link: z.array(z.record(z.string(), z.any())).optional(),
+            title: z.string().editor({ hidden: true }),
+            description: z.string().editor({ hidden: true }),
+            meta: z.array(z.record(z.string(), z.any())).editor({ hidden: true }),
+            link: z.array(z.record(z.string(), z.any())).editor({ hidden: true }),
           }),
           z.record(z.string(), z.any()),
-        ).optional().editor({ hidden: true }),
+        ).editor({ hidden: true }),
         navigation: z.union([
           z.boolean(),
           z.object({
+            title: z.string().editor({ hidden: true }),
+            description: z.string().editor({ hidden: true }),
             icon: z.string().editor({ input: 'icon' }),
           }),
-        ]).default(true),
+        ]).default(true).editor({ hidden: true }),
       }),
     }),
     berita: defineCollection({
@@ -55,7 +57,7 @@ export default defineContentConfig({
           z.object({
             title: z.string(),
             description: z.string(),
-            icon: z.string(),
+            icon: z.string().editor({ input: 'icon' }),
           }),
         ]).default(true).editor({ hidden: true }),
       }),
