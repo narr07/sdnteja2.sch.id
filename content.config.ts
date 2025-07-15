@@ -1,5 +1,6 @@
 // content.config.ts
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
+import { de } from '@nuxt/ui/runtime/locale/index.js'
 
 export default defineContentConfig({
   collections: {
@@ -13,23 +14,7 @@ export default defineContentConfig({
       schema: z.object({
         title: z.string(),
         description: z.string(),
-        seo: z.intersection(
-          z.object({
-            title: z.string().editor({ hidden: true }),
-            description: z.string().editor({ hidden: true }),
-            meta: z.array(z.record(z.string(), z.any())).editor({ hidden: true }),
-            link: z.array(z.record(z.string(), z.any())).editor({ hidden: true }),
-          }),
-          z.record(z.string(), z.any()),
-        ).editor({ hidden: true }),
-        navigation: z.union([
-          z.boolean(),
-          z.object({
-            title: z.string().editor({ hidden: true }),
-            description: z.string().editor({ hidden: true }),
-            icon: z.string().editor({ input: 'icon' }),
-          }),
-        ]).default(true).editor({ hidden: true }),
+
       }),
     }),
     berita: defineCollection({
@@ -43,23 +28,7 @@ export default defineContentConfig({
         description: z.string(),
         date: z.date(),
         tags: z.array(z.string()),
-        seo: z.intersection(
-          z.object({
-            title: z.string().optional(),
-            description: z.string().optional(),
-            meta: z.array(z.record(z.string(), z.any())).optional(),
-            link: z.array(z.record(z.string(), z.any())).optional(),
-          }),
-          z.record(z.string(), z.any()),
-        ).optional().editor({ hidden: true }),
-        navigation: z.union([
-          z.boolean(),
-          z.object({
-            title: z.string(),
-            description: z.string(),
-            icon: z.string().editor({ input: 'icon' }),
-          }),
-        ]).default(true).editor({ hidden: true }),
+
       }),
     }),
     guru: defineCollection({
@@ -69,6 +38,8 @@ export default defineContentConfig({
         prefix: '/guru',
       },
       schema: z.object({
+        title: z.string().editor({ hidden: true }),
+        description: z.string().editor({ hidden: true }),
         nama: z.string(),
         lengkap: z.string(),
         catatan: z.string(),
