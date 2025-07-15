@@ -49,6 +49,7 @@ export default defineNuxtConfig({
       api: 'https://api.nuxt.studio',
       dev: true,
     },
+    // Hapus konfigurasi database untuk menggunakan file system
     database: {
       type: 'd1',
       bindingName: 'teja2',
@@ -138,31 +139,31 @@ export default defineNuxtConfig({
   // app: {
   //   pageTransition: { name: 'page', mode: 'out-in' },
   // },
-  // booster: {
-  //   detection: {
-  //     performance: true,
-  //     browserSupport: true,
-  //     battery: true,
-  //   },
-  //   performanceMetrics: {
-  //     timing: {
-  //       fcp: 800,
-  //       dcl: 1200,
-  //     },
-  //   },
-  //   optimizeSSR: {
-  //     cleanPreloads: true,
-  //     cleanPrefetches: true,
-  //     inlineStyles: true,
-  //   },
-  //   /**
-  //    * IntersectionObserver rootMargin for Compoennts and Assets
-  //    */
-  //   lazyOffset: {
-  //     component: '0%',
-  //     asset: '0%',
-  //   },
-  // },
+  booster: {
+    detection: {
+      performance: true,
+      browserSupport: true,
+      battery: true,
+    },
+    performanceMetrics: {
+      timing: {
+        fcp: 800,
+        dcl: 1200,
+      },
+    },
+    optimizeSSR: {
+      cleanPreloads: true,
+      cleanPrefetches: true,
+      inlineStyles: true,
+    },
+    /**
+     * IntersectionObserver rootMargin for Compoennts and Assets
+     */
+    lazyOffset: {
+      component: '0%',
+      asset: '0%',
+    },
+  },
   nitro: {
     prerender: {
       routes: ['/'],
