@@ -83,8 +83,6 @@ export default defineContentConfig({
         catatan: z.string(),
         kelas: z.string(),
         foto: z.string().editor({ input: 'media' }),
-        nip: z.string(),
-        nuptk: z.string(),
         jabatan: z.string(),
         pendidikan: z.string(),
         pelatihan: z.array(z.object({
