@@ -90,7 +90,7 @@ useSchemaOrg([
 
         <!-- Bio Card -->
         <UCard
-          data-aos="fade-up" data-aos-delay="100"
+
           variant="soft"
           class="rounded-3xl bg-night-50 shadow-teja dark:bg-night-900 md:col-span-2"
         >
@@ -107,7 +107,7 @@ useSchemaOrg([
 
         <!-- Details Card -->
         <UCard
-          data-aos="fade-up" data-aos-delay="200"
+
           variant="soft"
           class="rounded-3xl bg-night-50 shadow-teja dark:bg-night-900 md:col-span-2"
         >

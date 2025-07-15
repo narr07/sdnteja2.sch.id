@@ -21,7 +21,8 @@ export default defineContentConfig({
           }),
           z.record(z.string(), z.any()),
         ).optional().default({}).editor({ hidden: true }),
-        navigation: z.object({
+        navigation:
+        z.object({
           icon: z.string().editor({ input: 'icon' }),
         }),
       }),
@@ -33,7 +34,8 @@ export default defineContentConfig({
         title: z.string(),
         description: z.string(),
         date: z.date(),
-        tags: z.array(z.string()),
+        tags: z.array(z.string(),
+        ),
         seo: z.intersection(
           z.object({
             title: z.string().optional(),
@@ -57,8 +59,8 @@ export default defineContentConfig({
       type: 'page',
       source: 'guru/*.yml',
       schema: z.object({
-        title: z.string().optional().default('').editor({ hidden: true }),
-        description: z.string().optional().default('').editor({ hidden: true }),
+        title: z.string().editor({ hidden: true }),
+        description: z.string().editor({ hidden: true }),
         seo: z.intersection(
           z.object({
             title: z.string().optional(),
@@ -80,7 +82,7 @@ export default defineContentConfig({
         lengkap: z.string(),
         catatan: z.string(),
         kelas: z.string(),
-        foto: z.string().url(),
+        foto: z.string().editor({ input: 'media' }),
         jabatan: z.string(),
         pendidikan: z.string(),
         pelatihan: z.array(z.object({
@@ -91,7 +93,7 @@ export default defineContentConfig({
           icon: z.string().editor({ input: 'icon' }),
           link: z.string(),
           alt: z.string(),
-        })).max(4).optional(),
+        })).max(4),
       }),
     }),
     artikel: defineCollection({
@@ -102,8 +104,11 @@ export default defineContentConfig({
         description: z.string(),
         author: z.string(),
         date: z.date(),
-        image: z.string().url(),
-        tags: z.array(z.string()),
+        image: z.object({
+          src: z.string().editor({ input: 'media' }),
+        }),
+        tags: z.array(z.string(),
+        ),
         seo: z.intersection(
           z.object({
             title: z.string().optional(),
@@ -168,25 +173,20 @@ export default defineContentConfig({
         description: z.string(),
         date: z.date(),
         tag: z.string(),
-        cover: z.string().url(),
-        seo: z.intersection(
-          z.object({
-            title: z.string().optional(),
-            description: z.string().optional(),
-            meta: z.array(z.record(z.string(), z.any())).optional(),
-            link: z.array(z.record(z.string(), z.any())).optional(),
-          }),
-          z.record(z.string(), z.any()),
-        ).optional().default({}).editor({ hidden: true }),
-        navigation: z.union([
-          z.boolean(),
-          z.object({
-            title: z.string(),
-            description: z.string(),
-            icon: z.string(),
-          }),
-        ]).default(true).editor({ hidden: true }),
+        cover: z.string().editor({ input: 'media' }),
+        seo: z.intersection(z.object({
+          title: z.string().optional(),
+          description: z.string().optional(),
+          meta: z.array(z.record(z.string(), z.any())).optional(),
+          link: z.array(z.record(z.string(), z.any())).optional(),
+        }), z.record(z.string(), z.any())).optional().default({}).editor({ hidden: true }),
+        navigation: z.union([z.boolean(), z.object({
+          title: z.string(),
+          description: z.string(),
+          icon: z.string(),
+        })]).default(true).editor({ hidden: true }),
       }),
+
     }),
   },
 })
