@@ -15,20 +15,65 @@ interface SearchResult {
 const searchResults = ref<SearchResult[]>([])
 const open = ref(false)
 const value = ref({})
-const isLoading = ref(false)
 
 // Router untuk navigasi
 const router = useRouter()
 
-// Fetch initial data (semua konten) dari server API
-const initialData = await $fetch<{
-  results: SearchResult[]
-  total: number
-  query: string
-}>('/api/search')
+// Fetch data menggunakan client-side approach dengan useLazyAsyncData
+const { data: allContent } = await useLazyAsyncData('search-content', () => {
+  return Promise.all([
+    // Markdown collections
+    queryCollectionSearchSections('artikel'),
+    queryCollectionSearchSections('berita'),
+    queryCollectionSearchSections('content'),
+    // YAML collections
+    queryCollection('guru').all(),
+    queryCollection('kegiatan').all(),
+    queryCollection('media').all(),
+  ])
+}, {
+  server: false,
+  transform: (data) => {
+    const [artikelData, beritaData, contentData, guruData, kegiatanData, mediaData] = data
+
+    // Transform and combine results
+    const searchResults = [
+      ...(artikelData || []).map((item: any) => ({ ...item, type: 'artikel' })),
+      ...(beritaData || []).map((item: any) => ({ ...item, type: 'berita' })),
+      ...(contentData || []).map((item: any) => ({ ...item, type: 'content' })),
+      // Transform YAML data to match search format
+      ...(guruData || []).map((item: any) => ({
+        id: item._path || item.path || item.id,
+        title: item.nama || item.title,
+        titles: [item.jabatan || '', item.kelas || ''].filter(Boolean),
+        level: 1,
+        content: `${item.nama || ''} ${item.lengkap || ''} ${item.catatan || ''} ${item.jabatan || ''} ${item.pendidikan || ''}`.trim(),
+        type: 'guru',
+      })),
+      ...(kegiatanData || []).map((item: any) => ({
+        id: item._path || item.path || item.id,
+        title: item.title,
+        titles: [item.tag || ''].filter(Boolean),
+        level: 1,
+        content: `${item.title || ''} ${item.description || ''} ${item.tag || ''}`.trim(),
+        type: 'kegiatan',
+      })),
+      ...(mediaData || []).map((item: any) => ({
+        id: item._path || item.path || item.id,
+        title: item.title,
+        titles: [item.kelas || '', item.pelajaran || ''].filter(Boolean),
+        level: 1,
+        content: `${item.title || ''} ${item.pelajaran || ''} Kelas ${item.kelas || ''}`.trim(),
+        type: 'media',
+      })),
+    ]
+
+    return searchResults
+  },
+})
 
 // Set initial results
-searchResults.value = initialData?.results || []
+searchResults.value = allContent.value || []
 
 // Reactive search function dengan debounce manual
 let searchTimeout: NodeJS.Timeout | null = null
@@ -38,36 +83,25 @@ function debouncedSearch(term: string) {
     clearTimeout(searchTimeout)
   }
 
-  searchTimeout = setTimeout(async () => {
+  searchTimeout = setTimeout(() => {
     if (!term || term.length < 2) {
-      // Jika tidak ada search term, gunakan data awal
-      const response = await $fetch<{
-        results: SearchResult[]
-        total: number
-        query: string
-      }>('/api/search')
-      searchResults.value = response?.results || []
+      // Jika tidak ada search term, gunakan semua data
+      searchResults.value = allContent.value || []
       return
     }
 
-    isLoading.value = true
-    try {
-      const response = await $fetch<{
-        results: SearchResult[]
-        total: number
-        query: string
-      }>('/api/search', {
-        query: { q: term },
-      })
-      searchResults.value = response?.results || []
-    }
-    catch (error) {
-      console.error('Search failed:', error)
-      searchResults.value = []
-    }
-    finally {
-      isLoading.value = false
-    }
+    // Filter data di client-side
+    const allData = allContent.value || []
+    const filteredResults = allData.filter((item: SearchResult) => {
+      const searchLower = term.toLowerCase()
+      return (
+        item.title.toLowerCase().includes(searchLower)
+        || item.content.toLowerCase().includes(searchLower)
+        || item.titles?.some((title: string) => title.toLowerCase().includes(searchLower))
+      )
+    })
+
+    searchResults.value = filteredResults
   }, 300) // 300ms debounce
 }
 
@@ -75,6 +109,13 @@ function debouncedSearch(term: string) {
 watch(searchTerm, (newTerm) => {
   debouncedSearch(newTerm)
 })
+
+// Watch for data changes and update search results
+watch(allContent, (newData) => {
+  if (newData && (!searchTerm.value || searchTerm.value.length < 2)) {
+    searchResults.value = newData
+  }
+}, { immediate: true })
 
 // Fungsi untuk menangani pemilihan item
 function onSelect(item: any) {
@@ -122,7 +163,7 @@ const groups = computed(() => {
           label: item.title,
           icon: getIconByType(item.type),
           suffix: `${item.content.slice(0, 40)}...`,
-          description: item.titles.join(' > '),
+          description: item.titles?.join(' > ') || '',
           to: cleanPath(item.id),
         })),
       })
@@ -139,7 +180,7 @@ const groups = computed(() => {
         label: item.title,
         icon: getIconByType(item.type),
         suffix: getTypeLabel(item.type),
-        description: item.titles.join(' > '),
+        description: item.titles?.join(' > ') || '',
         to: cleanPath(item.id),
       })),
     }]
@@ -153,8 +194,11 @@ function cleanPath(path: string): string {
   if (!path)
     return '/'
 
+  // Gunakan _path jika tersedia (dari Nuxt Content), fallback ke path biasa
+  let cleanedPath = path
+
   // Hapus extension file (.yml, .md)
-  let cleanedPath = path.replace(/\.(yml|yaml|md)$/, '')
+  cleanedPath = cleanedPath.replace(/\.(yml|yaml|md)$/, '')
 
   // Hapus numeric prefix (0., 1., 2., dll) untuk clean URL
   cleanedPath = cleanedPath.replace(/\/\d+\./, '/')
@@ -241,7 +285,6 @@ defineShortcuts({
           close
           placeholder="Cari Konten ..."
           :groups="groups"
-          :loading="isLoading"
           :ui="{
             item: 'hover:bg-red-300 dark:hover:bg-red-700 rounded focus:bg-red-300',
             root: 'flex flex-col min-h-0 w-full  min-w-0 divide-y divide-[var(--ui-border)]',
