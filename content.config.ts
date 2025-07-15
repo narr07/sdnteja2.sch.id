@@ -2,22 +2,6 @@
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
 
 // Reusable Schema Components
-const SEO = z.object({
-  title: z.string().optional(),
-  description: z.string().optional(),
-  meta: z.array(z.record(z.string(), z.any())).optional(),
-  link: z.array(z.record(z.string(), z.any())).optional(),
-})
-
-const Navigation = z.union([
-  z.boolean(),
-  z.object({
-    title: z.string(),
-    description: z.string(),
-    icon: z.string().editor({ input: 'icon' }),
-  }),
-]).default(true)
-
 const SocialLink = z.object({
   icon: z.string().editor({ input: 'icon' }),
   link: z.string(),
@@ -29,14 +13,6 @@ const Pelatihan = z.object({
   tahun: z.string(),
 })
 
-// Base Schema untuk semua content
-const BaseContentSchema = z.object({
-  title: z.string().editor({ hidden: true }),
-  description: z.string().editor({ hidden: true }),
-  seo: z.intersection(SEO, z.record(z.string(), z.any())).optional().editor({ hidden: true }),
-  navigation: Navigation.editor({ hidden: true }),
-})
-
 export default defineContentConfig({
   collections: {
     content: defineCollection({
@@ -46,10 +22,10 @@ export default defineContentConfig({
         exclude: ['berita/**', 'artikel/**', 'guru/**', 'kegiatan/**', 'media/**'],
         prefix: '/',
       },
-      schema: BaseContentSchema.extend({
-        title: z.string(), // Override: show title
-        description: z.string(), // Override: show description
-      }).pick({ title: true, description: true }),
+      schema: z.object({
+        title: z.string(),
+        description: z.string(),
+      }),
     }),
     berita: defineCollection({
       type: 'page',
@@ -57,9 +33,9 @@ export default defineContentConfig({
         include: 'berita/*.md',
         prefix: '/berita',
       },
-      schema: BaseContentSchema.extend({
-        title: z.string(), // Override: show title
-        description: z.string(), // Override: show description
+      schema: z.object({
+        title: z.string(),
+        description: z.string(),
         date: z.date(),
         tags: z.array(z.string()),
       }),
@@ -88,9 +64,9 @@ export default defineContentConfig({
         include: 'artikel/*.md',
         prefix: '/artikel',
       },
-      schema: BaseContentSchema.extend({
-        title: z.string(), // Override: show title
-        description: z.string(), // Override: show description
+      schema: z.object({
+        title: z.string(),
+        description: z.string(),
         author: z.string(),
         date: z.date(),
         image: z.string().editor({ input: 'media' }),
@@ -103,9 +79,9 @@ export default defineContentConfig({
         include: 'kegiatan/*.yml',
         prefix: '/kegiatan',
       },
-      schema: BaseContentSchema.extend({
-        title: z.string(), // Override: show title
-        description: z.string(), // Override: show description
+      schema: z.object({
+        title: z.string(),
+        description: z.string(),
         date: z.date(),
         tag: z.string(),
         cover: z.string().editor({ input: 'media' }),
