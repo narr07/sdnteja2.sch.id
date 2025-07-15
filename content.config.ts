@@ -7,6 +7,7 @@ export default defineContentConfig({
       type: 'page',
       source: {
         include: '*.md',
+        exclude: ['berita/**', 'artikel/**', 'guru/**', 'kegiatan/**', 'media/**'],
         prefix: '/',
       },
       schema: z.object({
