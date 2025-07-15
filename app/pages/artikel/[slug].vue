@@ -50,7 +50,7 @@ useSchemaOrg([
           <h1 class="text-3xl  md:text-4xl font-bold">
             {{ artikelPage?.title }}
           </h1>
-          <p class="text-justify">
+          <p>
             {{ artikelPage?.description }}
           </p>
           <UBadge>

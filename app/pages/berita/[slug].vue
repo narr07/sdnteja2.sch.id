@@ -35,10 +35,10 @@ defineOgImageComponent('OgImage', {
           <UiBreadcrumb />
         </div>
         <div class="py-8 space-y-6 ">
-          <h1 class="text-3xl text-justify md:text-4xl font-bold">
+          <h1 class="text-3xl  md:text-4xl font-bold">
             {{ beritaPage?.title }}
           </h1>
-          <p class="text-justify">
+          <p>
             {{ beritaPage?.description }}
           </p>
           <UBadge>
