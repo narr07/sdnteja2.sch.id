@@ -13,6 +13,21 @@ export default defineContentConfig({
       schema: z.object({
         title: z.string(),
         description: z.string(),
+        seo: z.intersection(
+          z.object({
+            title: z.string().optional(),
+            description: z.string().optional(),
+            meta: z.array(z.record(z.string(), z.any())).optional(),
+            link: z.array(z.record(z.string(), z.any())).optional(),
+          }),
+          z.record(z.string(), z.any()),
+        ).optional().editor({ hidden: true }),
+        navigation: z.union([
+          z.boolean(),
+          z.object({
+            icon: z.string().editor({ input: 'icon' }),
+          }),
+        ]).default(true),
       }),
     }),
     berita: defineCollection({
@@ -26,6 +41,23 @@ export default defineContentConfig({
         description: z.string(),
         date: z.date(),
         tags: z.array(z.string()),
+        seo: z.intersection(
+          z.object({
+            title: z.string().optional(),
+            description: z.string().optional(),
+            meta: z.array(z.record(z.string(), z.any())).optional(),
+            link: z.array(z.record(z.string(), z.any())).optional(),
+          }),
+          z.record(z.string(), z.any()),
+        ).optional().editor({ hidden: true }),
+        navigation: z.union([
+          z.boolean(),
+          z.object({
+            title: z.string(),
+            description: z.string(),
+            icon: z.string(),
+          }),
+        ]).default(true).editor({ hidden: true }),
       }),
     }),
     guru: defineCollection({
