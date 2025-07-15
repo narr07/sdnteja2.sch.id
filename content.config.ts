@@ -7,7 +7,7 @@ export default defineContentConfig({
       type: 'page',
       source: {
         include: '*.md',
-        exclude: ['berita/**', 'guru/**'],
+        prefix: '/',
       },
       schema: z.object({
         title: z.string(),
@@ -21,14 +21,22 @@ export default defineContentConfig({
           }),
           z.record(z.string(), z.any()),
         ).optional().default({}).editor({ hidden: true }),
-        navigation: z.object({
-          icon: z.string().editor({ input: 'icon' }),
-        }),
+        navigation: z.union([
+          z.boolean(),
+          z.object({
+            title: z.string(),
+            description: z.string(),
+            icon: z.string(),
+          }),
+        ]).default(true).editor({ hidden: true }),
       }),
     }),
     berita: defineCollection({
       type: 'page',
-      source: 'berita/*.md',
+      source: {
+        include: 'berita/*.md',
+        prefix: '/berita',
+      },
       schema: z.object({
         title: z.string(),
         description: z.string(),
@@ -55,7 +63,10 @@ export default defineContentConfig({
     }),
     guru: defineCollection({
       type: 'page',
-      source: 'guru/*.yml',
+      source: {
+        include: 'guru/*.yml',
+        prefix: '/guru',
+      },
       schema: z.object({
         title: z.string().optional().default('').editor({ hidden: true }),
         description: z.string().optional().default('').editor({ hidden: true }),
@@ -96,7 +107,10 @@ export default defineContentConfig({
     }),
     artikel: defineCollection({
       type: 'page',
-      source: 'artikel/*.md',
+      source: {
+        include: 'artikel/*.md',
+        prefix: '/artikel',
+      },
       schema: z.object({
         title: z.string(),
         description: z.string(),
@@ -123,24 +137,18 @@ export default defineContentConfig({
         ]).default(true).editor({ hidden: true }),
       }),
     }),
-    search: defineCollection({
+    kegiatan: defineCollection({
       type: 'page',
       source: {
-        include: '**/*.md',
-        exclude: ['*.md'],
-        prefix: '/',
+        include: 'kegiatan/*.yml',
+        prefix: '/kegiatan',
       },
-      schema: z.object({}),
-    }),
-    media: defineCollection({
-      type: 'data',
-      source: 'media/**',
       schema: z.object({
         title: z.string(),
-        idVideo: z.string(),
-        link: z.string(),
-        kelas: z.enum(['1', '2', '3', '4', '5', '6']),
-        pelajaran: z.string(),
+        description: z.string(),
+        date: z.date(),
+        tag: z.string(),
+        cover: z.string().url(),
         seo: z.intersection(
           z.object({
             title: z.string().optional(),
@@ -160,15 +168,18 @@ export default defineContentConfig({
         ]).default(true).editor({ hidden: true }),
       }),
     }),
-    kegiatan: defineCollection({
-      type: 'page',
-      source: 'kegiatan/*.yml',
+    media: defineCollection({
+      type: 'data',
+      source: {
+        include: 'media/**',
+        prefix: '/media',
+      },
       schema: z.object({
         title: z.string(),
-        description: z.string(),
-        date: z.date(),
-        tag: z.string(),
-        cover: z.string().url(),
+        idVideo: z.string(),
+        link: z.string(),
+        kelas: z.enum(['1', '2', '3', '4', '5', '6']),
+        pelajaran: z.string(),
         seo: z.intersection(
           z.object({
             title: z.string().optional(),
