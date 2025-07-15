@@ -1,6 +1,41 @@
 // content.config.ts
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
-import { de } from '@nuxt/ui/runtime/locale/index.js'
+
+// Reusable Schema Components
+const SEO = z.object({
+  title: z.string().optional(),
+  description: z.string().optional(),
+  meta: z.array(z.record(z.string(), z.any())).optional(),
+  link: z.array(z.record(z.string(), z.any())).optional(),
+})
+
+const Navigation = z.union([
+  z.boolean(),
+  z.object({
+    title: z.string(),
+    description: z.string(),
+    icon: z.string().editor({ input: 'icon' }),
+  }),
+]).default(true)
+
+const SocialLink = z.object({
+  icon: z.string().editor({ input: 'icon' }),
+  link: z.string(),
+  alt: z.string(),
+})
+
+const Pelatihan = z.object({
+  title: z.string(),
+  tahun: z.string(),
+})
+
+// Base Schema untuk semua content
+const BaseContentSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  seo: z.intersection(SEO, z.record(z.string(), z.any())).optional().editor({ hidden: true }),
+  navigation: Navigation.editor({ hidden: true }),
+})
 
 export default defineContentConfig({
   collections: {
@@ -11,11 +46,7 @@ export default defineContentConfig({
         exclude: ['berita/**', 'artikel/**', 'guru/**', 'kegiatan/**', 'media/**'],
         prefix: '/',
       },
-      schema: z.object({
-        title: z.string(),
-        description: z.string(),
-
-      }),
+      schema: BaseContentSchema.pick({ title: true, description: true }),
     }),
     berita: defineCollection({
       type: 'page',
@@ -23,12 +54,9 @@ export default defineContentConfig({
         include: 'berita/*.md',
         prefix: '/berita',
       },
-      schema: z.object({
-        title: z.string(),
-        description: z.string(),
+      schema: BaseContentSchema.extend({
         date: z.date(),
         tags: z.array(z.string()),
-
       }),
     }),
     guru: defineCollection({
@@ -38,24 +66,15 @@ export default defineContentConfig({
         prefix: '/guru',
       },
       schema: z.object({
-        title: z.string().editor({ hidden: true }),
-        description: z.string().editor({ hidden: true }),
         nama: z.string(),
         lengkap: z.string(),
         catatan: z.string(),
         kelas: z.string(),
-        foto: z.string().url(),
+        foto: z.string().editor({ input: 'media' }),
         jabatan: z.string(),
         pendidikan: z.string(),
-        pelatihan: z.array(z.object({
-          title: z.string(),
-          tahun: z.string(),
-        })),
-        sosial: z.array(z.object({
-          icon: z.string().editor({ input: 'icon' }),
-          link: z.string(),
-          alt: z.string(),
-        })).max(4).optional(),
+        pelatihan: z.array(Pelatihan),
+        sosial: z.array(SocialLink).max(4).optional(),
       }),
     }),
     artikel: defineCollection({
@@ -64,12 +83,10 @@ export default defineContentConfig({
         include: 'artikel/*.md',
         prefix: '/artikel',
       },
-      schema: z.object({
-        title: z.string(),
-        description: z.string(),
+      schema: BaseContentSchema.extend({
         author: z.string(),
         date: z.date(),
-        image: z.string().url(),
+        image: z.string().editor({ input: 'media' }),
         tags: z.array(z.string()),
       }),
     }),
@@ -79,12 +96,10 @@ export default defineContentConfig({
         include: 'kegiatan/*.yml',
         prefix: '/kegiatan',
       },
-      schema: z.object({
-        title: z.string(),
-        description: z.string(),
+      schema: BaseContentSchema.extend({
         date: z.date(),
         tag: z.string(),
-        cover: z.string().url(),
+        cover: z.string().editor({ input: 'media' }),
       }),
     }),
     media: defineCollection({
