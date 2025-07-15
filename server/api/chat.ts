@@ -1,175 +1,105 @@
 // server/api/chat.ts
 import { streamText } from 'ai'
 import { createWorkersAI } from 'workers-ai-provider'
+import { getLLMSData } from '../utils/llms-cache'
 
 export default defineEventHandler(async (event) => {
   const { messages } = await readBody(event)
 
-  // Ambil data dari semua collection
-  let allData = ''
+  // Ambil data dari llms.txt menggunakan cache utility
+  const llmsData = await getLLMSData()
 
-  // Ambil data dari llms.txt yang digenerate otomatis
-  let llmsData = ''
+  // Debug: Log data LLMS
+  console.error('=== DEBUG LLMS DATA ===')
+  console.error('LLMS data length:', llmsData.length)
+  console.error('LLMS data preview (first 500 chars):', llmsData.substring(0, 500))
+  console.error('LLMS data contains "guru":', llmsData.toLowerCase().includes('guru'))
+  console.error('LLMS data contains "teja":', llmsData.toLowerCase().includes('teja'))
+  console.error('LLMS data contains "kartini":', llmsData.toLowerCase().includes('kartini'))
 
-  try {
-    // Coba ambil data dari /llms.txt
-    const llmsResponse = await $fetch('/llms.txt', {
-      method: 'GET',
-      headers: {
-        Accept: 'text/plain',
-      },
-    })
-    if (llmsResponse) {
-      llmsData = typeof llmsResponse === 'string' ? llmsResponse : JSON.stringify(llmsResponse)
-      console.error('LLMs data loaded, length:', llmsData.length)
-    }
-  }
-  catch (llmsError) {
-    console.error('Could not fetch llms.txt:', llmsError)
-  }
+  // Jika LLMS data kosong, berikan fallback data
+  let finalData = llmsData
+  if (!llmsData || llmsData.length < 100) {
+    console.error('WARNING: LLMS data empty or too short, using fallback')
+    finalData = `
+DATA GURU SDN TEJA II:
+Susi Susanti (Susi Susanti, S.Pd.I., M.Pd.):
+- Jabatan: Kepala Sekolah
+- Kelas: -
+- Pendidikan: S1 - Bahasa Inggris
+- Catatan: Sebagai kepala sekolah, saya berkomitmen untuk menciptakan lingkungan belajar yang inspiratif dan mendukung perkembangan setiap siswa.
 
-  try {
-    // Data Guru
-    console.error('Fetching guru data...')
-    const guruResults = await queryCollection(event, 'guru').all()
-    console.error('Guru results length:', guruResults?.length || 0)
+Iis Kartini (Hj. Iis Kartini, S.Pd.):
+- Jabatan: Bendahara
+- Kelas: Wali Kelas 1
+- Pendidikan: S1 - Matematika
+- Catatan: Mengajar bukan hanya tentang memberikan pelajaran, tapi juga menanamkan nilai-nilai kehidupan.
 
-    if (guruResults && guruResults.length > 0) {
-      allData += 'DATA GURU SDN TEJA II:\n'
-      allData += guruResults.map((guru: Record<string, any>) =>
-        `${guru.nama || ''} (${guru.lengkap || guru.nama || ''}):
-- Jabatan: ${guru.jabatan || '-'}
-- Kelas: ${guru.kelas || '-'}
-- Pendidikan: ${guru.pendidikan || '-'}
-- Catatan: ${guru.catatan || '-'}
-- Pelatihan: ${guru.pelatihan ? guru.pelatihan.map((p: Record<string, any>) => `${p.title} (${p.tahun})`).join(', ') : 'Tidak ada'}`,
-      ).join('\n\n')
-      allData += '\n\n'
-    }
+Haris Sunardi:
+- Jabatan: Guru
+- Kelas: Wali Kelas 6
+- Pendidikan: -
 
-    // Data Berita
-    const beritaResults = await queryCollection(event, 'berita').all()
-    if (beritaResults && beritaResults.length > 0) {
-      allData += '=== DATA BERITA SDN TEJA II ===\n'
-      allData += beritaResults.map((berita: Record<string, any>) =>
-        `BERITA: ${berita.title || ''}
-- Deskripsi: ${berita.description || '-'}
-- Tanggal: ${berita.date ? new Date(berita.date).toLocaleDateString('id-ID') : '-'}
-- Author: ${berita.author || '-'}
-- Kategori: BERITA`,
-      ).join('\n\n')
-      allData += '\n\n'
-    }
+Maspupah:
+- Jabatan: Guru
+- Kelas: -
+- Pendidikan: -
 
-    // Data Artikel
-    const artikelResults = await queryCollection(event, 'artikel').all()
-    if (artikelResults && artikelResults.length > 0) {
-      allData += '=== DATA ARTIKEL SDN TEJA II ===\n'
-      allData += artikelResults.map((artikel: Record<string, any>) =>
-        `ARTIKEL: ${artikel.title || ''}
-- Deskripsi: ${artikel.description || '-'}
-- Author: ${artikel.author || '-'}
-- Tanggal: ${artikel.date ? new Date(artikel.date).toLocaleDateString('id-ID') : '-'}
-- Kategori: ARTIKEL`,
-      ).join('\n\n')
-      allData += '\n\n'
-    }
+Retno Wulandari:
+- Jabatan: Guru
+- Kelas: -
+- Pendidikan: -
 
-    // Data Kegiatan
-    const kegiatanResults = await queryCollection(event, 'kegiatan').all()
-    if (kegiatanResults && kegiatanResults.length > 0) {
-      allData += 'DATA KEGIATAN SDN TEJA II:\n'
-      allData += kegiatanResults.map((kegiatan: Record<string, any>) =>
-        `${kegiatan.title || ''}:
-- Deskripsi: ${kegiatan.description || '-'}
-- Tanggal: ${kegiatan.date ? new Date(kegiatan.date).toLocaleDateString('id-ID') : '-'}
-- Tag: ${kegiatan.tag || '-'}`,
-      ).join('\n\n')
-      allData += '\n\n'
-    }
+Didi Rukmayadi:
+- Jabatan: Guru
+- Kelas: -
+- Pendidikan: -
 
-    // Data Media
-    const mediaResults = await queryCollection(event, 'media').all()
-    if (mediaResults && mediaResults.length > 0) {
-      allData += 'DATA MEDIA SDN TEJA II:\n'
-      allData += mediaResults.map((media: Record<string, any>) =>
-        `${media.title || ''}:
-- Deskripsi: ${media.description || '-'}
-- Kelas: ${media.kelas || '-'}
-- Mata Pelajaran: ${media.mapel || '-'}`,
-      ).join('\n\n')
-      allData += '\n\n'
-    }
-  }
-  catch (error) {
-    console.error('Error fetching collections:', error)
-    allData = 'Maaf, terjadi kesalahan saat mengambil data sekolah.'
+Dinar Permadi:
+- Jabatan: Guru
+- Kelas: -
+- Pendidikan: -
+
+Yana Maulana:
+- Jabatan: Guru
+- Kelas: -
+- Pendidikan: -
+
+Putriana Indrawati:
+- Jabatan: Guru
+- Kelas: -
+- Pendidikan: -
+    `
   }
 
-  // Debug: Log data yang berhasil diambil
-  console.error('Collections data length:', allData.length)
-  console.error('LLMs data length:', llmsData.length)
-  console.error('Sample collections data:', allData.substring(0, 200))
-  console.error('Sample LLMs data:', llmsData.substring(0, 200))
+  const systemPrompt = `Kamu adalah JADU AI, asisten AI untuk website SDN Teja II. Jawab pertanyaan berdasarkan data website SDN Teja II berikut:
 
-  // Tambahkan informasi dasar sekolah dari konfigurasi
-  const schoolInfo = `
-=== INFORMASI DASAR SDN TEJA II ===
-Nama Sekolah: SDN Teja II - Sekolah Dasar Negeri Teja II
-Website: https://sdnteja2.sch.id
-Lokasi: Kecamatan Rajagaluh, Kabupaten Majalengka, Jawa Barat
-Deskripsi: Website resmi SDN Teja II. Sekolah dasar yang berkomitmen memberikan pendidikan berkualitas dengan tenaga pendidik profesional.
+${finalData}
 
-KATEGORI KONTEN WEBSITE:
-1. Profil Guru dan Tenaga Pendidik - Daftar lengkap guru dan tenaga pendidik SDN Teja II dengan informasi jabatan, pendidikan, kelas yang diajar, dan pengalaman pelatihan profesional. Termasuk data kepala sekolah, guru kelas, dan staf pendidikan lainnya.
+DAFTAR NAMA GURU YANG VALID:
+- Susi Susanti (Kepala Sekolah)
+- Hj. Iis Kartini, S.Pd. (Bendahara)
+- Haris Sunardi
+- Maspupah
+- Retno Wulandari
+- Didi Rukmayadi
+- Dinar Permadi
+- Yana Maulana
+- Putriana Indrawati
 
-2. Berita dan Pengumuman Sekolah - Berita terbaru, pengumuman resmi, dan informasi penting dari SDN Teja II termasuk kegiatan akademik, kebijakan sekolah, dan perkembangan institusi. Mencakup informasi ANBK, pergantian kepala sekolah, dan jadwal pembelajaran.
-
-3. Kegiatan dan Program Sekolah - Dokumentasi kegiatan sekolah, program ekstrakurikuler, acara khusus, dan berbagai aktivitas yang dilaksanakan di SDN Teja II. Termasuk serah terima jabatan, kegiatan kebersihan, dan program pengembangan karakter siswa.
-
-4. Artikel Pendidikan dan Informasi Umum - Artikel edukatif, panduan pendidikan, informasi PPDB/SPMB, sejarah pendidikan, rapor pendidikan, dan konten informatif lainnya yang relevan dengan dunia pendidikan dasar di Indonesia.
-
-`
-
-  const systemPrompt = `Kamu adalah JADU AI, asisten AI untuk website SDN Teja II. Jawab pertanyaan berdasarkan informasi sekolah dan data lengkap berikut:
-
-${schoolInfo}
-
-=== DATA DARI LLMS.TXT (GENERATED CONTENT) ===
-${llmsData}
-
-=== DATA DARI COLLECTIONS ===
-${allData}
-
-PENTING - SUMBER DATA:
-- DATA DARI LLMS.TXT: Konten yang sudah diproses dan dioptimalkan untuk AI dari semua content collections
-- DATA DARI COLLECTIONS: Data mentah dari database/file system
-- BERITA: Informasi terkini tentang kegiatan/peristiwa sekolah
-- ARTIKEL: Tulisan edukatif/informatif yang lebih mendalam
-- GURU: Data lengkap staff pengajar dan jabatan mereka
-- KEGIATAN: Event/acara yang dilaksanakan sekolah
-- MEDIA: Materi pembelajaran dan media edukatif
+PENTING - INSTRUKSI KHUSUS:
+- HANYA gunakan data yang BENAR-BENAR ada dalam data di atas
+- HANYA sebutkan nama guru dari daftar valid di atas
+- JANGAN buat-buat nama atau informasi yang tidak ada (seperti "Romah Yulianto")
+- Untuk pertanyaan tentang bendahara, jawab: "Hj. Iis Kartini, S.Pd."
+- Untuk kepala sekolah, jawab: "Susi Susanti, S.Pd.I., M.Pd."
 
 PANDUAN MENJAWAB:
 - Nama kamu JADU AI, asisten AI untuk website resmi SDN Teja II
 - SDN Teja II berlokasi di Kecamatan Rajagaluh, Kabupaten Majalengka, Jawa Barat
 - Website resmi: https://sdnteja2.sch.id
 - Jawab dalam bahasa Indonesia yang ramah dan informatif
-- PRIORITASKAN data dari LLMS.TXT karena sudah dioptimalkan untuk AI
-- Gunakan data dari COLLECTIONS sebagai pelengkap jika diperlukan
-- WAJIB bedakan antara BERITA dan ARTIKEL - jangan salah kategori!
-- Jika menanyakan tentang wali kelas, sebutkan nama lengkap guru dari data di atas
-- Jika menanyakan tentang guru tertentu, berikan informasi lengkap dari data guru
-- Jika ditanya artikel terbaru, ambil dari bagian "DATA ARTIKEL" saja
-- Jika ditanya berita terbaru, ambil dari bagian "DATA BERITA" saja
-- Jika ditanya tentang kegiatan sekolah, gunakan data dari "DATA KEGIATAN"
-- Jika ditanya tentang materi pembelajaran, gunakan data dari "DATA MEDIA"
-- Gunakan kedua sumber data (LLMS.TXT dan COLLECTIONS) untuk menjawab dengan akurat dan detail
-- Berikan informasi yang spesifik dan relevan berdasarkan data yang ada
-- Jika informasi tidak tersedia di kedua sumber, jelaskan bahwa data tersebut belum tersedia di sistem
-
-KOMITMEN SEKOLAH:
-SDN Teja II berkomitmen memberikan pendidikan berkualitas dengan tenaga pendidik profesional.
+- Berikan informasi yang spesifik dan akurat HANYA berdasarkan data yang tersedia
 
 Jika pertanyaan di luar data sekolah, jawab 'Maaf, saya hanya bisa menjawab seputar SDN Teja II.'`
 
