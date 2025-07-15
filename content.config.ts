@@ -31,8 +31,8 @@ const Pelatihan = z.object({
 
 // Base Schema untuk semua content
 const BaseContentSchema = z.object({
-  title: z.string(),
-  description: z.string(),
+  title: z.string().editor({ hidden: true }),
+  description: z.string().editor({ hidden: true }),
   seo: z.intersection(SEO, z.record(z.string(), z.any())).optional().editor({ hidden: true }),
   navigation: Navigation.editor({ hidden: true }),
 })
@@ -46,7 +46,10 @@ export default defineContentConfig({
         exclude: ['berita/**', 'artikel/**', 'guru/**', 'kegiatan/**', 'media/**'],
         prefix: '/',
       },
-      schema: BaseContentSchema.pick({ title: true, description: true }),
+      schema: BaseContentSchema.extend({
+        title: z.string(), // Override: show title
+        description: z.string(), // Override: show description
+      }).pick({ title: true, description: true }),
     }),
     berita: defineCollection({
       type: 'page',
@@ -55,6 +58,8 @@ export default defineContentConfig({
         prefix: '/berita',
       },
       schema: BaseContentSchema.extend({
+        title: z.string(), // Override: show title
+        description: z.string(), // Override: show description
         date: z.date(),
         tags: z.array(z.string()),
       }),
@@ -84,6 +89,8 @@ export default defineContentConfig({
         prefix: '/artikel',
       },
       schema: BaseContentSchema.extend({
+        title: z.string(), // Override: show title
+        description: z.string(), // Override: show description
         author: z.string(),
         date: z.date(),
         image: z.string().editor({ input: 'media' }),
@@ -97,6 +104,8 @@ export default defineContentConfig({
         prefix: '/kegiatan',
       },
       schema: BaseContentSchema.extend({
+        title: z.string(), // Override: show title
+        description: z.string(), // Override: show description
         date: z.date(),
         tag: z.string(),
         cover: z.string().editor({ input: 'media' }),
