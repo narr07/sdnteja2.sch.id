@@ -9,6 +9,8 @@ useHead({
     { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
   ],
 })
+
+const { visitors } = useVisitors()
 </script>
 
 <template>
@@ -27,7 +29,11 @@ useHead({
       </div>
       <UiFooter />
     </UApp>
-
+    <div class="fixed bottom-4 left-4">
+      <UChip :text=" visitors " size="3xl">
+        <UButton icon="i-lucide-user" color="neutral" variant="subtle" />
+      </UChip>
+    </div>
     <div class="utility">
       <ClientOnly>
         <GoogleTranslate />

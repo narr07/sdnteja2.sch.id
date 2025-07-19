@@ -1,20 +1,8 @@
 /* eslint-disable node/prefer-global/process */
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: [
-    '@nuxt/ui',
-    '@nuxtjs/seo',
-    '@nuxtjs/color-mode', // Tambahkan eksplisit untuk color mode
-    '@nuxt/content',
-    '@nuxthub/core',
-    '@nuxt/eslint',
-    '@nuxt/image',
-    'nuxt-booster',
-    '@nuxt/scripts',
-    'nuxt-google-translate',
-    'nuxt-llms',
-    'motion-v/nuxt',
-  ],
+  modules: ['@nuxt/ui', '@nuxtjs/seo', // Tambahkan eksplisit untuk color mode
+  '@nuxtjs/color-mode', '@nuxt/content', '@nuxthub/core', '@nuxt/eslint', '@nuxt/image', 'nuxt-booster', '@nuxt/scripts', 'nuxt-google-translate', 'nuxt-llms', 'motion-v/nuxt', 'nuxt-visitors'],
   experimental: {
     componentIslands: true,
     payloadExtraction: false,

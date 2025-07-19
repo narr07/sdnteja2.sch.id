@@ -1,62 +1,5 @@
 // server/plugins/llms-extend.ts
 
-// Fungsi untuk mengkonversi minimark body ke text
-function extractTextFromMinimark(body: any): string {
-  if (!body || !body.value || !Array.isArray(body.value)) {
-    return ''
-  }
-
-  function processElement(element: any): string {
-    if (typeof element === 'string') {
-      return element
-    }
-
-    if (!Array.isArray(element)) {
-      return ''
-    }
-
-    const [tag, _attrs, ...children] = element
-
-    // Skip gambar dan elemen kosong
-    if (tag === 'img' || tag === 'hr') {
-      return ''
-    }
-
-    // Proses children
-    const text = children
-      .map((child: any) => processElement(child))
-      .join('')
-      .trim()
-
-    // Tambahkan formatting berdasarkan tag
-    switch (tag) {
-      case 'h1':
-      case 'h2':
-      case 'h3':
-        return text ? `\n## ${text}\n` : ''
-      case 'p':
-        return text ? `${text}\n\n` : ''
-      case 'strong':
-        return text ? `**${text}**` : ''
-      case 'em':
-        return text ? `*${text}*` : ''
-      case 'ul':
-      case 'ol':
-        return text ? `${text}\n` : ''
-      case 'li':
-        return text ? `- ${text}\n` : ''
-      default:
-        return text
-    }
-  }
-
-  return body.value
-    .map((element: any) => processElement(element))
-    .join('')
-    .trim()
-    .replace(/\n{3,}/g, '\n\n') // Bersihkan multiple newlines
-}
-
 export default defineNitroPlugin((nitroApp) => {
   nitroApp.hooks.hook('llms:generate', async (event, options) => {
     try {
@@ -109,14 +52,6 @@ export default defineNitroPlugin((nitroApp) => {
             detailBerita += `- Deskripsi: ${berita.description || '-'}\n`
             detailBerita += `- Tanggal: ${berita.date ? new Date(berita.date).toLocaleDateString('id-ID') : '-'}\n`
             detailBerita += `- Author: ${berita.author || '-'}\n`
-
-            // Tambahkan isi berita dengan parsing minimark
-            if (berita.body) {
-              const beritaText = extractTextFromMinimark(berita.body)
-              if (beritaText) {
-                detailBerita += `- Isi Berita:\n${beritaText}\n`
-              }
-            }
             detailBerita += '\n'
           })
 
@@ -139,14 +74,6 @@ export default defineNitroPlugin((nitroApp) => {
             detailArtikel += `- Deskripsi: ${artikel.description || '-'}\n`
             detailArtikel += `- Author: ${artikel.author || '-'}\n`
             detailArtikel += `- Tanggal: ${artikel.date ? new Date(artikel.date).toLocaleDateString('id-ID') : '-'}\n`
-
-            // Tambahkan isi artikel dengan parsing minimark
-            if (artikel.body) {
-              const artikelText = extractTextFromMinimark(artikel.body)
-              if (artikelText) {
-                detailArtikel += `- Isi Artikel:\n${artikelText}\n`
-              }
-            }
             detailArtikel += '\n'
           })
 

@@ -11,8 +11,8 @@ const isOpen = ref(false)
     <UPopover v-model:open="isOpen">
       <UButton
         icon="i-heroicons-chat-bubble-left-right"
-        color="primary"
-        variant="solid"
+        color="neutral"
+        variant="subtle"
         size="lg"
         class="fixed bottom-4 right-4 z-50"
         aria-label="Buka chat dengan JADU AI"
