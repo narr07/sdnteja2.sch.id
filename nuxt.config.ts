@@ -191,11 +191,22 @@ export default defineNuxtConfig({
     // Bundle splitting untuk mengurangi ukuran JavaScript
     rollupConfig: {
       output: {
-        manualChunks: {
-          vendor: ['vue', '@vue/runtime-core'],
-          ui: ['@nuxt/ui'],
-          content: ['@nuxt/content'],
-          icons: ['@iconify/vue', '@nuxt/icon'],
+        manualChunks: (id) => {
+          // Biarkan Nuxt menangani Vue dan dependencies utama
+          if (id.includes('node_modules')) {
+            // Group UI libraries
+            if (id.includes('@headlessui') || id.includes('@tailwindcss')) {
+              return 'ui-libs'
+            }
+            // Group utilities
+            if (id.includes('lodash') || id.includes('date-fns') || id.includes('validator')) {
+              return 'utils'
+            }
+            // Group other vendor dependencies
+            if (id.includes('node_modules') && !id.includes('vue') && !id.includes('@vue')) {
+              return 'vendor'
+            }
+          }
         },
       },
     },

@@ -32,6 +32,7 @@ const { data: allContent } = await useLazyAsyncData('search-content', () => {
   ])
 }, {
   server: false,
+  default: () => [],
   transform: (data) => {
     const [artikelData, beritaData, contentData, guruData, kegiatanData] = data
 
@@ -118,11 +119,13 @@ function onSelect(item: any) {
 
 // Grup hasil pencarian dengan kategori yang terpisah untuk UX yang lebih baik
 const groups = computed(() => {
-  // Data sudah di-filter di server, langsung gunakan saja
   const filteredResults = searchResults.value
 
+  // Limit hasil untuk mengurangi lag
+  const limitedResults = filteredResults.slice(0, 50)
+
   // Grup berdasarkan tipe content
-  const groupedByType = filteredResults.reduce((acc, item) => {
+  const groupedByType = limitedResults.reduce((acc, item) => {
     if (!acc[item.type]) {
       acc[item.type] = []
     }
@@ -149,11 +152,11 @@ const groups = computed(() => {
       groups.push({
         id: type,
         label: `${getTypeLabel(type)} (${items.length})`,
-        items: items.map(item => ({
+        items: items.slice(0, 10).map(item => ({
           id: item.id,
           label: item.title,
           icon: getIconByType(item.type),
-          suffix: `${item.content.slice(0, 40)}...`,
+          suffix: `${item.content.slice(0, 30)}...`,
           description: item.titles?.join(' > ') || '',
           to: cleanPath(item.id),
         })),
@@ -161,12 +164,12 @@ const groups = computed(() => {
     }
   })
 
-  // Jika tidak ada pencarian, tampilkan semua dalam satu grup
+  // Jika tidak ada pencarian, tampilkan sebagian dalam satu grup
   if (!searchTerm.value) {
     return [{
       id: 'all-content',
-      label: 'Semua Konten',
-      items: filteredResults.map(item => ({
+      label: `Semua Konten (${limitedResults.length})`,
+      items: limitedResults.slice(0, 15).map(item => ({
         id: item.id,
         label: item.title,
         icon: getIconByType(item.type),
@@ -260,11 +263,12 @@ defineShortcuts({
     <UModal
       v-model:open="open"
       :ui="{
-        content: 'rounded-2xl w-full h-1/2 md:w-[1000px] md:h-[500px] mx-auto my-auto',
-        overlay: 'fixed inset-0 bg-(--ui-bg-elevated)/50 backdrop-blur flex items-center justify-center p-4 md:p-0',
+        content: 'rounded-2xl w-full h-1/2 md:w-[1000px] md:h-[500px] mx-auto my-auto will-change-transform',
+        overlay: 'fixed inset-0 bg-(--ui-bg-elevated)/50 backdrop-blur flex items-center justify-center p-4 md:p-0 transition-opacity duration-200',
         body: 'p-0 overflow-hidden h-full',
       }"
       close-icon="ph:x-square-duotone"
+      :transition="false"
     >
       <template #content>
         <div class="h-full flex flex-col">
@@ -280,9 +284,13 @@ defineShortcuts({
               content: 'max-h-full overflow-y-auto',
             }"
             :fuse="{
-              resultLimit: 10,
-              matchAllWhenSearchEmpty: true,
-              fuseOptions: { includeMatches: true },
+              resultLimit: 20,
+              matchAllWhenSearchEmpty: false,
+              fuseOptions: {
+                includeMatches: false,
+                threshold: 0.4,
+                ignoreLocation: true,
+              },
             }"
             @update:open="open = $event"
             @update:model-value="onSelect"
