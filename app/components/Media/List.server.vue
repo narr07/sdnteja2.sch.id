@@ -47,13 +47,8 @@ const uniquePelajaran = computed(() => {
     filteredByKelas = mediaPage.value.filter(media => media.kelas === selectedKelas.value)
   }
 
-  console.warn('Selected Kelas:', selectedKelas.value)
-  console.warn('Filtered by Kelas:', filteredByKelas)
-
   const pelajaranSet = new Set(filteredByKelas.map(media => media.pelajaran))
   const uniquePelajaranList = ['All', ...Array.from(pelajaranSet).sort()]
-
-  console.warn('Unique Pelajaran:', uniquePelajaranList)
   return uniquePelajaranList
 })
 
@@ -62,7 +57,7 @@ const selectedPelajaran = ref('All')
 // Reset pelajaran filter when kelas changes
 watch(selectedKelas, (newKelas, oldKelas) => {
   console.warn('Kelas changed from', oldKelas, 'to', newKelas)
-  console.warn('Resetting pelajaran to All')
+
   selectedPelajaran.value = 'All'
 })
 
@@ -78,25 +73,15 @@ const filteredMedia = computed(() => {
 
   let filtered = mediaPage.value
 
-  console.warn('=== FILTERING START ===')
-  console.warn('Selected Kelas:', selectedKelas.value)
-  console.warn('Selected Pelajaran:', selectedPelajaran.value)
-  console.warn('Total media:', mediaPage.value.length)
-
   // Filter by kelas
   if (selectedKelas.value !== 'All') {
     filtered = filtered.filter(media => media.kelas === selectedKelas.value)
-    console.warn('After kelas filter:', filtered.length)
   }
 
   // Filter by pelajaran
   if (selectedPelajaran.value !== 'All') {
     filtered = filtered.filter(media => media.pelajaran === selectedPelajaran.value)
-    console.warn('After pelajaran filter:', filtered.length)
   }
-
-  console.warn('Final filtered result:', filtered)
-  console.warn('=== FILTERING END ===')
 
   return filtered
 })
@@ -111,8 +96,30 @@ watch([selectedKelas, selectedPelajaran], () => {
 const paginatedMedia = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage
   const end = start + itemsPerPage
-  return filteredMedia.value?.slice(start, end) ?? []
+  return filteredMedia.value?.slice(start, end).map(media => ({
+    ...media,
+    _thumbnailError: false,
+    _thumbnailLoaded: false,
+  })) ?? []
 })
+
+// Handle thumbnail error
+function handleImageError(event: Event, media: any) {
+  console.warn(`Thumbnail failed to load for video: ${media.idVideo}`)
+  media._thumbnailError = true
+  media._thumbnailLoaded = false
+}
+
+// Handle thumbnail load success
+function handleImageLoad(event: Event, media: any) {
+  media._thumbnailLoaded = true
+  media._thumbnailError = false
+}
+
+// Handle YouTube Player error
+function handleThumbnailError(error: any) {
+  console.warn('YouTube Player Error:', error)
+}
 </script>
 
 <template>
@@ -156,7 +163,54 @@ const paginatedMedia = computed(() => {
         >
           <div class="flex justify-center flex-col h-full ">
             <div class="p-4 ring rounded h-full dark:bg-night-900 ring-night-200 dark:ring-night-800 overflow-hidden shadow-lg">
-              <ScriptYouTubePlayer ref="video" thumbnail-size="maxresdefault" :player-options="{ host: 'https://www.youtube.com' }" :video-id="media.idVideo">
+              <ScriptYouTubePlayer
+                ref="video"
+                thumbnail-size="maxresdefault"
+                :player-options="{ host: 'https://www.youtube.com' }"
+                :video-id="media.idVideo"
+                @error="handleThumbnailError"
+              >
+                <template #placeholder="{ placeholder }">
+                  <div class="relative aspect-video bg-gray-100 dark:bg-gray-800 rounded overflow-hidden">
+                    <img
+                      :src="placeholder"
+                      :alt="`${media.title} thumbnail`"
+                      class="w-full h-full object-cover"
+                      @error="(e) => handleImageError(e, media)"
+                      @load="(e) => handleImageLoad(e, media)"
+                    >
+                    <!-- Fallback content when image fails to load -->
+                    <div
+                      class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-red-500 to-red-600 text-white"
+                      :class="{ hidden: !media._thumbnailError }"
+                    >
+                      <div class="text-center p-6">
+                        <div class="mb-4">
+                          <svg class="w-16 h-16 mx-auto opacity-80" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4l-2-1.5L9 9V5z" clip-rule="evenodd" />
+                          </svg>
+                        </div>
+                        <h4 class="font-semibold text-sm mb-2">
+                          {{ media.pelajaran }}
+                        </h4>
+                        <p class="text-xs opacity-90 line-clamp-2">
+                          {{ media.title }}
+                        </p>
+                        <div class="mt-3 px-3 py-1 bg-white bg-opacity-20 rounded-full text-xs font-medium">
+                          Kelas {{ media.kelas }}
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Play button overlay -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                      <div class="w-16 h-16 bg-red-600 bg-opacity-90 rounded-full flex items-center justify-center shadow-lg transform transition-transform hover:scale-110">
+                        <svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </template>
                 <template #awaitingLoad>
                   <div class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[48px] w-[68px]">
                     <svg height="100%" version="1.1" viewBox="0 0 68 48" width="100%"><path d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.79,.13,34,0,34,0S12.21,.13,6.9,1.55 C3.97,2.33,2.27,4.81,1.48,7.74C0.06,13.05,0,24,0,24s0.06,10.95,1.48,16.26c0.78,2.93,2.49,5.41,5.42,6.19 C12.21,47.87,34,48,34,48s21.79-0.13,27.1-1.55c2.93-0.78,4.64-3.26,5.42-6.19C67.94,34.95,68,24,68,24S67.94,13.05,66.52,7.74z" fill="#f00" /><path d="M 45,24 27,14 27,34" fill="#fff" /></svg>
