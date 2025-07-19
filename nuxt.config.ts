@@ -164,38 +164,7 @@ export default defineNuxtConfig({
       sizeLimitKb: 256,
     },
   },
-  app: {
-    head: {
-      // Optimasi untuk Cloudflare scripts dan resource hints
-      link: [
-        // DNS prefetch untuk external resources
-        { rel: 'dns-prefetch', href: '//static.cloudflareinsights.com' },
-        { rel: 'dns-prefetch', href: '//cdnjs.cloudflare.com' },
-        { rel: 'dns-prefetch', href: '//www.gstatic.com' },
-        { rel: 'dns-prefetch', href: '//fonts.gstatic.com' },
-        { rel: 'dns-prefetch', href: '//fonts.googleapis.com' },
-        // Preconnect untuk critical resources (maksimal 4)
-        { rel: 'preconnect', href: 'https://static.cloudflareinsights.com', crossorigin: '' },
-        { rel: 'preconnect', href: 'https://www.gstatic.com', crossorigin: '' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com', crossorigin: '' },
-        // Font display optimization - gunakan Google Fonts yang stabil
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
-        },
-      ],
-      script: [
-        {
-          // Defer Cloudflare email decode script
-          src: '/cloudflare-static/email-decode.min.js',
-          defer: true,
-          key: 'email-decode',
-        },
-      ],
-    },
-    // pageTransition: { name: 'page', mode: 'out-in' },
-  },
+
   booster: {
     detection: {
       performance: true,
@@ -234,9 +203,17 @@ export default defineNuxtConfig({
       websocket: true,
       openAPI: true,
     },
-    // Bundle splitting dihapus karena menyebabkan error:
-    // "vue" cannot be included in manualChunks karena sudah di-externalize
-    // Nuxt v4 sudah mengoptimasi bundle splitting secara otomatis
+    // Bundle splitting untuk mengurangi ukuran JavaScript
+    rollupConfig: {
+      output: {
+        manualChunks: {
+          vendor: ['vue', '@vue/runtime-core'],
+          ui: ['@nuxt/ui'],
+          content: ['@nuxt/content'],
+          icons: ['@iconify/vue', '@nuxt/icon'],
+        },
+      },
+    },
     // Konfigurasi cache headers untuk meningkatkan performa
     routeRules: {
       // Static assets cache untuk 1 tahun
@@ -345,7 +322,6 @@ export default defineNuxtConfig({
     },
   },
   css: ['~/assets/css/main.css'],
-  compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   future: {
     compatibilityVersion: 4,

@@ -52,11 +52,12 @@ const img = useImage()
             <UCard variant="soft" class="bg-night-50 hover:shadow-none transition-shadow ease-in-out duration-300  shadow-teja dark:bg-night-900 h-full rounded-4xl overflow-hidden">
               <div>
                 <NuxtImg
+                  fetchpriority="high"
                   format="webp"
                   quality="75"
-                  height="400"
-                  width="600"
-                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 544px"
+                  height="300"
+                  width="450"
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 450px"
                   densities="1x 2x"
                   :src="artikel.image.toString()"
                   :alt="artikel.title"
