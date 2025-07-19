@@ -145,24 +145,7 @@ export default defineNuxtConfig({
       },
     ],
     // Reduce icon API requests dengan bundling
-    clientBundle: {
-      // Pre-bundle commonly used icons
-      icons: [
-        'heroicons:chat-bubble-left-right',
-        'solar:sun-2-linear',
-        'lucide:check',
-        'heroicons:bars-3',
-        'heroicons:x-mark',
-        'heroicons:chevron-down',
-        'heroicons:chevron-up',
-        'heroicons:chevron-right',
-        'heroicons:chevron-left',
-      ],
-      // Scan components for icons to prebundle
-      scan: true,
-      // Bundle size limit
-      sizeLimitKb: 256,
-    },
+
   },
 
   booster: {
@@ -215,117 +198,11 @@ export default defineNuxtConfig({
       },
     },
     // Konfigurasi cache headers untuk meningkatkan performa
-    routeRules: {
-      // Static assets cache untuk 1 tahun
-      '/_nuxt/**': {
-        headers: {
-          'cache-control': 'public, max-age=31536000, immutable',
-        },
-      },
-      // Public assets cache untuk 1 bulan
-      '/assets/**': {
-        headers: {
-          'cache-control': 'public, max-age=2592000',
-        },
-      },
-      // Images cache untuk 1 bulan
-      '/*.png': {
-        headers: {
-          'cache-control': 'public, max-age=2592000',
-        },
-      },
-      '/*.jpg': {
-        headers: {
-          'cache-control': 'public, max-age=2592000',
-        },
-      },
-      '/*.jpeg': {
-        headers: {
-          'cache-control': 'public, max-age=2592000',
-        },
-      },
-      '/*.webp': {
-        headers: {
-          'cache-control': 'public, max-age=2592000',
-        },
-      },
-      '/*.svg': {
-        headers: {
-          'cache-control': 'public, max-age=2592000',
-        },
-      },
-      '/*.ico': {
-        headers: {
-          'cache-control': 'public, max-age=2592000',
-        },
-      },
-      // JavaScript dan CSS files cache untuk 1 bulan
-      '/*.js': {
-        headers: {
-          'cache-control': 'public, max-age=2592000',
-        },
-      },
-      '/*.css': {
-        headers: {
-          'cache-control': 'public, max-age=2592000',
-        },
-      },
-      // Fonts cache untuk 1 tahun
-      '/*.woff': {
-        headers: {
-          'cache-control': 'public, max-age=31536000',
-        },
-      },
-      '/*.woff2': {
-        headers: {
-          'cache-control': 'public, max-age=31536000',
-        },
-      },
-      '/*.ttf': {
-        headers: {
-          'cache-control': 'public, max-age=31536000',
-        },
-      },
-      // Homepage dan halaman utama cache untuk 1 jam dengan revalidation
-      '/': {
-        headers: {
-          'cache-control': 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400',
-        },
-      },
-      // Halaman konten cache untuk 1 jam
-      '/artikel/**': {
-        headers: {
-          'cache-control': 'public, max-age=3600, s-maxage=3600',
-        },
-      },
-      '/berita/**': {
-        headers: {
-          'cache-control': 'public, max-age=3600, s-maxage=3600',
-        },
-      },
-      '/guru/**': {
-        headers: {
-          'cache-control': 'public, max-age=3600, s-maxage=3600',
-        },
-      },
-      '/kegiatan/**': {
-        headers: {
-          'cache-control': 'public, max-age=3600, s-maxage=3600',
-        },
-      },
-      // SQL dump files - cache lebih lama untuk mengurangi requests
-      '/**/*.sql_dump.txt': {
-        headers: {
-          'cache-control': 'public, max-age=86400',
-        },
-      },
-    },
+
   },
   css: ['~/assets/css/main.css'],
   devtools: { enabled: true },
-  future: {
-    compatibilityVersion: 4,
-  },
+
   runtimeConfig: {
     cloudinary: {
       apiKey: process.env.NUXT_CLOUDINARY_API_KEY || '747436524922873',
