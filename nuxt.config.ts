@@ -234,17 +234,9 @@ export default defineNuxtConfig({
       websocket: true,
       openAPI: true,
     },
-    // Bundle splitting untuk mengurangi ukuran JavaScript
-    rollupConfig: {
-      output: {
-        manualChunks: {
-          vendor: ['vue', '@vue/runtime-core'],
-          ui: ['@nuxt/ui'],
-          content: ['@nuxt/content'],
-          icons: ['@iconify/vue', '@nuxt/icon'],
-        },
-      },
-    },
+    // Bundle splitting dihapus karena menyebabkan error:
+    // "vue" cannot be included in manualChunks karena sudah di-externalize
+    // Nuxt v4 sudah mengoptimasi bundle splitting secara otomatis
     // Konfigurasi cache headers untuk meningkatkan performa
     routeRules: {
       // Static assets cache untuk 1 tahun

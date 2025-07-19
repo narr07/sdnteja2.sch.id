@@ -35,11 +35,9 @@ Berdasarkan laporan PageSpeed Insights:
 
 ### 3. Bundle Splitting
 ```typescript
-// nitro.rollupConfig.output.manualChunks
-'vendor': ['vue', '@vue/runtime-core'],
-'ui': ['@nuxt/ui'],
-'content': ['@nuxt/content'],  
-'icons': ['@iconify/vue', '@nuxt/icon'],
+// REMOVED: Manual chunks menyebabkan error build
+// rollupConfig.output.manualChunks - vue sudah di-externalize oleh Nuxt
+// Nuxt v4 sudah mengoptimasi bundle splitting secara otomatis
 ```
 
 ### 4. Cache Headers Optimization
@@ -109,7 +107,7 @@ const preloadFonts = () => {
 - ✅ Dynamic resource detection
 - ✅ Reduced network waterfall dengan preconnect
 - ✅ Longer cache TTL untuk static assets
-- ✅ Bundle splitting untuk smaller chunks
+- ✅ Auto bundle splitting by Nuxt v4 (removed manual config)
 - ✅ Batched icon loading
 - ✅ Adaptive preloading yang tidak rusak saat build
 
@@ -125,3 +123,20 @@ Untuk memantau performa setelah optimasi:
 - Static preload dengan hash akan selalu rusak setiap build
 - Client-side resource detection lebih reliable untuk hashed assets
 - Batch loading lebih efisien daripada individual requests
+
+## Troubleshooting
+
+### Build Error: "vue" cannot be included in manualChunks
+**Error**: 
+```
+"vue" cannot be included in manualChunks because it is resolved as an external module
+```
+
+**Cause**: Nuxt v4 sudah meng-externalize core Vue modules secara otomatis
+
+**Solution**: 
+- ❌ Remove manual chunk configuration untuk vue, @vue/runtime-core
+- ✅ Let Nuxt handle bundle optimization automatically
+- ✅ Manual chunks hanya untuk third-party packages yang tidak di-externalize
+
+**Fixed**: Removed `rollupConfig.output.manualChunks` configuration
