@@ -24,7 +24,7 @@ Preset animasi untuk card guru dengan efek slide up dan staggered delay.
 
 ### `slideUpMotion(delay: number, distance: number)`
 Animasi slide up dengan customizable delay dan jarak.
-- **Parameter**: 
+- **Parameter**:
   - `delay` - delay animasi dalam detik
   - `distance` - jarak slide dalam pixel
 - **Return**: Konfigurasi Motion dengan animate trigger
@@ -59,11 +59,11 @@ const { guruCardMotion } = useMotion()
     <Motion v-bind="guruCardMotion(0)">
       <UCard>Card 1</UCard>
     </Motion>
-    
+
     <Motion v-bind="guruCardMotion(1)">
       <UCard>Card 2</UCard>
     </Motion>
-    
+
     <Motion v-bind="guruCardMotion(2)">
       <UCard>Card 3</UCard>
     </Motion>

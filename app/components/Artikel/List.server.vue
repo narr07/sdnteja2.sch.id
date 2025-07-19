@@ -49,7 +49,7 @@ const img = useImage()
           :transition="{ delay: 0.1 * index }"
         >
           <NuxtLink :to="artikel.path">
-            <UCard variant="soft" class="bg-night-50 hover:shadow-none transition-shadow ease-in-out duration-300  shadow-teja dark:bg-night-900 h-full rounded-4xl overflow-hidden">
+            <UCard variant="soft" class="bg-night-50 hover:shadow-none hover:ring hover:ring-primary transition-shadow ease-in-out duration-300  shadow-teja dark:bg-night-900 h-full rounded-4xl overflow-hidden">
               <div>
                 <NuxtImg
                   fetchpriority="high"

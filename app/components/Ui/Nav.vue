@@ -54,7 +54,7 @@ const dropdownItems = computed(() => {
               </nav>
 
               <div class="flex items-center space-x-2">
-                <UiSearchButton />
+                <LazyUiSearchButton hydrate-on-interaction />
                 <UiColorMode />
 
                 <div class="md:hidden">

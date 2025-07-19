@@ -73,9 +73,9 @@ useSchemaOrg([
                 :placeholder="img(`${guruPage?.foto}`, { h: 10, w: 5, f: 'webp', blur: 2, q: 50 })"
                 class="rounded-lg mb-4 h-full w-auto shadow-md bg-cover bg-center object-cover "
               />
-              <h2 class="text-lg md:text-xl font-bold mt-2">
+              <h1 class="text-lg md:text-xl font-bold mt-2">
                 {{ guruPage?.lengkap }}
-              </h2>
+              </h1>
               <UBadge color="primary" variant="solid" class="mt-1">
                 {{ guruPage?.kelas }}
               </UBadge>

@@ -43,7 +43,7 @@ Berdasarkan laporan PageSpeed Insights:
 ### 4. Cache Headers Optimization
 - Static assets: `31536000` (1 tahun) dengan `immutable`
 - Images: `2592000` (1 bulan)
-- WASM files: `2592000` (1 bulan) 
+- WASM files: `2592000` (1 bulan)
 - SQL dumps: `86400` (1 hari)
 - Icon JSON: `86400` (1 hari)
 
@@ -82,11 +82,11 @@ href: '/_nuxt/entry.DpEzjGjP.css'
 ```
 
 ### Solution:
-```typescript  
+```typescript
 // ✅ Dynamic detection di client-side
-const preloadFonts = () => {
+function preloadFonts() {
   // Scan existing stylesheets for font URLs
-  Array.from(document.styleSheets).forEach(sheet => {
+  Array.from(document.styleSheets).forEach((sheet) => {
     // Extract font URLs dari CSS rules
     // Preload dynamically discovered fonts
   })
@@ -127,14 +127,14 @@ Untuk memantau performa setelah optimasi:
 ## Troubleshooting
 
 ### Build Error: "vue" cannot be included in manualChunks
-**Error**: 
+**Error**:
 ```
 "vue" cannot be included in manualChunks because it is resolved as an external module
 ```
 
 **Cause**: Nuxt v4 sudah meng-externalize core Vue modules secara otomatis
 
-**Solution**: 
+**Solution**:
 - ❌ Remove manual chunk configuration untuk vue, @vue/runtime-core
 - ✅ Let Nuxt handle bundle optimization automatically
 - ✅ Manual chunks hanya untuk third-party packages yang tidak di-externalize

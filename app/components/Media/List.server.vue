@@ -1,6 +1,22 @@
 <script setup lang="ts">
 import { Motion } from 'motion-v'
 
+// Pagination state
+const itemsPerPage = 10
+const route = useRoute()
+const router = useRouter()
+
+const currentPage = ref(Number(route.query.page) || 1)
+// Update query parameter saat `currentPage` berubah
+watch(currentPage, (newPage) => {
+  router.replace({
+    query: {
+      ...route.query,
+      page: newPage.toString(),
+    },
+  })
+})
+
 const { data: mediaPage } = await useAsyncData('Medias', () => {
   return queryCollection('media')
     .select('idVideo', 'title', 'kelas', 'link', 'pelajaran')
@@ -21,13 +37,81 @@ const uniqueKelas = computed(() => {
 
 const selectedKelas = ref('All')
 
-// Filtered media based on selected kelas
+// Get unique pelajaran based on selected kelas
+const uniquePelajaran = computed(() => {
+  if (!mediaPage.value)
+    return []
+
+  let filteredByKelas = mediaPage.value
+  if (selectedKelas.value !== 'All') {
+    filteredByKelas = mediaPage.value.filter(media => media.kelas === selectedKelas.value)
+  }
+
+  console.warn('Selected Kelas:', selectedKelas.value)
+  console.warn('Filtered by Kelas:', filteredByKelas)
+
+  const pelajaranSet = new Set(filteredByKelas.map(media => media.pelajaran))
+  const uniquePelajaranList = ['All', ...Array.from(pelajaranSet).sort()]
+
+  console.warn('Unique Pelajaran:', uniquePelajaranList)
+  return uniquePelajaranList
+})
+
+const selectedPelajaran = ref('All')
+
+// Reset pelajaran filter when kelas changes
+watch(selectedKelas, (newKelas, oldKelas) => {
+  console.warn('Kelas changed from', oldKelas, 'to', newKelas)
+  console.warn('Resetting pelajaran to All')
+  selectedPelajaran.value = 'All'
+})
+
+// Watch pelajaran changes
+watch(selectedPelajaran, (newPelajaran, oldPelajaran) => {
+  console.warn('Pelajaran changed from', oldPelajaran, 'to', newPelajaran)
+})
+
+// Filtered media based on selected kelas and pelajaran
 const filteredMedia = computed(() => {
   if (!mediaPage.value)
     return []
-  if (selectedKelas.value === 'All')
-    return mediaPage.value
-  return mediaPage.value.filter(media => media.kelas === selectedKelas.value)
+
+  let filtered = mediaPage.value
+
+  console.warn('=== FILTERING START ===')
+  console.warn('Selected Kelas:', selectedKelas.value)
+  console.warn('Selected Pelajaran:', selectedPelajaran.value)
+  console.warn('Total media:', mediaPage.value.length)
+
+  // Filter by kelas
+  if (selectedKelas.value !== 'All') {
+    filtered = filtered.filter(media => media.kelas === selectedKelas.value)
+    console.warn('After kelas filter:', filtered.length)
+  }
+
+  // Filter by pelajaran
+  if (selectedPelajaran.value !== 'All') {
+    filtered = filtered.filter(media => media.pelajaran === selectedPelajaran.value)
+    console.warn('After pelajaran filter:', filtered.length)
+  }
+
+  console.warn('Final filtered result:', filtered)
+  console.warn('=== FILTERING END ===')
+
+  return filtered
+})
+
+const totalItems = computed(() => filteredMedia.value?.length ?? 0)
+
+// Reset to page 1 when filters change
+watch([selectedKelas, selectedPelajaran], () => {
+  currentPage.value = 1
+})
+
+const paginatedMedia = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  return filteredMedia.value?.slice(start, end) ?? []
 })
 </script>
 
@@ -36,20 +120,35 @@ const filteredMedia = computed(() => {
     <UContainer>
       <!-- Filter section -->
       <div class="mb-8 flex flex-col md:flex-row items-start md:items-center gap-4">
-        <h3 class="font-bold text-lg">
-          Pilih Kelas:
-        </h3>
-        <USelect
-          v-model="selectedKelas"
-          :items="uniqueKelas"
-          placeholder="Select Class"
-          class="w-24"
-        />
+        <div class="flex flex-col gap-2">
+          <h3 class="font-bold text-lg">
+            Pilih Kelas:
+          </h3>
+          <USelect
+            v-model="selectedKelas"
+            :items="uniqueKelas"
+            placeholder="Select Class"
+            class="w-24"
+          />
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <h3 class="font-bold text-lg">
+            Pilih Pelajaran:
+          </h3>
+          <USelect
+            v-model="selectedPelajaran"
+            :items="uniquePelajaran"
+            placeholder="Select Subject"
+            class="w-40"
+            :disabled="selectedKelas === 'All'"
+          />
+        </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
         <Motion
-          v-for="(media, index) in filteredMedia"
+          v-for="(media, index) in paginatedMedia"
           :key="media.idVideo"
           :initial="{ opacity: 0, transform: 'translateY(10px)' }"
           :in-view="{ opacity: 1, transform: 'translateY(0)' }"
@@ -82,6 +181,18 @@ const filteredMedia = computed(() => {
             </div>
           </div>
         </Motion>
+      </div>
+
+      <div class="flex justify-center mt-8">
+        <UPagination
+          v-model:page="currentPage"
+          show-edges
+          :items-per-page="itemsPerPage"
+          color="primary"
+          :sibling-count="1"
+          :total="totalItems"
+          variant="soft"
+        />
       </div>
     </UContainer>
   </div>

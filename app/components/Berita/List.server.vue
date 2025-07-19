@@ -73,8 +73,8 @@ const beritaTerkait = [
           :transition="{ delay: 0.1 * index }"
         >
           <NuxtLink :to="berita.path">
-            <UCard variant="soft" class="bg-night-50 shadow-teja dark:bg-night-900 h-full rounded-4xl p-2 overflow-hidden">
-              <h2 class="text-2xl font-bold line-clamp-2">
+            <UCard variant="soft" class="bg-night-50 shadow-teja hover:shadow-none hover:ring hover:ring-primary transition-shadow ease-in-out duration-300  dark:bg-night-900 h-full rounded-4xl p-2 overflow-hidden">
+              <h2 class="text-lg font-bold">
                 {{ berita?.title }}
               </h2>
 

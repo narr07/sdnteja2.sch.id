@@ -22,6 +22,8 @@ export default defineNuxtConfig({
     writeEarlyHints: true,
     // Reduce initial bundle size
     treeshakeClientOnly: true,
+    // Enable smart hydration strategies for Lazy components
+    lazyHydration: true,
   },
   linkChecker: {
     runOnBuild: false,

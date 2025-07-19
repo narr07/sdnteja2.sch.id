@@ -50,7 +50,13 @@ export default defineNitroPlugin((nitroApp) => {
             detailBerita += `**${berita.title || ''}**\n`
             detailBerita += `- Deskripsi: ${berita.description || '-'}\n`
             detailBerita += `- Tanggal: ${berita.date ? new Date(berita.date).toLocaleDateString('id-ID') : '-'}\n`
-            detailBerita += `- Author: ${berita.author || '-'}\n\n`
+            detailBerita += `- Author: ${berita.author || '-'}\n`
+
+            // Tambahkan isi berita
+            if (berita.body) {
+              detailBerita += `- Isi Berita:\n${berita.body}\n`
+            }
+            detailBerita += '\n'
           })
 
           beritaSection.description += detailBerita
@@ -71,7 +77,13 @@ export default defineNitroPlugin((nitroApp) => {
             detailArtikel += `**${artikel.title || ''}**\n`
             detailArtikel += `- Deskripsi: ${artikel.description || '-'}\n`
             detailArtikel += `- Author: ${artikel.author || '-'}\n`
-            detailArtikel += `- Tanggal: ${artikel.date ? new Date(artikel.date).toLocaleDateString('id-ID') : '-'}\n\n`
+            detailArtikel += `- Tanggal: ${artikel.date ? new Date(artikel.date).toLocaleDateString('id-ID') : '-'}\n`
+
+            // Tambahkan isi artikel
+            if (artikel.body) {
+              detailArtikel += `- Isi Artikel:\n${artikel.body}\n`
+            }
+            detailArtikel += '\n'
           })
 
           artikelSection.description += detailArtikel

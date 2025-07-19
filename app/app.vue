@@ -14,6 +14,7 @@ useHead({
 <template>
   <div>
     <UApp :locale="id">
+      <NuxtLoadingIndicator color="var(--ui-primary)" />
       <NuxtRouteAnnouncer />
       <UiNav />
 

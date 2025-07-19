@@ -9,7 +9,7 @@ interface SearchResult {
   titles: string[]
   level: number
   content: string
-  type: 'artikel' | 'berita' | 'guru' | 'kegiatan' | 'content' | 'media'
+  type: 'artikel' | 'berita' | 'guru' | 'kegiatan' | 'content'
 }
 
 const searchResults = ref<SearchResult[]>([])
@@ -29,12 +29,11 @@ const { data: allContent } = await useLazyAsyncData('search-content', () => {
     // YAML collections
     queryCollection('guru').all(),
     queryCollection('kegiatan').all(),
-    queryCollection('media').all(),
   ])
 }, {
   server: false,
   transform: (data) => {
-    const [artikelData, beritaData, contentData, guruData, kegiatanData, mediaData] = data
+    const [artikelData, beritaData, contentData, guruData, kegiatanData] = data
 
     // Transform and combine results
     const searchResults = [
@@ -57,14 +56,6 @@ const { data: allContent } = await useLazyAsyncData('search-content', () => {
         level: 1,
         content: `${item.title || ''} ${item.description || ''} ${item.tag || ''}`.trim(),
         type: 'kegiatan',
-      })),
-      ...(mediaData || []).map((item: any) => ({
-        id: item._path || item.path || item.id,
-        title: item.title,
-        titles: [item.kelas || '', item.pelajaran || ''].filter(Boolean),
-        level: 1,
-        content: `${item.title || ''} ${item.pelajaran || ''} Kelas ${item.kelas || ''}`.trim(),
-        type: 'media',
       })),
     ]
 
@@ -224,8 +215,6 @@ function getIconByType(type: string) {
       return 'solar:gallery-wide-linear'
     case 'content':
       return 'solar:home-angle-linear'
-    case 'media':
-      return 'solar:video-frame-play-horizontal-linear'
     default:
       return 'i-lucide-file'
   }
@@ -244,8 +233,6 @@ function getTypeLabel(type: string) {
       return '🎯 Kegiatan'
     case 'content':
       return '🏠 Halaman'
-    case 'media':
-      return '🎥 Media'
     default:
       return '📄 Konten'
   }
@@ -269,35 +256,39 @@ defineShortcuts({
   />
 
   <!-- Modal Command Palette -->
-  <UModal
-    v-model:open="open"
-    :ui="{
-      content: 'rounded-2xl max-w-4xl h-auto mx-2 mx-auto overflow-y-auto',
-      overlay: 'fixed bg-(--ui-bg-elevated)/50  backdrop-blur',
-    }"
-    close-icon="ph:x-square-duotone"
-  >
-    <template #content>
-      <div class="flex justify-between mb-2">
-        <UCommandPalette
-          v-model="value"
-          v-model:search-term="searchTerm"
-          close
-          placeholder="Cari Konten ..."
-          :groups="groups"
-          :ui="{
-            item: 'hover:bg-red-300 dark:hover:bg-red-700 rounded focus:bg-red-300',
-            root: 'flex flex-col min-h-0 w-full  min-w-0 divide-y divide-[var(--ui-border)]',
-          }"
-          :fuse="{
-            resultLimit: 10,
-            matchAllWhenSearchEmpty: true,
-            fuseOptions: { includeMatches: true },
-          }"
-          @update:open="open = $event"
-          @update:model-value="onSelect"
-        />
-      </div>
-    </template>
-  </UModal>
+  <ClientOnly>
+    <UModal
+      v-model:open="open"
+      :ui="{
+        content: 'rounded-2xl w-full h-1/2 md:w-[1000px] md:h-[500px] mx-auto my-auto',
+        overlay: 'fixed inset-0 bg-(--ui-bg-elevated)/50 backdrop-blur flex items-center justify-center p-4 md:p-0',
+        body: 'p-0 overflow-hidden h-full',
+      }"
+      close-icon="ph:x-square-duotone"
+    >
+      <template #content>
+        <div class="h-full flex flex-col">
+          <UCommandPalette
+            v-model="value"
+            v-model:search-term="searchTerm"
+            close
+            placeholder="Cari Konten ..."
+            :groups="groups"
+            :ui="{
+              item: 'hover:bg-red-300 dark:hover:bg-red-700 rounded focus:bg-red-300',
+              root: 'flex flex-col min-h-0 w-full min-w-0 divide-y divide-[var(--ui-border)] h-full',
+              content: 'max-h-full overflow-y-auto',
+            }"
+            :fuse="{
+              resultLimit: 10,
+              matchAllWhenSearchEmpty: true,
+              fuseOptions: { includeMatches: true },
+            }"
+            @update:open="open = $event"
+            @update:model-value="onSelect"
+          />
+        </div>
+      </template>
+    </UModal>
+  </ClientOnly>
 </template>
