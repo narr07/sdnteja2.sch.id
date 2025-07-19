@@ -12,15 +12,15 @@ const isDark = computed({
 </script>
 
 <template>
-  <ClientOnly v-if="!colorMode?.forced">
+  <ColorScheme placeholder="">
     <UButton
+      v-if="!colorMode?.forced"
       :icon="isDark ? 'solar:moon-sleep-linear' : 'solar:sun-2-linear'"
-
       @click="isDark = !isDark"
     />
 
-    <template #fallback>
+    <template #placeholder>
       <div class="size-8" />
     </template>
-  </ClientOnly>
+  </ColorScheme>
 </template>

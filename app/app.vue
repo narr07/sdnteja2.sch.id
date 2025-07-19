@@ -17,7 +17,9 @@ useHead({
       <NuxtRouteAnnouncer />
       <UiNav />
 
-      <UiChat />
+      <ClientOnly>
+        <UiChat />
+      </ClientOnly>
 
       <div class="py-22  md:py-26">
         <NuxtPage />

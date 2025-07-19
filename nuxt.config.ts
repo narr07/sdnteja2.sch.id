@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/ui',
     '@nuxtjs/seo',
+    '@nuxtjs/color-mode', // Tambahkan eksplisit untuk color mode
     '@nuxt/content',
     '@nuxthub/core',
     '@nuxt/eslint',
@@ -13,10 +14,10 @@ export default defineNuxtConfig({
     'nuxt-google-translate',
     'nuxt-llms',
     'motion-v/nuxt',
-    'nuxt-charts',
   ],
   experimental: {
     componentIslands: true,
+    payloadExtraction: false,
   },
   linkChecker: {
     runOnBuild: false,
@@ -38,7 +39,12 @@ export default defineNuxtConfig({
     storageKey: 'nuxt-color-mode', // key used to store the color mode preference
     classSuffix: '',
     classPrefix: '',
-    dataValue: 'light',
+    dataValue: 'theme',
+    // Tambahkan konfigurasi untuk menghindari hydration mismatch
+    hid: 'nuxt-color-mode-script',
+    globalName: '__NUXT_COLOR_MODE__',
+    componentName: 'ColorScheme',
+    storage: 'localStorage',
   },
   hub: {
     database: true,
@@ -164,6 +170,7 @@ export default defineNuxtConfig({
       asset: '0%',
     },
   },
+  ssr: true,
   nitro: {
     prerender: {
       routes: ['/'],
