@@ -25,6 +25,7 @@ const img = useImage()
               <div class="w-full aspect-square rounded-3xl overflow-hidden mb-4 bg-top bg-gray-100">
                 <NuxtImg
                   :src="guru.foto"
+                  :alt="`Foto ${guru.nama} - Guru SDN Teja 2`"
                   format="webp"
                   quality="80"
                   width="300"

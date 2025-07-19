@@ -37,7 +37,7 @@ function changeLanguage(lang) {
     <footer class="mt-auto w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
       <!-- footer core -->
       <USeparator size="lg">
-        <NuxtLink class="" to="/" aria-label="SDN Teja II">
+        <NuxtLink class="" to="/" aria-label="Beranda SDN Teja II">
           <UiLogo />
         </NuxtLink>
       </USeparator>
@@ -56,6 +56,7 @@ function changeLanguage(lang) {
               highlight
               arrow
               class="w-15"
+              aria-label="Pilih bahasa"
               @update:model-value="changeLanguage"
             />
           </div>
@@ -63,7 +64,7 @@ function changeLanguage(lang) {
           <div class="flex flex-wrap items-center gap-3 justify-end">
             <div class="space-x-4">
               <!-- Email -->
-              <NuxtLink :to="appConfig.site.socialMedia.email.url">
+              <NuxtLink :to="appConfig.site.socialMedia.email.url" :aria-label="appConfig.site.socialMedia.email.title">
                 <UTooltip :text="appConfig.site.socialMedia.email.title" :delay-duration="0">
                   <UIcon
                     class="size-6 hover:text-red-500" :aria-label="appConfig.site.socialMedia.email.title"
@@ -72,7 +73,7 @@ function changeLanguage(lang) {
                 </UTooltip>
               </NuxtLink>
               <!-- Instagram -->
-              <NuxtLink :to="appConfig.site.socialMedia.instagram.url">
+              <NuxtLink :to="appConfig.site.socialMedia.instagram.url" :aria-label="appConfig.site.socialMedia.instagram.title">
                 <UTooltip :text="appConfig.site.socialMedia.instagram.title" :delay-duration="0">
                   <UIcon
                     class="size-6 hover:text-red-500" :aria-label="appConfig.site.socialMedia.instagram.title"

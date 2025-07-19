@@ -16,6 +16,7 @@ const isDark = computed({
     <UButton
       v-if="!colorMode?.forced"
       :icon="isDark ? 'solar:moon-sleep-linear' : 'solar:sun-2-linear'"
+      :aria-label="isDark ? 'Ubah ke mode terang' : 'Ubah ke mode gelap'"
       @click="isDark = !isDark"
     />
 

@@ -34,7 +34,7 @@ const dropdownItems = computed(() => {
         <div variant="subtle" class="rounded-4xl p-4 px-6 md:rounded-[40px] dark:bg-night-800/80 bg-slate-50/50 shadow backdrop-blur">
           <div class="flex justify-between items-center">
             <div>
-              <NuxtLink to="/">
+              <NuxtLink to="/" aria-label="Beranda SDN Teja II">
                 <UiLogo />
               </NuxtLink>
             </div>
@@ -64,7 +64,11 @@ const dropdownItems = computed(() => {
                       content: 'w-32',
                     }"
                   >
-                    <UButton icon="solar:hamburger-menu-linear" />
+                    <UButton
+                      icon="solar:hamburger-menu-linear"
+                      aria-label="Menu navigasi"
+                      aria-haspopup="menu"
+                    />
                   </UDropdownMenu>
                 </div>
               </div>

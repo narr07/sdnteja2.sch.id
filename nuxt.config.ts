@@ -18,6 +18,10 @@ export default defineNuxtConfig({
   experimental: {
     componentIslands: true,
     payloadExtraction: false,
+    // Optimasi untuk mengurangi network requests
+    writeEarlyHints: true,
+    // Reduce initial bundle size
+    treeshakeClientOnly: true,
   },
   linkChecker: {
     runOnBuild: false,
@@ -55,7 +59,6 @@ export default defineNuxtConfig({
       api: 'https://api.nuxt.studio',
       dev: true,
     },
-    // Hapus konfigurasi database untuk menggunakan file system
     database: {
       type: 'd1',
       bindingName: 'teja2',
@@ -141,10 +144,58 @@ export default defineNuxtConfig({
         dir: './app/assets/icons',
       },
     ],
+    // Reduce icon API requests dengan bundling
+    clientBundle: {
+      // Pre-bundle commonly used icons
+      icons: [
+        'heroicons:chat-bubble-left-right',
+        'solar:sun-2-linear',
+        'lucide:check',
+        'heroicons:bars-3',
+        'heroicons:x-mark',
+        'heroicons:chevron-down',
+        'heroicons:chevron-up',
+        'heroicons:chevron-right',
+        'heroicons:chevron-left',
+      ],
+      // Scan components for icons to prebundle
+      scan: true,
+      // Bundle size limit
+      sizeLimitKb: 256,
+    },
   },
-  // app: {
-  //   pageTransition: { name: 'page', mode: 'out-in' },
-  // },
+  app: {
+    head: {
+      // Optimasi untuk Cloudflare scripts dan resource hints
+      link: [
+        // DNS prefetch untuk external resources
+        { rel: 'dns-prefetch', href: '//static.cloudflareinsights.com' },
+        { rel: 'dns-prefetch', href: '//cdnjs.cloudflare.com' },
+        { rel: 'dns-prefetch', href: '//www.gstatic.com' },
+        { rel: 'dns-prefetch', href: '//fonts.gstatic.com' },
+        { rel: 'dns-prefetch', href: '//fonts.googleapis.com' },
+        // Preconnect untuk critical resources (maksimal 4)
+        { rel: 'preconnect', href: 'https://static.cloudflareinsights.com', crossorigin: '' },
+        { rel: 'preconnect', href: 'https://www.gstatic.com', crossorigin: '' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com', crossorigin: '' },
+        // Font display optimization - gunakan Google Fonts yang stabil
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
+        },
+      ],
+      script: [
+        {
+          // Defer Cloudflare email decode script
+          src: '/cloudflare-static/email-decode.min.js',
+          defer: true,
+          key: 'email-decode',
+        },
+      ],
+    },
+    // pageTransition: { name: 'page', mode: 'out-in' },
+  },
   booster: {
     detection: {
       performance: true,
@@ -163,12 +214,14 @@ export default defineNuxtConfig({
       inlineStyles: true,
     },
     /**
-     * IntersectionObserver rootMargin for Compoennts and Assets
+     * IntersectionObserver rootMargin for Components and Assets
      */
     lazyOffset: {
       component: '0%',
       asset: '0%',
     },
+    // Optimasi untuk target format images
+    targetFormats: ['webp', 'avif', 'jpg', 'png', 'gif'],
   },
   ssr: true,
   nitro: {
@@ -180,6 +233,123 @@ export default defineNuxtConfig({
     experimental: {
       websocket: true,
       openAPI: true,
+    },
+    // Bundle splitting untuk mengurangi ukuran JavaScript
+    rollupConfig: {
+      output: {
+        manualChunks: {
+          vendor: ['vue', '@vue/runtime-core'],
+          ui: ['@nuxt/ui'],
+          content: ['@nuxt/content'],
+          icons: ['@iconify/vue', '@nuxt/icon'],
+        },
+      },
+    },
+    // Konfigurasi cache headers untuk meningkatkan performa
+    routeRules: {
+      // Static assets cache untuk 1 tahun
+      '/_nuxt/**': {
+        headers: {
+          'cache-control': 'public, max-age=31536000, immutable',
+        },
+      },
+      // Public assets cache untuk 1 bulan
+      '/assets/**': {
+        headers: {
+          'cache-control': 'public, max-age=2592000',
+        },
+      },
+      // Images cache untuk 1 bulan
+      '/*.png': {
+        headers: {
+          'cache-control': 'public, max-age=2592000',
+        },
+      },
+      '/*.jpg': {
+        headers: {
+          'cache-control': 'public, max-age=2592000',
+        },
+      },
+      '/*.jpeg': {
+        headers: {
+          'cache-control': 'public, max-age=2592000',
+        },
+      },
+      '/*.webp': {
+        headers: {
+          'cache-control': 'public, max-age=2592000',
+        },
+      },
+      '/*.svg': {
+        headers: {
+          'cache-control': 'public, max-age=2592000',
+        },
+      },
+      '/*.ico': {
+        headers: {
+          'cache-control': 'public, max-age=2592000',
+        },
+      },
+      // JavaScript dan CSS files cache untuk 1 bulan
+      '/*.js': {
+        headers: {
+          'cache-control': 'public, max-age=2592000',
+        },
+      },
+      '/*.css': {
+        headers: {
+          'cache-control': 'public, max-age=2592000',
+        },
+      },
+      // Fonts cache untuk 1 tahun
+      '/*.woff': {
+        headers: {
+          'cache-control': 'public, max-age=31536000',
+        },
+      },
+      '/*.woff2': {
+        headers: {
+          'cache-control': 'public, max-age=31536000',
+        },
+      },
+      '/*.ttf': {
+        headers: {
+          'cache-control': 'public, max-age=31536000',
+        },
+      },
+      // Homepage dan halaman utama cache untuk 1 jam dengan revalidation
+      '/': {
+        headers: {
+          'cache-control': 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400',
+        },
+      },
+      // Halaman konten cache untuk 1 jam
+      '/artikel/**': {
+        headers: {
+          'cache-control': 'public, max-age=3600, s-maxage=3600',
+        },
+      },
+      '/berita/**': {
+        headers: {
+          'cache-control': 'public, max-age=3600, s-maxage=3600',
+        },
+      },
+      '/guru/**': {
+        headers: {
+          'cache-control': 'public, max-age=3600, s-maxage=3600',
+        },
+      },
+      '/kegiatan/**': {
+        headers: {
+          'cache-control': 'public, max-age=3600, s-maxage=3600',
+        },
+      },
+      // SQL dump files - cache lebih lama untuk mengurangi requests
+      '/**/*.sql_dump.txt': {
+        headers: {
+          'cache-control': 'public, max-age=86400',
+        },
+      },
     },
   },
   css: ['~/assets/css/main.css'],

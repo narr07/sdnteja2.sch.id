@@ -111,6 +111,7 @@ useHead({
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
             width="1200"
             height="675"
+            densities="1x 2x"
             :modifiers="{
               f_auto: true,
               q_auto: true,

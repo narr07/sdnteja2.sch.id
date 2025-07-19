@@ -15,6 +15,7 @@ const isOpen = ref(false)
         variant="solid"
         size="lg"
         class="fixed bottom-4 right-4 z-50"
+        aria-label="Buka chat dengan JADU AI"
       />
 
       <template #content>
@@ -40,6 +41,7 @@ const isOpen = ref(false)
                 color="neutral"
                 variant="ghost"
                 size="xs"
+                aria-label="Tutup chat"
                 @click="isOpen = false"
               />
             </div>
@@ -104,6 +106,7 @@ const isOpen = ref(false)
                 color="primary"
                 variant="ghost"
                 size="xs"
+                aria-label="Coba kirim ulang pesan"
                 @click="reload"
               />
             </div>
@@ -118,6 +121,7 @@ const isOpen = ref(false)
                 class="flex-1"
                 :disabled="isLoading"
                 size="sm"
+                aria-label="Ketik pesan untuk JADU AI"
               />
 
               <UButton
@@ -127,6 +131,7 @@ const isOpen = ref(false)
                 variant="soft"
                 size="sm"
                 type="button"
+                aria-label="Hentikan pemrosesan"
                 @click="stop"
               />
 
@@ -138,6 +143,7 @@ const isOpen = ref(false)
                 size="sm"
                 type="submit"
                 :disabled="!input.trim()"
+                aria-label="Kirim pesan"
               />
             </form>
           </template>

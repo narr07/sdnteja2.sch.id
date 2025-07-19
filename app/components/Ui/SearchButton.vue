@@ -264,7 +264,7 @@ defineShortcuts({
   <UButton
     square
     icon="hugeicons:search-02"
-    aria-label="Search"
+    aria-label="Buka pencarian"
     @click="open = true"
   />
 
